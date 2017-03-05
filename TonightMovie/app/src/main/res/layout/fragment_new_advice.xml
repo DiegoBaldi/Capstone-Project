@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="newAdviceViewModel" type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.NewAdviceViewModel"/>
+    </data>
+    <FrameLayout
+        android:id="@+id/content_new_advice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_vertical_margin"
+        app:animatedCompletion="@{newAdviceViewModel.adviceSubmitted}">
+
+        <FrameLayout
+            android:id="@+id/success_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="ADVICE SENT! \n WILL YOU BE THE MOVIE HERO?! "/>
+
+            </android.support.v7.widget.CardView>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/form_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/activity_vertical_margin">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        app:viewAspectRatio="0.66"
+                        app:actualImageUrl="@{newAdviceViewModel.posterPath}"/>
+
+                    <Button
+                        android:id="@+id/send_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/colorAccent"
+                        android:textColor="@android:color/white"
+                        android:text="Send"
+                        android:onClick="@{newAdviceViewModel.onClick()}"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </FrameLayout>
+
+
+
+
+
+
+
+    </FrameLayout>
+</layout>
+
+
+

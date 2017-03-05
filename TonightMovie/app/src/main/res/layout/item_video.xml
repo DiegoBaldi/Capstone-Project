@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="videoViewModel" type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.VideoViewModel"/>
+    </data>
+    <LinearLayout
+        android:id="@+id/video_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/activity_vertical_margin"
+        android:onClick="@{videoViewModel.onClick()}">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            app:viewAspectRatio="1.78"
+            app:placeholderImage="@color/colorAccent"
+            app:actualImageUrl="@{videoViewModel.thumb}"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            tools:text="Mario Rossi"
+            android:text="@{videoViewModel.name}"
+            />
+
+    </LinearLayout>
+
+</layout>

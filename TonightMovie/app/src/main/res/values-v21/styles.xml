@@ -1,0 +1,18 @@
+<resources>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="FeedButton.Show" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:colorControlHighlight">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="FeedButton.Interested" parent="Widget.AppCompat.Button.Borderless.Colored">
+        <item name="android:colorControlHighlight">@color/colorPrimaryLight</item>
+        <item name="android:textColor">@color/colorPrimaryLight</item>
+    </style>
+</resources>

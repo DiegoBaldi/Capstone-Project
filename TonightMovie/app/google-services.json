@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "268582486443",
+    "firebase_url": "https://tonightmovie-84e20.firebaseio.com",
+    "project_id": "tonightmovie-84e20",
+    "storage_bucket": "tonightmovie-84e20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268582486443:android:a89091f57a212361",
+        "android_client_info": {
+          "package_name": "nanodegree.diegobaldi.it.tonightmovie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "268582486443-v0o63pjda8d36bjl0eajgl8rhn61ldtv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nanodegree.diegobaldi.it.tonightmovie",
+            "certificate_hash": "b886a35896ec63186a52ab766d133ec50e83a13d"
+          }
+        },
+        {
+          "client_id": "268582486443-e606efs737cth7o34h1v6694f8n1e0b8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5hj2UJb7GwEmBpCjiIamp0Ufc1v9FKDc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "268582486443-e606efs737cth7o34h1v6694f8n1e0b8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

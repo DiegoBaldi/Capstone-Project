@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="movieRequestViewModel" type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.PendingRequestViewModel"/>
+    </data>
+    <android.support.v7.widget.CardView
+        android:id="@+id/pending_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="6dp"
+        app:cardCornerRadius="3dp">
+
+        <LinearLayout
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/poster"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:viewAspectRatio="0.66"
+                android:layout_weight="2"
+                app:placeholderImage="@color/colorAccent"
+                app:actualImageUrl="@{movieRequestViewModel.posterPath}"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="2">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:roundAsCircle="true"
+                    app:roundedCornerRadius="25dp"
+                    android:scaleType="fitCenter"
+                    app:placeholderImage="@drawable/profile_placeholder"
+                    app:actualImageUrl="@{movieRequestViewModel.authorImage}"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/feed_item_vertical_margin_small"
+                    tools:text="CIAOOO"
+                    android:text="@{movieRequestViewModel.authorName}"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/feed_item_vertical_margin"
+                    android:text="@{movieRequestViewModel.shortDescription}"/>
+
+                <Button
+                    style="@style/FeedButton.Show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/feed_item_vertical_margin_small"
+                    android:gravity="center"
+                    android:text="Show"
+                    android:onClick="@{movieRequestViewModel.onClick}"/>
+
+                <Button
+                    style="@style/FeedButton.Interested"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/feed_item_vertical_margin_small"
+                    android:gravity="center"
+                    android:text="I'm Interested"
+                    android:onClick="@{movieRequestViewModel.onClicInterested}"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</layout>

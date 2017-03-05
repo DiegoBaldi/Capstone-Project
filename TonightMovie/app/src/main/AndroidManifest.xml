@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="nanodegree.diegobaldi.it.tonightmovie">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".TonightMovieApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".views.FeedActivity"
+            android:label="@string/title_activity_feed"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.MovieActivity"
+            android:label="@string/title_activity_movie"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".views.SearchActivity" />
+        <activity android:name=".util.CheckUserLoginStatus">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".views.NewRequestActivity"
+            android:label="@string/title_activity_new_advice"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.RequestActivity"
+            android:label="@string/title_activity_request"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.NewAdviceActivity"
+            android:label="@string/title_activity_new_advice"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:name=".data.generated.WatchlistProvider"
+            android:authorities="nanodegree.diegobaldi.it.tonightmovie.data.WatchlistProvider"
+            android:exported="false" />
+    </application>
+
+</manifest>
