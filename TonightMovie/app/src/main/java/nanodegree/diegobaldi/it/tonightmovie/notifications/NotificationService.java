@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
@@ -26,13 +27,17 @@ import nanodegree.diegobaldi.it.tonightmovie.views.RequestActivity;
 
 public class NotificationService extends FirebaseMessagingService {
     private static final String LOG_TAG = NotificationService.class.getSimpleName();
+    private static final String PREFS_NAME = "MovieMasterPrefs";
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         if(remoteMessage.getData()!=null && remoteMessage.getData().containsKey("title") && remoteMessage.getData().containsKey("message")
                 && remoteMessage.getData().containsKey("requestId")){
-            getRequestDetails(remoteMessage.getData().get("title"), remoteMessage.getData().get("message"), remoteMessage.getData().get("requestId"), this);
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+            boolean notifications = settings.getBoolean("notifications", true);
+            if(notifications)
+                getRequestDetails(remoteMessage.getData().get("title"), remoteMessage.getData().get("message"), remoteMessage.getData().get("requestId"), this);
         }
     }
 

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.databinding.DataBindingUtil;
@@ -69,10 +70,12 @@ public class SettingsActivity extends AppCompatActivity {
     private static final String BUNDLE_DISPLAY_NAME = "displayName";
     private static final String BUNDLE_BIO = "bio";
     private static final String LOG_TAG = SettingsActivity.class.getSimpleName();
+    private static final String PREFS_NAME = "MovieMasterPrefs";
     private Uri outputFileUri, resultUri, downloadUrl;
     private ActivitySettingsBinding binding;
     private User changedUser;
     private UserProfileChangeRequest profileUpdates;
+    private boolean notifications;
 
 
 
@@ -84,8 +87,10 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_settings);
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        notifications = settings.getBoolean("notifications", true);
         if(savedInstanceState==null)
-            binding.setUser(new UserSettingsViewModel(TonightMovieApp.getUser(), this, true));
+            binding.setUser(new UserSettingsViewModel(TonightMovieApp.getUser(), this, notifications));
         else {
             User user = TonightMovieApp.getUser();
             user.setDisplayName(savedInstanceState.getString(BUNDLE_DISPLAY_NAME));
@@ -255,6 +260,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void updateProfile(){
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("notifications", binding.notificationSwitch.isChecked());
+        // Commit the edits!
+        editor.commit();
         updateDialog = new ProgressDialog(this, R.style.darkAlertDialog);
         updateDialog.setCancelable(false);
         updateDialog.setCanceledOnTouchOutside(false);
@@ -265,7 +275,7 @@ public class SettingsActivity extends AppCompatActivity {
         updateDialog.show();
         if(resultUri!=null){
             FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReferenceFromUrl("gs://fixapp-eaa55.appspot.com").child("uploads/users");
+            StorageReference storageRef = storage.getReferenceFromUrl("gs://tonightmovie-84e20.appspot.com").child("uploads/users");
             Uri file = resultUri;
             StorageReference riversRef = storageRef.child(TonightMovieApp.getUser().getId()+"_"+file.getLastPathSegment());
             UploadTask uploadTask = riversRef.putFile(file);

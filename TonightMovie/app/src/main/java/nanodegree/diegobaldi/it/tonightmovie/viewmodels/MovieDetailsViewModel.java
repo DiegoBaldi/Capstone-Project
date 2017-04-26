@@ -211,7 +211,11 @@ public class MovieDetailsViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Watch out this movie: "+ movie.getOriginalTitle());
+                sendIntent.setType("text/plain");
+                context.startActivity(sendIntent);
             }
         };
     }

@@ -45,7 +45,7 @@ public class SearchActivity extends Activity {
     private Handler mHandler = new Handler();
 
     private Runnable mRunnable;
-    private boolean mIsFirstTime;
+    private boolean mIsFromSavedIstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +66,10 @@ public class SearchActivity extends Activity {
             mIsHereForARequest = savedInstanceState.getBoolean(BUNDLE_HERE_FOR_ADVICE);
             mMovies = savedInstanceState.getParcelableArrayList(BUNDLE_MOVIES);
             mAdapter.setItems(mMovies);
-            mIsFirstTime = false;
+            mIsFromSavedIstance = true;
         }
         else{
-            mIsFirstTime = true;
+            mIsFromSavedIstance = false;
         }
 
         EditText editText = (EditText) findViewById(R.id.search_string);
@@ -83,8 +83,7 @@ public class SearchActivity extends Activity {
 
             public void afterTextChanged(Editable s) {
                 if (!s.toString().equals("")) {
-                    if(mIsFirstTime){
-                        mIsFirstTime = false;
+                    if(!mIsFromSavedIstance){
                         mHandler.removeCallbacks(mRunnable);
                         mHandler.postDelayed(mRunnable = createRunnable(s.toString()), 500);
                     }
@@ -95,6 +94,7 @@ public class SearchActivity extends Activity {
                         mAdapter.notifyDataSetChanged();
                     }
                 }
+                mIsFromSavedIstance = false;
             }
         });
 

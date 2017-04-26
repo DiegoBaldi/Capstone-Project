@@ -61,16 +61,17 @@
                         app:actualDrawable="@{movieDetailsViewModel.isInWatchlist}"
                         android:onClick="@{movieDetailsViewModel.onClickWatchlist}"/>
 
-                    <ImageView
-                        android:id="@+id/action_buy"
-                        android:layout_width="24dp"
-                        android:layout_height="21dp"
-                        android:layout_gravity="bottom"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:contentDescription="@string/buy_merchandise"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/ic_shopping_cart"
-                        android:onClick="@{movieDetailsViewModel.onClickBuy}"/>
+                    <!--TO IMPLEMENT-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/action_buy"-->
+                        <!--android:layout_width="24dp"-->
+                        <!--android:layout_height="21dp"-->
+                        <!--android:layout_gravity="bottom"-->
+                        <!--android:layout_marginLeft="@dimen/activity_horizontal_margin"-->
+                        <!--android:contentDescription="@string/buy_merchandise"-->
+                        <!--android:background="@android:color/transparent"-->
+                        <!--android:src="@drawable/ic_shopping_cart"-->
+                        <!--android:onClick="@{movieDetailsViewModel.onClickBuy}"/>-->
 
                     <ImageView
                         android:id="@+id/action_share"
