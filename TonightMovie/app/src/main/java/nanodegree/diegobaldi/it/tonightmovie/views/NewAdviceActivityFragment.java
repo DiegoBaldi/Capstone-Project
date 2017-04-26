@@ -18,10 +18,9 @@ import nanodegree.diegobaldi.it.tonightmovie.viewmodels.NewAdviceViewModel;
  */
 public class NewAdviceActivityFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "request";
-    private static final String ARG_PARAM2 = "advice";
+    private static final String ARG_REQUEST = "request";
+    private static final String ARG_ADVICE = "advice";
 
-    // TODO: Rename and change types of parameters
     private MovieRequest mRequest;
     private Advice mAdvice;
 
@@ -37,12 +36,11 @@ public class NewAdviceActivityFragment extends Fragment {
      * @param advice Parameter 2.
      * @return A new instance of fragment MovieAdvicesFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static NewAdviceActivityFragment newInstance(MovieRequest request, Advice advice) {
         NewAdviceActivityFragment fragment = new NewAdviceActivityFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAM1, request);
-        args.putParcelable(ARG_PARAM2, advice);
+        args.putParcelable(ARG_REQUEST, request);
+        args.putParcelable(ARG_ADVICE, advice);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,8 +49,8 @@ public class NewAdviceActivityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mRequest = getArguments().getParcelable(ARG_PARAM1);
-            mAdvice = getArguments().getParcelable(ARG_PARAM2);
+            mRequest = getArguments().getParcelable(ARG_REQUEST);
+            mAdvice = getArguments().getParcelable(ARG_ADVICE);
         }
     }
 

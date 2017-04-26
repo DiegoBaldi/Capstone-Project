@@ -1,29 +1,87 @@
 <resources>
-    <string name="app_name">Tonight Movie</string>
+    <string name="app_name">Movie Master</string>
+    <string name="the_movie_db_api_key" translatable="false">insert here your movieDB api key</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="facebook_application_id" translatable="false">235035716958596</string>
-    <!-- Facebook Application ID, prefixed by 'fb'.  Enables Chrome Custom tabs. -->
-    <string name="facebook_login_protocol_scheme" translatable="false">fb235035716958596</string>
-
     <string name="action_settings">Settings</string>
     <string name="title_activity_feed">FeedActivity</string>
-    <string name="title_activity_movie_detail">Movie Detail</string>
     <string name="title_activity_movie">MovieActivity</string>
-    <string name="section_format">Hello World from section: %1$d</string>
     <string name="iso_language">%1$s-%2$s</string>
     <string name="year">Year: %s</string>
     <string name="genre">Genre: %s</string>
     <string name="vote">%1$.1f / 10 (%2$d)</string>
     <string name="trailer_link" translatable="false">https://www.youtube.com/watch?v=%1$s</string>
     <string name="trailer_thumb_url" translatable="false">https://img.youtube.com/vi/%1$s/hqdefault.jpg</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_new_advice">New advice</string>
     <string name="request_short_description">%1$s movie like %2$s</string>
     <string name="title_activity_request">Request</string>
     <string name="advice_karma">Advice\'s Karma: %1$d</string>
+    <string name="title_activity_profile">My Profile</string>
+    <string name="no_synopsis">Sorry, synopsis not available</string>
+    <string name="filter_title">Choose a Genre</string>
+    <string name="ok">OK</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="permission_request_storage">Read and write access is needed to get your profile picture</string>
+    <string name="image_from_title">Select Source</string>
+    <string name="profile_updating">Updating Profile</string>
+    <string name="profile_update_error">Oops! Something went wrong</string>
+    <string name="empty_view_text">Non hai aggiunto film nella lista da vedere</string>
+    <string name="upvote_advice">upvote advice</string>
+    <string name="downvote_advice">downvote advice</string>
+    <string name="accept_advice">accept advice</string>
+    <string name="closed_request">Closed Request</string>
+    <string name="create_new_request">Create a new request</string>
+    <string name="send_an_advice">Send an advice</string>
+    <string name="loading">Loading</string>
+    <string name="buy_merchandise">Buy merchandise</string>
+    <string name="share_movie">Share movie</string>
+    <string name="ratings">ratings</string>
+    <string name="feed_nav">Feed</string>
+    <string name="profile_nav">Profile</string>
+    <string name="settings_nav">Settings</string>
+    <string name="about_nav">About</string>
+    <string name="communicate_nav">Communicate</string>
+    <string name="share_nav">Share</string>
+    <string name="rate_us_nav">Rate Us</string>
+    <string name="account_nav">Account</string>
+    <string name="logout_nav">Logout</string>
+    <string name="search_hint">Search…</string>
+    <string name="change_photo">Change Photo</string>
+    <string name="bio">Bio</string>
+    <string name="notifications">Notifications</string>
+    <string name="name">Name</string>
+    <string name="save">Save</string>
+    <string name="no_advices">There are no advices, ask the community!</string>
+    <string name="no_requests">There no request, add one!</string>
+    <string name="trailer">Trailer</string>
+    <string name="no_trailers">There aren\'t trailers</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="reviews">Reviews</string>
+    <string name="no_reviews">There aren\'t  reviews</string>
+    <string name="go_back">Go Back</string>
+    <string name="send">Send</string>
+    <string name="description">Description</string>
+    <string name="request_ok_message">REQUEST SENT!   GET SOME POPCORN IN THE MEANTIME!</string>
+    <string name="levels">Levels</string>
+    <string name="movie_master">Movie Master</string>
+    <string name="reckless">Reckless</string>
+    <string name="empathic">Empathic</string>
+    <string name="hilarious">Hilarious</string>
+    <string name="fearless">Fearless</string>
+    <string name="nerd">Nerd</string>
+    <string name="overprotective">Overprotective</string>
+    <string name="requester_favorites_movies">Requester\'s Favorites Movies</string>
+    <string name="no_favorites">No Favorites</string>
+    <string name="show">Show</string>
+    <string name="following">Following</string>
+    <string name="follow">Follow</string>
+    <string name="no_results">No results</string>
+    <string name="ops">Ops! Something went wrong, try again</string>
+    <string name="no_advices_yet">No advices yet</string>
+    <string name="advice_sent_success">ADVICE SENT!   WILL YOU BE THE MOVIE MASTER?!</string>
+    <string name="advice_sent_error">ADVICE NOT SENT!   MOVIE ALREADY ADVICED</string>
+    <string name="request_sent_success">REQUEST SENT!   GET SOME POPCORN IN THE MEANTIME!</string>
+    <string name="request_sent_error">OOPS! SOMETHING WENT WRONG, RETRY LATER</string>
+    <string name="no_description_error">Must enter a description</string>
 </resources>

@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/activity_vertical_margin"
-        app:animatedCompletion="@{newAdviceViewModel.adviceSubmitted}">
+        app:animatedCompletion="@{newAdviceViewModel.adviceSubmitted}"
+        app:message="@{newAdviceViewModel.message}">
 
         <FrameLayout
             android:id="@+id/success_card"
@@ -22,11 +23,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="ADVICE SENT! \n WILL YOU BE THE MOVIE HERO?! "/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/animation_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        app:lottie_loop="false"
+                        app:lottie_autoPlay="true"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        android:id="@+id/feedback"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"/>
+
+                    <Button
+                        android:id="@+id/back_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/colorAccent"
+                        android:textColor="@android:color/white"
+                        android:text="@string/go_back"
+                        android:onClick="@{newAdviceViewModel.goBack()}"/>
+
+                </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
@@ -55,6 +84,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
                         app:viewAspectRatio="0.66"
+                        app:failureImage="@drawable/ic_no_image"
+                        app:failureImageScaleType="centerInside"
+                        android:contentDescription="@{newAdviceViewModel.movieName}"
                         app:actualImageUrl="@{newAdviceViewModel.posterPath}"/>
 
                     <Button
@@ -65,7 +97,7 @@
                         android:layout_gravity="center_horizontal"
                         android:background="@color/colorAccent"
                         android:textColor="@android:color/white"
-                        android:text="Send"
+                        android:text="@string/send"
                         android:onClick="@{newAdviceViewModel.onClick()}"/>
 
                 </LinearLayout>

@@ -10,7 +10,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,26 +33,44 @@ public class SearchActivity extends Activity {
 
     private static final int POSTER_WIDTH = 160;
     private static final String LOG_TAG = SearchActivity.class.getSimpleName() ;
+    private static final String BUNDLE_HERE_FOR_ADVICE = "isHereForAnAdvice";
+    private static final String BUNDLE_MOVIES = "movies";
 
-    private List<Movie> movies = new ArrayList<>();
+    private List<Movie> mMovies = new ArrayList<>();
     private SearchMovieAdapter mAdapter;
-    private boolean isHereForARequest = false;
+    private boolean mIsHereForARequest = false;
+    private TextView mEmptyResults;
+    private ProgressBar mSearchProgress;
 
     private Handler mHandler = new Handler();
 
     private Runnable mRunnable;
+    private boolean mIsFirstTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        if(getIntent().hasExtra("isHereForAnAdvice")){
-            isHereForARequest = true;
+        if(getIntent().hasExtra(BUNDLE_HERE_FOR_ADVICE)){
+            mIsHereForARequest = true;
         }
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.search_results);
         setupRecyclerView(recyclerView);
+
+        mSearchProgress = (ProgressBar) findViewById(R.id.search_progress);
+        mEmptyResults = (TextView) findViewById(R.id.empty_search);
+
+        if(savedInstanceState!=null){
+            mIsHereForARequest = savedInstanceState.getBoolean(BUNDLE_HERE_FOR_ADVICE);
+            mMovies = savedInstanceState.getParcelableArrayList(BUNDLE_MOVIES);
+            mAdapter.setItems(mMovies);
+            mIsFirstTime = false;
+        }
+        else{
+            mIsFirstTime = true;
+        }
 
         EditText editText = (EditText) findViewById(R.id.search_string);
         editText.addTextChangedListener(new TextWatcher() {
@@ -62,14 +83,15 @@ public class SearchActivity extends Activity {
 
             public void afterTextChanged(Editable s) {
                 if (!s.toString().equals("")) {
-//                    mClearSearch.setVisibility(View.VISIBLE);
-                    mHandler.removeCallbacks(mRunnable);
-                    mHandler.postDelayed(mRunnable = createRunnable(s.toString()), 500);
+                    if(mIsFirstTime){
+                        mIsFirstTime = false;
+                        mHandler.removeCallbacks(mRunnable);
+                        mHandler.postDelayed(mRunnable = createRunnable(s.toString()), 500);
+                    }
                 } else if(s.toString().equals("")){
-//                    mClearSearch.setVisibility(View.GONE);
                     mHandler.removeCallbacks(mRunnable);
                     if(mAdapter!=null){
-                        movies.clear();
+                        mMovies.clear();
                         mAdapter.notifyDataSetChanged();
                     }
                 }
@@ -80,38 +102,56 @@ public class SearchActivity extends Activity {
 
     private Runnable createRunnable(final String paramStr){
 
-        Runnable aRunnable = new Runnable(){
+        return new Runnable(){
             public void run(){
                 getMovies(paramStr);
             }
         };
 
-        return aRunnable;
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        outState.putParcelableArrayList(BUNDLE_MOVIES, new ArrayList<>(mMovies));
+        outState.putBoolean(BUNDLE_HERE_FOR_ADVICE, mIsHereForARequest);
+        super.onSaveInstanceState(outState);
     }
 
     private void getMovies(String query) {
         TheMovieDBApiEndpointInterface theMovieDBService = TonightMovieApp.getRetrofit().create(TheMovieDBApiEndpointInterface.class);
         Locale defaultLocale = Locale.getDefault();
-        Call<ApiResult<Movie>> call= theMovieDBService.searchMovie("f9e991dc40d898e632bfaeee97371573", String.format(getString(R.string.iso_language), defaultLocale.getLanguage(), defaultLocale.getCountry()), query, 1);
+        if(mSearchProgress.getVisibility()!= View.VISIBLE)
+            mSearchProgress.setVisibility(View.VISIBLE);
+        if(mEmptyResults.getVisibility()==View.VISIBLE)
+            mEmptyResults.setVisibility(View.GONE);
+        Call<ApiResult<Movie>> call= theMovieDBService.searchMovie(getString(R.string.the_movie_db_api_key), String.format(getString(R.string.iso_language), defaultLocale.getLanguage(), defaultLocale.getCountry()), query, 1);
         call.enqueue(new Callback<ApiResult<Movie>>() {
             @Override
             public void onResponse(Call<ApiResult<Movie>> call, Response<ApiResult<Movie>> response) {
+                mSearchProgress.setVisibility(View.GONE);
                 if(response.code()==200) {
                     ApiResult<Movie> movieResult = response.body();
-                    movies.clear();
+                    mMovies.clear();
                     if(movieResult.getTotalResults()!=0) {
-                        mAdapter.setItems(movieResult.getResults());
+                        mMovies = movieResult.getResults();
+                        mAdapter.setItems(mMovies);
+                    } else {
+                        mAdapter.setItems(mMovies);
+                        mEmptyResults.setText(getString(R.string.no_results));
+                        mEmptyResults.setVisibility(View.VISIBLE);
                     }
+                } else {
+                    mEmptyResults.setText(getString(R.string.ops));
+                    mEmptyResults.setVisibility(View.VISIBLE);
                 }
-
-//                mAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<ApiResult<Movie>> call, Throwable t) {
-//                mMoviesProgress.setVisibility(View.GONE);
                 Log.d(LOG_TAG, t.getLocalizedMessage());
+                mSearchProgress.setVisibility(View.GONE);
+                mEmptyResults.setText(getString(R.string.ops));
+                mEmptyResults.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -121,7 +161,7 @@ public class SearchActivity extends Activity {
         recyclerView.setHasFixedSize(false);
 
         //Code to set a GridLayoutManager with columns each row instead of the default linearLayout
-        mAdapter = new SearchMovieAdapter(this, false, isHereForARequest);
+        mAdapter = new SearchMovieAdapter(this, false, mIsHereForARequest);
         recyclerView.setAdapter(mAdapter);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, getSpanSize());
         recyclerView.setLayoutManager(mLayoutManager);

@@ -20,7 +20,6 @@ import nanodegree.diegobaldi.it.tonightmovie.viewmodels.MovieAdviceViewModel;
 /**
  * Created by diego on 26/02/2017.
  */
-
 public class AdviceAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<T> mAdvices;
     private Context mContext;
@@ -28,6 +27,7 @@ public class AdviceAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHold
     private String mRequestId;
     private int mRequestMovieId;
     private boolean mIsMovieAdvices;
+    private String mGenre;
 
     public AdviceAdapter(Context context, boolean isMovieAdvices, int requestMovieId) {
         mContext = context;
@@ -36,9 +36,10 @@ public class AdviceAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHold
         mRequestMovieId = requestMovieId;
     }
 
-    public void setRequestAdviceVariables(boolean isAuthor, String requestId){
+    public void setRequestAdviceVariables(boolean isAuthor, String requestId, String genre){
         mIsAuthor = isAuthor;
         mRequestId = requestId;
+        mGenre = genre;
     }
 
     @Override
@@ -66,9 +67,11 @@ public class AdviceAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHold
         if(mIsMovieAdvices){
             ItemMovieAdviceBinding itemMovieAdviceBinding = ((MovieAdviceBindingHolder) holder).binding;
             itemMovieAdviceBinding.setMovieAdviceViewModel(new MovieAdviceViewModel(mContext,(Movie) mAdvices.get(position), mRequestMovieId));
+            itemMovieAdviceBinding.executePendingBindings();
         } else {
             ItemAdviceBinding itemAdviceBinding = ((RequestAdviceBindingHolder) holder).binding;
-            itemAdviceBinding.setAdviceViewModel(new AdviceViewModel(mContext,(Advice) mAdvices.get(position), mIsAuthor, mRequestId, mRequestMovieId));
+            itemAdviceBinding.setAdviceViewModel(new AdviceViewModel(mContext,(Advice) mAdvices.get(position), mIsAuthor, mRequestId, mRequestMovieId, mGenre));
+            itemAdviceBinding.executePendingBindings();
         }
     }
 

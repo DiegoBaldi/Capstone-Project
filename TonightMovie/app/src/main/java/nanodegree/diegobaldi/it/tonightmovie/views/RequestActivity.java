@@ -1,7 +1,6 @@
 package nanodegree.diegobaldi.it.tonightmovie.views;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -17,7 +16,7 @@ import nanodegree.diegobaldi.it.tonightmovie.R;
 import nanodegree.diegobaldi.it.tonightmovie.TonightMovieApp;
 import nanodegree.diegobaldi.it.tonightmovie.models.MovieRequest;
 
-public class RequestActivity extends BaseActivity implements RequestDetailsFragment.OnFragmentInteractionListener, RequestAdvicesFragment.OnFragmentInteractionListener{
+public class RequestActivity extends BaseActivity {
 
     private static final int REQ_MOVIE = 123;
     /**
@@ -119,11 +118,6 @@ public class RequestActivity extends BaseActivity implements RequestDetailsFragm
         }
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -143,9 +137,9 @@ public class RequestActivity extends BaseActivity implements RequestDetailsFragm
                 isAuthor = true;
 
             switch(position){
-                case 0: return RequestDetailsFragment.newInstance(mRequest, "");
-                case 1: return RequestAdvicesFragment.newInstance(mRequest.getId(), isAuthor, mRequest.getMovie().getId());
-                default: return RequestDetailsFragment.newInstance(mRequest, "");
+                case 0: return RequestDetailsFragment.newInstance(mRequest);
+                case 1: return RequestAdvicesFragment.newInstance(mRequest.getId(), isAuthor, mRequest.getMovie().getId(), mRequest.getGenre());
+                default: return RequestDetailsFragment.newInstance(mRequest);
             }
         }
 

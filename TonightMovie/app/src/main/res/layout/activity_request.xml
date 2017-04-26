@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@drawable/ic_question_answer_white_24dp" />
+            android:contentDescription="@string/send_an_advice"
+            app:srcCompat="@drawable/ic_add_white_24dp" />
 
     </FrameLayout>
 </layout>

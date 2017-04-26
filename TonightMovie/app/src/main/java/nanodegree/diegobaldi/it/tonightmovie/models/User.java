@@ -16,9 +16,11 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class User implements Parcelable {
     public String id;
-    public String displayName;
-    public String email;
-    public String photoURL;
+    private String displayName;
+    private String email;
+    private String photoURL;
+    private String bio;
+    private int reckless, hilarious, fearless, nerd, empathic, overprotective, movieMaster;
 
     public User(){}
 
@@ -40,6 +42,7 @@ public class User implements Parcelable {
         displayName = in.readString();
         email = in.readString();
         photoURL = in.readString();
+        bio = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -85,12 +88,21 @@ public class User implements Parcelable {
         this.photoURL = photoURL;
     }
 
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
         result.put("displayName", displayName);
         result.put("photoURL", photoURL);
+        result.put("bio", bio);
         return result;
     }
 
@@ -105,5 +117,58 @@ public class User implements Parcelable {
         dest.writeString(displayName);
         dest.writeString(email);
         dest.writeString(photoURL);
+        dest.writeString(bio);
+    }
+
+    public int getReckless() {
+        return reckless;
+    }
+
+    public void setReckless(int reckless) {
+        this.reckless = reckless;
+    }
+
+    public int getHilarious() {
+        return hilarious;
+    }
+
+    public void setHilarious(int hilarious) {
+        this.hilarious = hilarious;
+    }
+
+    public int getFearless() {
+        return fearless;
+    }
+
+    public void setFearless(int fearless) {
+        this.fearless = fearless;
+    }
+
+    public int getNerd() {
+        return nerd;
+    }
+
+    public void setNerd(int nerd) {
+        this.nerd = nerd;
+    }
+
+    public int getEmpathic() {
+        return empathic;
+    }
+
+    public void setEmpathic(int empathic) {
+        this.empathic = empathic;
+    }
+
+    public int getOverprotective() {
+        return overprotective;
+    }
+
+    public void setOverprotective(int overprotective) {
+        this.overprotective = overprotective;
+    }
+
+    public int getMovieMaster() {
+        return getEmpathic()+getFearless()+getHilarious()+getNerd()+getOverprotective()+getReckless();
     }
 }

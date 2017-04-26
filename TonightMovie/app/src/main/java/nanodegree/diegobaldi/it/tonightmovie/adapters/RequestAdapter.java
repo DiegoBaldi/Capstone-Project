@@ -72,8 +72,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
-    public void addItem(MovieRequest request) {
-        mRequests.add(request);
+    public void addItems(List<MovieRequest> request) {
+//        int oldSize = mRequests.size()-1;
+        mRequests.addAll(request);
+//        notifyItemRangeChanged(oldSize, request.size()-1);
         notifyDataSetChanged();
     }
 

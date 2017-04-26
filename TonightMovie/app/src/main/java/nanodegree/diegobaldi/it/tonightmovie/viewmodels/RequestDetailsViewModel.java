@@ -1,11 +1,14 @@
 package nanodegree.diegobaldi.it.tonightmovie.viewmodels;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.net.Uri;
 import android.view.View;
 
 import nanodegree.diegobaldi.it.tonightmovie.models.MovieRequest;
+import nanodegree.diegobaldi.it.tonightmovie.views.MovieActivity;
+import nanodegree.diegobaldi.it.tonightmovie.views.ProfileActivity;
 
 /**
  * Created by diego on 25/02/2017.
@@ -33,6 +36,10 @@ public class RequestDetailsViewModel extends BaseObservable {
         return request.getAuthor().getDisplayName();
     }
 
+    public String getMovieName(){
+        return request.getMovie().getOriginalTitle();
+    }
+
     public String getDescription(){
         return request.getDescription();
     }
@@ -46,20 +53,34 @@ public class RequestDetailsViewModel extends BaseObservable {
         };
     }
 
-    public View.OnClickListener onClickWatchlist() {
+    public View.OnClickListener onClickPoster() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                launchMovieDetails();
 
             }
         };
     }
 
-    public View.OnClickListener onClickBuy() {
+    private void launchMovieDetails() {
+        Intent intent = new Intent(context, MovieActivity.class);
+        intent.putExtra("movie", request.getMovie());
+        context.startActivity(intent);
+    }
+
+    public View.OnClickListener onClickUserInfo() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                launchProfile();
             }
         };
+    }
+
+    private void launchProfile() {
+        Intent intent = new Intent(context, ProfileActivity.class);
+        intent.putExtra("profile", request.getAuthor());
+        context.startActivity(intent);
     }
 }

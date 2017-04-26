@@ -14,4 +14,20 @@
         <item>Science Fiction</item>
         <item>Thriller</item>
     </string-array>
+
+    <string-array name="filter_genres">
+        <item>All</item>
+        <item>Action</item>
+        <item>Adventure</item>
+        <item>Animation</item>
+        <item>Comedy</item>
+        <item>Crime</item>
+        <item>Documentary</item>
+        <item>Drama</item>
+        <item>Family</item>
+        <item>Horror</item>
+        <item>Romance</item>
+        <item>Science Fiction</item>
+        <item>Thriller</item>
+    </string-array>
 </resources>

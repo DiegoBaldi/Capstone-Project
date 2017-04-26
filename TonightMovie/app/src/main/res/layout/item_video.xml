@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/video_frame"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:padding="@dimen/activity_vertical_margin"
@@ -19,7 +19,10 @@
             android:layout_height="50dp"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             app:viewAspectRatio="1.78"
-            app:placeholderImage="@color/colorAccent"
+            app:failureImage="@drawable/ic_no_image"
+            app:failureImageScaleType="centerInside"
+            app:placeholderImage="@color/background"
+            android:contentDescription="@{videoViewModel.name}"
             app:actualImageUrl="@{videoViewModel.thumb}"/>
 
         <TextView

@@ -1,44 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_feed"
             android:icon="@drawable/ic_view_stream"
-            android:title="Feed" />
+            android:title="@string/feed_nav" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_account_circle"
-            android:title="Profile" />
+            android:title="@string/profile_nav" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_applications"
-            android:title="Settings" />
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/ic_info"
-            android:title="About" />
+            android:title="@string/settings_nav" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/communicate_nav">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_share"
-                    android:title="Share" />
+                    android:title="@string/share_nav" />
             <item
                 android:id="@+id/nav_rate"
                 android:icon="@drawable/ic_grade"
-                android:title="Rate Us" />
+                android:title="@string/rate_us_nav" />
         </menu>
     </item>
 
-    <item android:title="Account">
+    <item android:title="@string/account_nav">
         <menu>
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_exit_to_app"
-                android:title="Logout" />
+                android:title="@string/logout_nav" />
         </menu>
     </item>
 

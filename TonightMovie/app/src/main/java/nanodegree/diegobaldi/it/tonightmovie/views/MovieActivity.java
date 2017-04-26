@@ -1,7 +1,6 @@
 package nanodegree.diegobaldi.it.tonightmovie.views;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -16,7 +15,7 @@ import android.view.View;
 import nanodegree.diegobaldi.it.tonightmovie.R;
 import nanodegree.diegobaldi.it.tonightmovie.models.Movie;
 
-public class MovieActivity extends BaseActivity implements MovieDetailsFragment.OnFragmentInteractionListener, MovieAdvicesFragment.OnFragmentInteractionListener{
+public class MovieActivity extends BaseActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -64,7 +63,7 @@ public class MovieActivity extends BaseActivity implements MovieDetailsFragment.
                 setToolbarTitle(mMovie.getOriginalTitle());
         }
 
-        mFab = (FloatingActionButton) findViewById(R.id.new_advice);
+        mFab = (FloatingActionButton) findViewById(R.id.new_request);
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,11 +108,6 @@ public class MovieActivity extends BaseActivity implements MovieDetailsFragment.
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -129,9 +123,9 @@ public class MovieActivity extends BaseActivity implements MovieDetailsFragment.
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch(position){
-                case 0: return MovieDetailsFragment.newInstance(mMovie.getId(), "");
+                case 0: return MovieDetailsFragment.newInstance(mMovie.getId());
                 case 1: return MovieAdvicesFragment.newInstance(mMovie.getId());
-                default: return MovieDetailsFragment.newInstance(mMovie.getId(), "");
+                default: return MovieDetailsFragment.newInstance(mMovie.getId());
             }
         }
 
@@ -151,5 +145,10 @@ public class MovieActivity extends BaseActivity implements MovieDetailsFragment.
             }
             return null;
         }
+    }
+
+    @Override
+    protected int navItemToCheck() {
+        return -1;
     }
 }

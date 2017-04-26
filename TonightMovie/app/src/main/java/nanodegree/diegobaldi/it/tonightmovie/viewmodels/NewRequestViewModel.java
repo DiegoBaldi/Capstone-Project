@@ -1,22 +1,23 @@
 package nanodegree.diegobaldi.it.tonightmovie.viewmodels;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.BindingAdapter;
 import android.databinding.InverseBindingMethod;
 import android.databinding.InverseBindingMethods;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ServerValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,7 @@ import nanodegree.diegobaldi.it.tonightmovie.R;
 import nanodegree.diegobaldi.it.tonightmovie.models.Movie;
 import nanodegree.diegobaldi.it.tonightmovie.models.MovieRequest;
 import nanodegree.diegobaldi.it.tonightmovie.util.FirebaseUtil;
+import nanodegree.diegobaldi.it.tonightmovie.views.FeedActivity;
 
 /**
  * Created by diego on 26/02/2017.
@@ -34,15 +36,13 @@ import nanodegree.diegobaldi.it.tonightmovie.util.FirebaseUtil;
         @InverseBindingMethod(type = Spinner.class, attribute = "android:selectedItemPosition"),
 })
 public class NewRequestViewModel extends BaseObservable {
-
     public MovieRequest request;
     public int genrePos;
     public Context context;
     public String[] genres;
+    public String message = "";
     public boolean tryToSubmit = false;
-    public boolean requestSubmitted = false;
-
-
+    public int requestSubmitted = 0;
 
     public NewRequestViewModel(Context context, Movie movie){
         this.request = new MovieRequest(movie);
@@ -51,16 +51,29 @@ public class NewRequestViewModel extends BaseObservable {
     }
 
     @Bindable
-    public boolean getRequestSubmitted() {
+    public int getRequestSubmitted() {
         return requestSubmitted;
     }
 
-    public void setRequestSubmitted(boolean requestSubmitted) {
+    public void setRequestSubmitted(int requestSubmitted) {
         this.requestSubmitted = requestSubmitted;
+    }
+
+    @Bindable
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Uri getPosterPath() {
         return Uri.parse("https://image.tmdb.org/t/p/w500"+request.getMovie().getPosterPath());
+    }
+
+    public String getMovieName() {
+        return request.getMovie().getOriginalTitle();
     }
 
     public String getDescription() {
@@ -86,12 +99,11 @@ public class NewRequestViewModel extends BaseObservable {
         this.genrePos = position;
         setGenre(genres[position]);
     }
-    
 
     @Bindable
     public String getDescriptionError() {
         if (request.getDescription() != null && request.getDescription().isEmpty() && tryToSubmit) {
-            return "Must enter a description";
+            return context.getString(R.string.no_description_error);
         }
         return null;
     }
@@ -100,7 +112,6 @@ public class NewRequestViewModel extends BaseObservable {
         return new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -119,9 +130,9 @@ public class NewRequestViewModel extends BaseObservable {
         return new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    notifyPropertyChanged(BR.descriptionError);
-                }
+            if(!hasFocus){
+                notifyPropertyChanged(BR.descriptionError);
+            }
             }
         };
     }
@@ -130,43 +141,50 @@ public class NewRequestViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tryToSubmit = true;
-                notifyPropertyChanged(BR.descriptionError);
-                sendRequest();
+            tryToSubmit = true;
+            notifyPropertyChanged(BR.descriptionError);
+            sendRequest();
             }
         };
     }
 
-    private void sendRequest() {
-        String key = FirebaseUtil.getRequestRef().push().getKey();
-        Map<String, Object> requestValues = request.toMap();
+    public View.OnClickListener goBack() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToFeedback();
+            }
+        };
+    }
 
+    private void goToFeedback() {
+        Intent intent = new Intent(context, FeedActivity.class);
+        context.startActivity(intent);
+        ((Activity) context).finish();
+    }
+
+    private void sendRequest() {
+        final String key = FirebaseUtil.getRequestRef().push().getKey();
+        Map<String, Object> requestValues = request.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put(key, requestValues);
-        FirebaseUtil.getRequestRef().updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+        childUpdates.put(FirebaseUtil.getRequestPath(key), requestValues);
+        childUpdates.put(FirebaseUtil.getUserRequestPath(request.getAuthor().getId(), key), ServerValue.TIMESTAMP);
+        childUpdates.put(FirebaseUtil.getRequestUserPath(request.getAuthor().getId(), key), ServerValue.TIMESTAMP);
+        childUpdates.put(FirebaseUtil.getGenreRequestsPath(request.getGenre().toLowerCase(), key), requestValues);
+        FirebaseUtil.getBaseRef().updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.d("arrived", "HERE");
-                requestSubmitted = true;
+                requestSubmitted = 1;
+                setMessage(context.getString(R.string.request_sent_success));
+                notifyPropertyChanged(BR.requestSubmitted);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                requestSubmitted = 2;
+                setMessage(context.getString(R.string.request_sent_error));
                 notifyPropertyChanged(BR.requestSubmitted);
             }
         });
-    }
-
-
-
-    @BindingAdapter("app:animatedCompletion")
-    public static void flip(final View view, final boolean completed) {
-        // Now create an animator
-        if(completed){
-            AnimatorSet setOut = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(),
-                    R.animator.card_flip_left_out);
-            setOut.setTarget(view.findViewById(R.id.form_card));
-            AnimatorSet setIn = (AnimatorSet) AnimatorInflater.loadAnimator(view.getContext(),
-                    R.animator.card_flip_left_in);
-            setIn.setTarget(view.findViewById(R.id.success_card));
-            setOut.start();
-            setIn.start();
-        }
     }
 }

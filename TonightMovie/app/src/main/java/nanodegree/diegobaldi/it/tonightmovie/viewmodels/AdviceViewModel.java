@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.BindingAdapter;
 import android.net.Uri;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,9 +17,11 @@ import java.util.Locale;
 
 import nanodegree.diegobaldi.it.tonightmovie.BR;
 import nanodegree.diegobaldi.it.tonightmovie.R;
+import nanodegree.diegobaldi.it.tonightmovie.TonightMovieApp;
 import nanodegree.diegobaldi.it.tonightmovie.models.Advice;
 import nanodegree.diegobaldi.it.tonightmovie.models.Movie;
 import nanodegree.diegobaldi.it.tonightmovie.util.FirebaseUtil;
+import nanodegree.diegobaldi.it.tonightmovie.util.PointService;
 import nanodegree.diegobaldi.it.tonightmovie.views.MovieActivity;
 
 /**
@@ -35,21 +34,17 @@ public class AdviceViewModel extends BaseObservable {
     private Context context;
     private Advice advice;
     private String requestId;
+    private String genre;
     private int requestMovieId;
     private boolean isAuthor;
 
-    public AdviceViewModel(Context context, Advice advice, boolean isAuthor, String requestId, int requestMovieId) {
+    public AdviceViewModel(Context context, Advice advice, boolean isAuthor, String requestId, int requestMovieId, String genre) {
         this.context = context;
         this.advice = advice;
         this.isAuthor = isAuthor;
         this.requestId = requestId;
         this.requestMovieId = requestMovieId;
-    }
-
-    public int getIsAnswerVisibility() {
-        if (isAuthor)
-            return View.VISIBLE;
-        else return View.GONE;
+        this.genre = genre;
     }
 
     @Bindable
@@ -57,9 +52,20 @@ public class AdviceViewModel extends BaseObservable {
         return String.format(Locale.getDefault(), context.getString(R.string.advice_karma), advice.getKarma());
     }
 
+    public boolean getIsRequester() {
+        if (isAuthor && !TonightMovieApp.getUser().getId().equalsIgnoreCase(advice.getAuthor().getId()))
+            return true;
+        else return false;
+    }
+
     @Bindable
     public int getLikeStatus() {
         return advice.getLikeStatus();
+    }
+
+    @Bindable
+    public boolean getIsTheAnswer() {
+        return advice.isTheAnswer();
     }
 
     public String getAuthorName() {
@@ -113,7 +119,7 @@ public class AdviceViewModel extends BaseObservable {
                         newLikeStatus = 0;
 
                 }
-                changeKarma(false, karma, oldLikeStatus, newLikeStatus);
+                changeKarma(false, karma, oldLikeStatus, newLikeStatus, "downVote");
 
             }
         };
@@ -140,19 +146,33 @@ public class AdviceViewModel extends BaseObservable {
                         newLikeStatus = 1;
                         break;
                 }
-                changeKarma(true, karma, oldLikeStatus, newLikeStatus);
+                changeKarma(true, karma, oldLikeStatus, newLikeStatus, "upVote");
             }
         };
     }
 
 
 
-    private void changeKarma(boolean upvote, int karma, int oldLikeStatus, int newLikeStatus) {
+    private void changeKarma(boolean upvote, int karma, int oldLikeStatus, int newLikeStatus, String type) {
         advice.setKarma(karma);
         notifyPropertyChanged(BR.karma);
         changeLikeStatus(newLikeStatus);
         changeMovieAdviceKarma(upvote, oldLikeStatus);
         changeRequestAdviceKarma(upvote, oldLikeStatus);
+        updateUserRequestAdviceStatus(newLikeStatus);
+        updateAuthorExperience(advice.getAuthor().getId(), type);
+    }
+
+    private void updateAuthorExperience(String authorId, String type) {
+        Intent intent = new Intent(context, PointService.class);
+        intent.putExtra("type", type);
+        intent.putExtra("authorId", authorId);
+        intent.putExtra("genre", genre);
+        context.startService(intent);
+    }
+
+    private void updateUserRequestAdviceStatus(int newLikeStatus) {
+        FirebaseUtil.getUserRequestAdvicesRef().child(requestId).child(advice.getId()).child("liked").setValue(newLikeStatus);
     }
 
     private void changeRequestAdviceKarma(boolean isUpvote, final int likeStatus) {
@@ -166,28 +186,21 @@ public class AdviceViewModel extends BaseObservable {
                     }
 
                     int karma = mutableAdvice.getKarma();
-//                    int likeStatus = 0;
 
                     switch (likeStatus) {
                         case 0:
                             karma = karma + 1;
-//                            likeStatus = 1;
                             break;
                         case 1:
                             karma = karma - 1;
-//                            likeStatus = 0;
                             break;
                         case 2:
                             karma = karma + 2;
-//                            likeStatus = 1;
                             break;
 
                     }
 
                     mutableAdvice.setKarma(karma);
-//                    advice.setKarma(karma);
-//                    notifyPropertyChanged(BR.karma);
-//                    changeLikeStatus(likeStatus);
 
                     // Set value and report transaction success
                     mutableData.setValue(mutableAdvice.toMap());
@@ -212,27 +225,20 @@ public class AdviceViewModel extends BaseObservable {
                     }
 
                     int karma = mutableAdvice.getKarma();
-//                    int likeStatus = 0;
 
                     switch (likeStatus) {
                         case 0:
                             karma = karma - 1;
-//                            likeStatus = 2;
                             break;
                         case 1:
                             karma = karma - 2;
-//                            likeStatus = 2;
                             break;
                         case 2:
                             karma = karma + 1;
-//                            likeStatus = 0;
 
                     }
 
                     mutableAdvice.setKarma(karma);
-//                    advice.setKarma(karma);
-//                    notifyPropertyChanged(BR.karma);
-//                    changeLikeStatus(likeStatus);
                     // Set value and report transaction success
                     mutableData.setValue(mutableAdvice.toMap());
                     return Transaction.success(mutableData);
@@ -335,11 +341,6 @@ public class AdviceViewModel extends BaseObservable {
             @Override
             public void onClick(View v) {
                 acceptAdvice();
-                if (advice.isTheAnswer())
-                    ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_check_circle_neutral));
-                else
-                    ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_check_circle_accent));
-
             }
         };
     }
@@ -357,10 +358,10 @@ public class AdviceViewModel extends BaseObservable {
                 int karma = mutableAdvice.getKarma();
 
                 if (advice.isTheAnswer()) {
-                    karma = karma - 50;
+                    karma = karma - 10;
                     isTheAnswer = false;
                 } else {
-                    karma = karma + 50;
+                    karma = karma + 10;
                     isTheAnswer = true;
 
                 }
@@ -387,6 +388,16 @@ public class AdviceViewModel extends BaseObservable {
 
     private void changeAcceptedStatus(boolean isTheAnswer) {
         advice.setTheAnswer(isTheAnswer);
+        advice.setTheAnswer(isTheAnswer);
+        notifyPropertyChanged(BR.isTheAnswer);
+        if(isTheAnswer){
+            FirebaseUtil.getUserRequestAdvicesRef().child(requestId).child(advice.getId()).child("isAccepted").setValue(true);
+            updateAuthorExperience(advice.getAuthor().getId(), "accepted");
+        }
+        else {
+            FirebaseUtil.getUserRequestAdvicesRef().child(requestId).child(advice.getId()).child("isAccepted").setValue(false);
+            updateAuthorExperience(advice.getAuthor().getId(), "notAccepted");
+        }
     }
 
     public View.OnClickListener onClickAuthor() {
@@ -408,25 +419,5 @@ public class AdviceViewModel extends BaseObservable {
         Intent intent = new Intent(context, MovieActivity.class);
         intent.putExtra("movie", advice.getMovie());
         context.startActivity(intent);
-    }
-
-    @BindingAdapter("app:animatedLikeActions")
-    public static void flip(final View view, final int likeStatus) {
-        // Now create an animator
-        switch (likeStatus) {
-            case 0:
-                ((ImageView) view.findViewById(R.id.upvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_up_neutral));
-                ((ImageView) view.findViewById(R.id.downvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_down_neutral));
-                break;
-            case 1:
-                ((ImageView) view.findViewById(R.id.upvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_up_pressed));
-                ((ImageView) view.findViewById(R.id.downvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_down_neutral));
-                break;
-            case 2:
-                ((ImageView) view.findViewById(R.id.upvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_up_neutral));
-                ((ImageView) view.findViewById(R.id.downvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_down_pressed));
-                break;
-            default:
-        }
     }
 }

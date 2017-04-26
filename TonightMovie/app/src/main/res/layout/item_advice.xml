@@ -9,7 +9,7 @@
         android:id="@+id/advice_frame"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -21,8 +21,12 @@
                 android:id="@+id/poster"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:actualImageScaleType="centerCrop"
                 app:viewAspectRatio="0.66"
-                app:placeholderImage="@color/colorAccent"
+                app:failureImage="@drawable/ic_no_image"
+                app:failureImageScaleType="centerInside"
+                app:placeholderImage="@color/background"
+                android:contentDescription="@{adviceViewModel.movieName}"
                 app:actualImageUrl="@{adviceViewModel.posterPath}"/>
 
             <LinearLayout
@@ -39,14 +43,16 @@
                     android:id="@+id/user_photo"
                     android:layout_width="34dp"
                     android:layout_height="34dp"
-                    app:placeholderImage="@color/colorAccent"
+                    app:failureImage="@drawable/profile_placeholder"
+                    app:failureImageScaleType="centerCrop"
+                    app:placeholderImage="@drawable/poster_placeholder_gradient"
                     app:roundAsCircle="true"
+                    android:contentDescription="@{adviceViewModel.authorName}"
                     app:actualImageUrl="@{adviceViewModel.authorImage}"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:orientation="vertical">
@@ -63,7 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="10sp"
+                        android:textSize="12sp"
                         tools:text="Advice's Karma: +100"
                         android:text="@{adviceViewModel.karma}"/>
 
@@ -74,11 +80,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/activity_vertical_margin"
+                android:padding="@dimen/short_padding"
                 android:background="#aaffffff"
                 tools:text="Moonlight"
                 android:gravity="center"
                 android:layout_gravity="bottom"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="@{adviceViewModel.movieName}"/>
 
         </FrameLayout>
@@ -97,7 +105,8 @@
                 android:layout_height="24dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_thumb_up_neutral"
-                android:onClick="@{adviceViewModel.onUpVote()}"/>
+                android:onClick="@{adviceViewModel.onUpVote()}"
+                android:contentDescription="@string/upvote_advice"/>
 
             <ImageView
                 android:id="@+id/downvote"
@@ -105,7 +114,8 @@
                 android:layout_height="24dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_thumb_down_neutral"
-                android:onClick="@{adviceViewModel.onDownVote()}"/>
+                android:onClick="@{adviceViewModel.onDownVote()}"
+                android:contentDescription="@string/downvote_advice"/>
 
             <ImageView
                 android:layout_width="24dp"
@@ -113,7 +123,9 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_check_circle_neutral"
                 android:onClick="@{adviceViewModel.onAcceptAdvice()}"
-                android:visibility="@{adviceViewModel.isAnswerVisibility}"/>
+                app:acceptedAdviceIcon="@{adviceViewModel.isTheAnswer}"
+                app:visibilityDependsOn="@{adviceViewModel.isRequester}"
+                android:contentDescription="@string/accept_advice"/>
 
         </LinearLayout>
 

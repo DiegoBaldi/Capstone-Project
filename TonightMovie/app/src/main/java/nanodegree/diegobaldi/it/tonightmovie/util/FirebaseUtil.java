@@ -27,13 +27,16 @@ public class FirebaseUtil {
     public static User getUser() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return null;
-        return new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString());
+        if(user.getPhotoUrl()!=null)
+            return new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString());
+        else
+            return new User(user.getUid(), user.getDisplayName(), user.getEmail(), "customProfiel");
     }
 
     public static DatabaseReference getCurrentUserRef() {
         String uid = getCurrentUserId();
         if (uid != null) {
-            return getBaseRef().child("people").child(getCurrentUserId());
+            return getBaseRef().child("users").child(getCurrentUserId());
         }
         return null;
     }
@@ -50,8 +53,12 @@ public class FirebaseUtil {
         return getBaseRef().child("users");
     }
 
-    public static String getPeoplePath() {
-        return "people/";
+    public static String getUsersPath() {
+        return "users/";
+    }
+
+    public static String getUserPath(String userId) {
+        return "users/"+userId;
     }
 
     public static DatabaseReference getRequestRef() {
@@ -74,23 +81,63 @@ public class FirebaseUtil {
         return getBaseRef().child("followers");
     }
 
-    public static DatabaseReference getFavoritesRef() {
-        return getBaseRef().child("favorites");
+    public static DatabaseReference getFavoritesRef(String profileId) {
+        return getBaseRef().child("favorites").child(profileId);
     }
 
     public static DatabaseReference getRequestAdvicesRef() {
         return getBaseRef().child("requestAdvices");
     }
 
+    public static DatabaseReference getRequestAdvicesMovieRef(String requestId, int adviceMovieId) {
+        return getBaseRef().child("requestAdvices/"+requestId+"/"+adviceMovieId);
+    }
+
     public static DatabaseReference getMovieAdvicesRef(int movieId) {
         return getBaseRef().child("movieAdvices/"+String.valueOf(movieId));
     }
 
-    public static String getMovieAdvicesPath(int movieId, int suggestedMovieid) {
-        return "movieAdvices/"+String.valueOf(movieId)+"/"+String.valueOf(suggestedMovieid);
+    public static DatabaseReference getMovieAdvicesMovieRef(int movieId, int adviceMovieId) {
+        return getBaseRef().child("movieAdvices/"+movieId+"/"+adviceMovieId);
     }
 
-    public static String getRequestAdvicesPath(String requestId, String key) {
-        return "requestAdvices/"+requestId+"/"+key;
+    public static String getMovieAdvicesPath(int movieId, int suggestedMovieId) {
+        return "movieAdvices/"+movieId+"/"+suggestedMovieId;
+    }
+
+    public static String getRequestAdvicesPath(String requestId, int suggestedMovieId) {
+        return "requestAdvices/"+requestId+"/"+suggestedMovieId;
+    }
+
+    public static String getGenreRequestsPath(String genre, String key) {
+        return "genreRequests/"+genre+"/"+key;
+    }
+
+    public static String getRequestPath(String key) {
+        return "requests/"+key;
+    }
+
+    public static DatabaseReference getUserRequestRef(String profileId) {
+        return getBaseRef().child("userRequests/"+profileId);
+    }
+
+    public static String getUserRequestPath(String id, String key) {
+        return "userRequests/"+id+"/"+key;
+    }
+
+    public static String getRequestUserPath(String id, String key) {
+        return "requestUsers/"+key+"/"+id;
+    }
+
+    public static DatabaseReference getGenreRequestRef(String genre) {
+        return getBaseRef().child("genreRequests/"+genre);
+    }
+
+    public static DatabaseReference getUserRequestAdvicesRef() {
+        return getBaseRef().child("userRequestAdvices/"+getCurrentUserId());
+    }
+
+    public static DatabaseReference getUserMovieAdvicesRef() {
+        return getBaseRef().child("userMovieAdvices/"+getCurrentUserId());
     }
 }

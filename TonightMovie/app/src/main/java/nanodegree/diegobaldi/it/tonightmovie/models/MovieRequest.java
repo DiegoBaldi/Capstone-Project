@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.ServerValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,8 @@ public class MovieRequest implements Parcelable {
     private String genre;
     private boolean completed = false;
     private Advice acceptedAdvice;
+    private boolean isInterested;
+    private long created;
 
     public MovieRequest(User author, String description, Movie movie, String genre){
         this.author = author;
@@ -44,7 +47,7 @@ public class MovieRequest implements Parcelable {
     public MovieRequest(Movie movie){
         this.author = TonightMovieApp.getUser();
         this.description = "";
-        this.movie = new Movie(movie.getId(), movie.getPosterKey());
+        this.movie = new Movie(movie.getId(), movie.getOriginalTitle(), movie.getPosterKey());
     }
 
     protected MovieRequest(Parcel in) {
@@ -54,6 +57,8 @@ public class MovieRequest implements Parcelable {
         movie = in.readParcelable(Movie.class.getClassLoader());
         genre = in.readString();
         completed = in.readByte() != 0;
+        created = in.readLong();
+        isInterested = in.readByte() != 0;
     }
 
     public static final Creator<MovieRequest> CREATOR = new Creator<MovieRequest>() {
@@ -124,6 +129,22 @@ public class MovieRequest implements Parcelable {
         this.genre = genre;
     }
 
+    public long getCreated() {
+        return created;
+    }
+
+    public void setCreated(long created) {
+        this.created = created;
+    }
+
+    public boolean isInterested() {
+        return isInterested;
+    }
+
+    public void setInterested(boolean interested) {
+        isInterested = interested;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -132,6 +153,7 @@ public class MovieRequest implements Parcelable {
         result.put("movie", movie.toMap());
         result.put("genre", genre);
         result.put("completed", completed);
+        result.put("created", ServerValue.TIMESTAMP);
         return result;
     }
 
@@ -148,5 +170,7 @@ public class MovieRequest implements Parcelable {
         dest.writeParcelable(movie, flags);
         dest.writeString(genre);
         dest.writeByte((byte) (completed ? 1 : 0));
+        dest.writeLong(created);
+        dest.writeByte((byte) (isInterested ? 1 : 0));
     }
 }

@@ -18,7 +18,8 @@
         <LinearLayout
             android:orientation="horizontal" android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:gravity="center"
+            android:onClick="@{movieRequestViewModel.onClick()}">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/poster"
@@ -26,7 +27,10 @@
                 android:layout_height="wrap_content"
                 app:viewAspectRatio="0.66"
                 android:layout_weight="2"
-                app:placeholderImage="@color/colorAccent"
+                app:failureImage="@drawable/ic_no_image"
+                app:failureImageScaleType="centerInside"
+                app:placeholderImage="@color/background"
+                android:contentDescription="@{movieRequestViewModel.authorName}"
                 app:actualImageUrl="@{movieRequestViewModel.posterPath}"/>
 
             <LinearLayout
@@ -42,8 +46,12 @@
                     app:roundAsCircle="true"
                     app:roundedCornerRadius="25dp"
                     android:scaleType="fitCenter"
-                    app:placeholderImage="@drawable/profile_placeholder"
-                    app:actualImageUrl="@{movieRequestViewModel.authorImage}"/>
+                    app:failureImage="@drawable/profile_placeholder"
+                    app:failureImageScaleType="centerCrop"
+                    app:placeholderImage="@drawable/poster_placeholder_gradient"
+                    app:actualImageUrl="@{movieRequestViewModel.authorImage}"
+                    android:contentDescription="@{movieRequestViewModel.movieName}"
+                    android:onClick="@{movieRequestViewModel.onClickAuthor()}"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -51,7 +59,8 @@
                     android:gravity="center_horizontal"
                     android:layout_marginTop="@dimen/feed_item_vertical_margin_small"
                     tools:text="CIAOOO"
-                    android:text="@{movieRequestViewModel.authorName}"/>
+                    android:text="@{movieRequestViewModel.authorName}"
+                    android:onClick="@{movieRequestViewModel.onClickAuthor()}"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -66,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/feed_item_vertical_margin_small"
                     android:gravity="center"
-                    android:text="Show"
+                    android:text="@string/show"
                     android:onClick="@{movieRequestViewModel.onClick}"/>
 
                 <Button
@@ -75,8 +84,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/feed_item_vertical_margin_small"
                     android:gravity="center"
-                    android:text="I'm Interested"
-                    android:onClick="@{movieRequestViewModel.onClicInterested}"/>
+                    app:animatedInterest="@{movieRequestViewModel.requestInterested}"
+                    android:textColor="@color/colorAccent"
+                    android:visibility="@{movieRequestViewModel.isFromUser}"
+                    android:onClick="@{movieRequestViewModel.onClickInterested}"/>
 
             </LinearLayout>
 

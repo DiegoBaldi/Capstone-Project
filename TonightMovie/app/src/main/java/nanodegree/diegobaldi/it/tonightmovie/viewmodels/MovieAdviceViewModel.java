@@ -4,12 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.BindingAdapter;
 import android.net.Uri;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -74,25 +71,23 @@ public class MovieAdviceViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int karma = movie.getKarma();
-                int newLikeStatus = 0;
-                int oldLikeStatus = movie.getLikeStatus();
-                switch (oldLikeStatus) {
-                    case 0:
-                        karma = karma - 1;
-                        newLikeStatus = 2;
-                        break;
-                    case 1:
-                        karma = karma - 2;
-                        newLikeStatus = 2;
-                        break;
-                    case 2:
-                        karma = karma + 1;
-                        newLikeStatus = 0;
-
-                }
-                changeKarma(false, karma, oldLikeStatus, newLikeStatus);
-
+            int karma = movie.getKarma();
+            int newLikeStatus = 0;
+            int oldLikeStatus = movie.getLikeStatus();
+            switch (oldLikeStatus) {
+                case 0:
+                    karma = karma - 1;
+                    newLikeStatus = 2;
+                    break;
+                case 1:
+                    karma = karma - 2;
+                    newLikeStatus = 2;
+                    break;
+                case 2:
+                    karma = karma + 1;
+                    newLikeStatus = 0;
+            }
+            changeKarma(false, karma, oldLikeStatus, newLikeStatus);
             }
         };
     }
@@ -101,24 +96,24 @@ public class MovieAdviceViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int karma = movie.getKarma();
-                int newLikeStatus = 0;
-                int oldLikeStatus = movie.getLikeStatus();
-                switch (oldLikeStatus) {
-                    case 0:
-                        karma = karma + 1;
-                        newLikeStatus = 1;
-                        break;
-                    case 1:
-                        karma = karma - 1;
-                        newLikeStatus = 0;
-                        break;
-                    case 2:
-                        karma = karma + 2;
-                        newLikeStatus = 1;
-                        break;
-                }
-                changeKarma(true, karma, oldLikeStatus, newLikeStatus);
+            int karma = movie.getKarma();
+            int newLikeStatus = 0;
+            int oldLikeStatus = movie.getLikeStatus();
+            switch (oldLikeStatus) {
+                case 0:
+                    karma = karma + 1;
+                    newLikeStatus = 1;
+                    break;
+                case 1:
+                    karma = karma - 1;
+                    newLikeStatus = 0;
+                    break;
+                case 2:
+                    karma = karma + 2;
+                    newLikeStatus = 1;
+                    break;
+            }
+            changeKarma(true, karma, oldLikeStatus, newLikeStatus);
             }
         };
     }
@@ -130,7 +125,14 @@ public class MovieAdviceViewModel extends BaseObservable {
         notifyPropertyChanged(BR.karma);
         changeLikeStatus(newLikeStatus);
         changeMovieAdviceKarma(upvote, oldLikeStatus);
+        updateUserMovieAdviceStatus(newLikeStatus);
+
     }
+
+    private void updateUserMovieAdviceStatus(int newLikeStatus) {
+        FirebaseUtil.getUserMovieAdvicesRef().child(String.valueOf(requestMovieId)).child(String.valueOf(movie.getId())).child("liked").setValue(newLikeStatus);
+    }
+
 
     private void changeMovieAdviceKarma(boolean isUpvote, final int likeStatus) {
         if(isUpvote){
@@ -218,25 +220,5 @@ public class MovieAdviceViewModel extends BaseObservable {
         Intent intent = new Intent(context, MovieActivity.class);
         intent.putExtra("movie", movie);
         context.startActivity(intent);
-    }
-
-    @BindingAdapter("app:animatedLikeActions")
-    public static void flip(final View view, final int likeStatus) {
-        // Now create an animator
-        switch (likeStatus) {
-            case 0:
-                ((ImageView) view.findViewById(R.id.upvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_up_neutral));
-                ((ImageView) view.findViewById(R.id.downvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_down_neutral));
-                break;
-            case 1:
-                ((ImageView) view.findViewById(R.id.upvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_up_pressed));
-                ((ImageView) view.findViewById(R.id.downvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_down_neutral));
-                break;
-            case 2:
-                ((ImageView) view.findViewById(R.id.upvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_up_neutral));
-                ((ImageView) view.findViewById(R.id.downvote)).setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_thumb_down_pressed));
-                break;
-            default:
-        }
     }
 }

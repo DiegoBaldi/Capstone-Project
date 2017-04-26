@@ -1,5 +1,8 @@
 package nanodegree.diegobaldi.it.tonightmovie.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.annotations.SerializedName;
@@ -12,7 +15,7 @@ import java.util.Map;
  * Created by diego on 25/02/2017.
  */
 @IgnoreExtraProperties
-public class MovieDetails {
+public class MovieDetails implements Parcelable {
     private boolean adult;
     private String backdropPath;
     private Object belongsToCollection;
@@ -45,6 +48,45 @@ public class MovieDetails {
     private boolean isFavorite;
     private boolean isInWatchlist;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    protected MovieDetails(Parcel in) {
+        adult = in.readByte() != 0;
+        backdropPath = in.readString();
+        budget = in.readInt();
+        homepage = in.readString();
+        id = in.readInt();
+        imdbId = in.readString();
+        originalLanguage = in.readString();
+        originalTitle = in.readString();
+        overview = in.readString();
+        popularity = in.readDouble();
+        posterPath = in.readString();
+        releaseDate = in.readString();
+        revenue = in.readInt();
+        runtime = in.readInt();
+        status = in.readString();
+        tagline = in.readString();
+        title = in.readString();
+        video = in.readByte() != 0;
+        voteAverage = in.readDouble();
+        voteCount = in.readInt();
+        isFavorite = in.readByte() != 0;
+        isInWatchlist = in.readByte() != 0;
+        reviewsResult = in.readParcelable(ApiResult.class.getClassLoader());
+        videosResult = in.readParcelable(ApiResult.class.getClassLoader());
+    }
+
+    public static final Creator<MovieDetails> CREATOR = new Creator<MovieDetails>() {
+        @Override
+        public MovieDetails createFromParcel(Parcel in) {
+            return new MovieDetails(in);
+        }
+
+        @Override
+        public MovieDetails[] newArray(int size) {
+            return new MovieDetails[size];
+        }
+    };
 
     public boolean isFavorite() {
         return isFavorite;
@@ -301,5 +343,38 @@ public class MovieDetails {
         result.put("originalTitle", getOriginalTitle());
         result.put("posterPath", getPosterPath());
         return result;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (adult ? 1 : 0));
+        dest.writeString(backdropPath);
+        dest.writeInt(budget);
+        dest.writeString(homepage);
+        dest.writeInt(id);
+        dest.writeString(imdbId);
+        dest.writeString(originalLanguage);
+        dest.writeString(originalTitle);
+        dest.writeString(overview);
+        dest.writeDouble(popularity);
+        dest.writeString(posterPath);
+        dest.writeString(releaseDate);
+        dest.writeInt(revenue);
+        dest.writeInt(runtime);
+        dest.writeString(status);
+        dest.writeString(tagline);
+        dest.writeString(title);
+        dest.writeByte((byte) (video ? 1 : 0));
+        dest.writeDouble(voteAverage);
+        dest.writeInt(voteCount);
+        dest.writeByte((byte) (isFavorite ? 1 : 0));
+        dest.writeByte((byte) (isInWatchlist ? 1 : 0));
+        dest.writeParcelable(reviewsResult, flags);
+        dest.writeParcelable(videosResult, flags);
     }
 }

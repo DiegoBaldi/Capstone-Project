@@ -43,7 +43,7 @@ public final class WatchlistProvider {
                 path = Path.WATCHLIST + "/#",
                 name = "WATCHLIST_ID",
                 type = "vnd.android.cursor.item/list",
-                whereColumn = WatchlistColumns._ID,
+                whereColumn = WatchlistColumns.THE_MOVIE_DB_ID,
                 pathSegment = 1)
         public static Uri withId(long id) {
             return buildUri(Path.WATCHLIST, String.valueOf(id));

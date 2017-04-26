@@ -31,4 +31,8 @@ public class NewAdviceActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected int navItemToCheck() {
+        return -1;
+    }
 }

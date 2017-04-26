@@ -1,7 +1,10 @@
 package nanodegree.diegobaldi.it.tonightmovie.views;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -25,6 +28,8 @@ import nanodegree.diegobaldi.it.tonightmovie.databinding.NavHeaderFeedBinding;
 import nanodegree.diegobaldi.it.tonightmovie.models.User;
 import nanodegree.diegobaldi.it.tonightmovie.util.CheckUserLoginStatus;
 import nanodegree.diegobaldi.it.tonightmovie.viewmodels.UserViewModel;
+
+import static nanodegree.diegobaldi.it.tonightmovie.R.id.nav_feed;
 
 public abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,8 +63,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-
-
         if (useToolbar())
         {
             setSupportActionBar(toolbar);
@@ -90,9 +93,17 @@ public abstract class BaseActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        if(navItemToCheck()!=-1)
+            navigationView.setCheckedItem(navItemToCheck());
+
         setUpNavView(navigationView);
 
     }
+
+    protected int navItemToCheck(){
+        return R.id.nav_feed;
+    }
+
 
     private void setUpNavView(NavigationView navigationView) {
         ActivityBaseBinding baseBinding = ActivityBaseBinding.bind(fullLayout);
@@ -128,18 +139,49 @@ public abstract class BaseActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_feed) {
-            // Handle the camera action
+        if (id == nav_feed) {
+            Intent intent = new Intent(this, FeedActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
-//            mUser.setDisplayName("PRvoa genius");
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("profile", mUser);
+            startActivity(intent);
         } else if (id == R.id.nav_settings) {
-//            mUser.setEmail("prova super genios");
-        } else if (id == R.id.nav_about) {
-
+            Intent intent = new Intent(this, SettingsActivity.class);
+            intent.putExtra("profile", mUser);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
+            try {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Movie Master");
+                String sAux = "\nLet me recommend you this application\n\n";
+                sAux = sAux + "https://play.google.com/store/apps/details?id=nanodegree.diegobaldi.it.tonightmovie \n\n";
+                i.putExtra(Intent.EXTRA_TEXT, sAux);
+                startActivity(Intent.createChooser(i, "Share the awesomeness"));
+            } catch(Exception e) {
+                //e.toString();
+            }
 
         } else if (id == R.id.nav_rate) {
-
+            Uri uri = Uri.parse("market://details?id=" + getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            // To count with Play market backstack, After pressing back button,
+            // to taken back to our application, we need to add following flags to intent.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            } else {
+                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            }
+            try {
+                startActivity(goToMarket);
+            } catch (ActivityNotFoundException e) {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+            }
         } else if (id == R.id.nav_logout){
             AuthUI.getInstance()
                     .signOut(this)

@@ -1,14 +1,24 @@
 package nanodegree.diegobaldi.it.tonightmovie;
 
 import android.app.Application;
-import android.content.Context;
+import android.util.Log;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import nanodegree.diegobaldi.it.tonightmovie.models.User;
+import nanodegree.diegobaldi.it.tonightmovie.util.FirebaseUtil;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -19,14 +29,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TonightMovieApp extends Application {
 
     private static final String LOG_TAG = TonightMovieApp.class.getSimpleName();
-    private Context sContext;
     private static User mUser;
-    public static int mToDoReviewCount;
-//    private ValueEventListener mEventListener, mConnectedEventListener;
-//    private DatabaseReference mDatabase;
-//    private DatabaseReference mConnectedRef;
-    private static boolean activityInForeground;
-    public static boolean userConnected;
+    public static final double KONSTANT_LEVEL = 0.2582;
     private static Retrofit mTheMovieDBRetrofit;
 
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
@@ -35,14 +39,17 @@ public class TonightMovieApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-//        mToDoReviewCount = 0;
-//        EventBus.getDefault().register(this);
-//        Fabric.with(this, new Crashlytics());
-        Fresco.initialize(this);
-        sContext = this;
 
-//        mUser = new User("kadksakdsak","Diego Baldi", "diego.baldi@hotmail.it", Uri.parse("https://www.google.it/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwjSyoPnyJnSAhXIOxoKHfqLBy8QjRwIBw&url=https%3A%2F%2Fcoworkers.apps.cobot.me%2Fspaces%2Fspace-millepiani-coworking%2Fmemberships%2F19901&psig=AFQjCNFMpqHgh_BTGqjBE-ayT9JY4333Lw&ust=1487504647207168"));
+        Fresco.initialize(this);
+
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null && TonightMovieApp.getUser()==null){
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if(user.getPhotoUrl()!=null)
+                setUser(new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString()));
+            else
+                setUser(new User(user.getUid(), user.getDisplayName(), user.getEmail()));
+        }
+
 
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -52,39 +59,7 @@ public class TonightMovieApp extends Application {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-
-
-//        mConnectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
-
-//        FacebookSdk.sdkInitialize(this.getApplicationContext());
-        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        //FirebaseDatabase.getInstance().getReference("services").keepSynced(true);
-//        Dexter.initialize(sContext);
-
-//        mEventListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if(dataSnapshot.exists() && dataSnapshot.hasChildren()){
-//                    mToDoReviewCount = Math.round(dataSnapshot.getChildrenCount());
-//                    EventBus.getDefault().postSticky(new ToDoReviewsCountEvent(mToDoReviewCount));
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//            }
-//        };
-//        ConnectivityChangeReceiver connectivityChangeReceiver = new ConnectivityChangeReceiver();
-//        IntentFilter netFilter = new IntentFilter();
-//        netFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-//        this.registerReceiver(connectivityChangeReceiver,  netFilter);
     }
-
-    public Context getAppContext() {
-        return sContext;
-    }
-
     public static User getUser(){
         return mUser;
     }
@@ -95,40 +70,45 @@ public class TonightMovieApp extends Application {
 
     public static void setUser(User user){
         mUser = user;
-    }
-
-    public static int getToDoReviewCount() {
-        return mToDoReviewCount;
-    }
-
-    public void addToDoReview() {
-        this.mToDoReviewCount++;
-    }
-
-    public void removeToDoReview() {
-        this.mToDoReviewCount++;
-    }
-
-    public static boolean isInForeground() {
-        return activityInForeground;
-    }
-
-    public static void activityResumed() {
-        activityInForeground = true;
-    }
-
-    public static void activityPaused() {
-        activityInForeground = false;
+        getUserFromDB();
     }
 
     public static Retrofit getRetrofit(){
         return mTheMovieDBRetrofit;
     }
 
-//    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-//    public void onUserLogged(UserLoggedEvent event) {
-//        mToDoReviewCount = 0;
-//        mDatabase.child("todoReviews").child(event.uid).orderByChild("date").endAt(System.currentTimeMillis() - TWO_DAYS).addListenerForSingleValueEvent(mEventListener);
-//
-//    }
+    private static void getUserFromDB() {
+        FirebaseUtil.getCurrentUserRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    saveUserToDb(TonightMovieApp.getUser());
+                } else {
+                    mUser = dataSnapshot.getValue(User.class);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private static void saveUserToDb(User user) {
+        Map<String, Object> userValues = user.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(FirebaseUtil.getUserPath(user.getId()), userValues);
+        FirebaseUtil.getBaseRef().updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
+
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                Log.d(LOG_TAG, "arrived");
+            }
+        });
+    }
+
+
+
+
 }

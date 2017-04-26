@@ -18,11 +18,8 @@ import nanodegree.diegobaldi.it.tonightmovie.viewmodels.NewRequestViewModel;
 public class NewRequestActivityFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "movie";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private Movie mMovie;
-    private String mParam2;
 
     public NewRequestActivityFragment() {
         // Required empty public constructor
@@ -33,15 +30,12 @@ public class NewRequestActivityFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param movie Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment MovieAdvicesFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static NewRequestActivityFragment newInstance(Movie movie, String param2) {
+    public static NewRequestActivityFragment newInstance(Movie movie) {
         NewRequestActivityFragment fragment = new NewRequestActivityFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_PARAM1, movie);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,7 +45,6 @@ public class NewRequestActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mMovie = getArguments().getParcelable(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 

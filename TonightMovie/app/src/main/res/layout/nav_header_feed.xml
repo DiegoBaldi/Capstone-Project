@@ -20,7 +20,10 @@
             android:id="@+id/imageView"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            app:failureImage="@drawable/profile_placeholder"
+            app:failureImageScaleType="centerCrop"
             app:roundAsCircle="true"
+            android:contentDescription="@{userViewModel.displayName}"
             app:actualImageUrl="@{userViewModel.photoUrl}"
             android:layout_marginTop="@dimen/nav_header_vertical_spacing" />
 

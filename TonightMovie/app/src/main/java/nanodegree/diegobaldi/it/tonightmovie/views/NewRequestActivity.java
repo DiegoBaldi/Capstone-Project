@@ -20,9 +20,13 @@ public class NewRequestActivity extends BaseActivity {
             Intent intent = getIntent();
             if(intent.hasExtra("movie")){
                 Movie movie = intent.getParcelableExtra("movie");
-                getFragmentManager().beginTransaction().add(R.id.fragment_container_new_request, NewRequestActivityFragment.newInstance(movie, "")).commit();
+                getFragmentManager().beginTransaction().add(R.id.fragment_container_new_request, NewRequestActivityFragment.newInstance(movie)).commit();
             }
         }
     }
 
+    @Override
+    protected int navItemToCheck() {
+        return -1;
+    }
 }

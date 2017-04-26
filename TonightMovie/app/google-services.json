@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "268582486443-c9vtak3afpa1u1q94leirkac6ncfsbeq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nanodegree.diegobaldi.it.tonightmovie",
+            "certificate_hash": "aff907ed84b069acb16b54c734410da22e61ec78"
+          }
+        },
+        {
           "client_id": "268582486443-v0o63pjda8d36bjl0eajgl8rhn61ldtv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

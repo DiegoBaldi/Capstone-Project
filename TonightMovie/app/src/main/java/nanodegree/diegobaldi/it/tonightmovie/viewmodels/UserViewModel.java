@@ -3,6 +3,7 @@ package nanodegree.diegobaldi.it.tonightmovie.viewmodels;
 import android.databinding.BaseObservable;
 import android.net.Uri;
 
+import nanodegree.diegobaldi.it.tonightmovie.TonightMovieApp;
 import nanodegree.diegobaldi.it.tonightmovie.models.User;
 
 /**
@@ -26,6 +27,9 @@ public class UserViewModel extends BaseObservable {
     }
 
     public Uri getPhotoUrl(){
-        return Uri.parse(user.getPhotoURL());
+        if(user!=null)
+            return Uri.parse(user.getPhotoURL());
+        else
+            return  Uri.parse(TonightMovieApp.getUser().getPhotoURL());
     }
 }

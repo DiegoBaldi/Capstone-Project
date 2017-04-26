@@ -26,6 +26,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:viewAspectRatio="2"
+                    app:failureImage="@drawable/ic_no_image"
+                    app:failureImageScaleType="centerInside"
+                    android:contentDescription="@{movieDetailsViewModel.movieTitle}"
                     app:actualImageUrl="@{movieDetailsViewModel.posterBackdropPath}"/>
 
                 <LinearLayout
@@ -37,34 +40,48 @@
                     android:layout_gravity="bottom">
 
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/action_favorite"
                         android:layout_width="24dp"
                         android:layout_height="21dp"
                         android:layout_gravity="bottom"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/ic_favorite_neutral"
+                        android:contentDescription="@{movieDetailsViewModel.favoriteState}"
+                        app:actualDrawable="@{movieDetailsViewModel.isFavorite}"
                         android:onClick="@{movieDetailsViewModel.onClickFavorite}"/>
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/action_watchlist"
                         android:layout_width="24dp"
                         android:layout_height="21dp"
                         android:layout_gravity="bottom"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/ic_watchlist_neutral"
+                        android:contentDescription="@{movieDetailsViewModel.watchlistState}"
+                        app:actualDrawable="@{movieDetailsViewModel.isInWatchlist}"
                         android:onClick="@{movieDetailsViewModel.onClickWatchlist}"/>
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/action_buy"
                         android:layout_width="24dp"
                         android:layout_height="21dp"
                         android:layout_gravity="bottom"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:contentDescription="@string/buy_merchandise"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_shopping_cart"
                         android:onClick="@{movieDetailsViewModel.onClickBuy}"/>
+
+                    <ImageView
+                        android:id="@+id/action_share"
+                        android:layout_width="24dp"
+                        android:layout_height="21dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:contentDescription="@string/share_movie"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_share"
+                        android:onClick="@{movieDetailsViewModel.onClickShare()}"/>
 
                 </LinearLayout>
 
@@ -87,13 +104,15 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         app:viewAspectRatio="0.66"
+                        app:failureImage="@drawable/ic_no_image"
+                        app:failureImageScaleType="centerInside"
                         android:id="@+id/simpleDraweeView"
+                        android:contentDescription="@{movieDetailsViewModel.movieTitle}"
                         app:actualImageUrl="@{movieDetailsViewModel.posterPath}" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:paddingLeft="@dimen/activity_vertical_margin"
                         android:orientation="vertical">
 
@@ -132,13 +151,14 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:contentDescription="@string/ratings"
                                 android:src="@drawable/ic_grade"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
-                                android:paddingLeft="@dimen/activity_horizontal_margin"
+                                android:paddingLeft="@dimen/activity_vertical_margin"
                                 tools:text="7.8/10"
                                 android:text="@{movieDetailsViewModel.score}"/>
 
@@ -168,7 +188,7 @@
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:text="Trailer"
+                        android:text="@string/trailer"
                         android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
                     <View
@@ -180,6 +200,13 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/trailer_recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/activity_horizontal_margin">
+                        </android.support.v7.widget.RecyclerView>
 
                         <ProgressBar
                             android:id="@+id/trailer_progress"
@@ -195,16 +222,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:visibility="gone"
-                            android:text="Non ci sono trailer"
+                            android:text="@string/no_trailers"
                             android:gravity="center_horizontal"
                             android:layout_margin="@dimen/activity_horizontal_margin" />
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/trailer_recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/activity_horizontal_margin">
-                        </android.support.v7.widget.RecyclerView>
 
                     </RelativeLayout>
 
@@ -231,7 +251,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:text="Synopsis"/>
+                        android:text="@string/synopsis"/>
 
                     <View
                         android:layout_width="@dimen/accent_divider_width"
@@ -244,6 +264,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/activity_horizontal_margin"
+                        android:gravity="center_horizontal"
                         android:text="@{movieDetailsViewModel.synopsis}">
                     </TextView>
 
@@ -270,7 +291,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:text="Reviews"/>
+                        android:text="@string/reviews"/>
 
                     <View
                         android:layout_width="@dimen/accent_divider_width"
@@ -281,6 +302,13 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/reviews_recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/activity_horizontal_margin">
+                        </android.support.v7.widget.RecyclerView>
 
                         <ProgressBar
                             android:id="@+id/reviews_progress"
@@ -296,16 +324,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:visibility="gone"
-                            android:text="Non ci sono Recensioni"
+                            android:text="@string/no_reviews"
                             android:gravity="center_horizontal"
                             android:layout_margin="@dimen/activity_horizontal_margin" />
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/reviews_recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/activity_horizontal_margin">
-                        </android.support.v7.widget.RecyclerView>
 
                     </RelativeLayout>
 

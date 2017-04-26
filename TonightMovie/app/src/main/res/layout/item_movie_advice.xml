@@ -9,7 +9,7 @@
         android:id="@+id/advice_frame"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -21,14 +21,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:viewAspectRatio="0.66"
-                app:placeholderImage="@color/colorAccent"
+                app:failureImage="@drawable/ic_no_image"
+                app:failureImageScaleType="centerInside"
+                app:placeholderImage="@color/background"
+                app:actualImageScaleType="centerCrop"
+                android:contentDescription="@{movieAdviceViewModel.movieName}"
                 app:actualImageUrl="@{movieAdviceViewModel.posterPath}"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/activity_vertical_margin"
+                android:padding="@dimen/short_padding"
                 tools:text="Advice's Karma: +100"
                 android:background="#aaffffff"
                 android:text="@{movieAdviceViewModel.karma}"/>
@@ -36,11 +40,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/activity_vertical_margin"
+                android:padding="@dimen/short_padding"
                 android:background="#aaffffff"
                 tools:text="Moonlight"
                 android:gravity="center"
                 android:layout_gravity="bottom"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="@{movieAdviceViewModel.movieName}"/>
 
         </FrameLayout>
@@ -59,6 +65,7 @@
                 android:layout_height="24dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_thumb_up_neutral"
+                android:contentDescription="@string/upvote_advice"
                 android:onClick="@{movieAdviceViewModel.onUpVote()}"/>
 
             <ImageView
@@ -67,6 +74,7 @@
                 android:layout_height="24dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_thumb_down_neutral"
+                android:contentDescription="@string/downvote_advice"
                 android:onClick="@{movieAdviceViewModel.onDownVote()}"/>
 
         </LinearLayout>

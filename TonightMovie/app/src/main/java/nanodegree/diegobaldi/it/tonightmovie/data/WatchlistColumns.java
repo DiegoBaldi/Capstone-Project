@@ -23,7 +23,6 @@ public interface WatchlistColumns {
     @DataType(TEXT) @NotNull
     @Unique(onConflict = ConflictResolutionType.REPLACE)
     String THE_MOVIE_DB_ID = "the_movie_db_id";
-
     @DataType(TEXT) @NotNull
     String ORIGINAL_TITLE = "original_title";
 

@@ -33,7 +33,8 @@ public class Movie implements Parcelable {
     private double voteAverage;
     private int karma;
     private int likeStatus;
-
+    private boolean isFavorited;
+    private boolean isInWatchlist;
 
     public Movie(){}
 
@@ -200,6 +201,22 @@ public class Movie implements Parcelable {
         this.likeStatus = likeStatus;
     }
 
+    public boolean isFavorite() {
+        return isFavorited;
+    }
+
+    public void setFavorite(boolean favorited) {
+        isFavorited = favorited;
+    }
+
+    public boolean isInWatchlist() {
+        return isInWatchlist;
+    }
+
+    public void setInWatchlist(boolean inWatchlist) {
+        isInWatchlist = inWatchlist;
+    }
+
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Map<String, Object> getAdditionalProperties() {
@@ -244,7 +261,6 @@ public class Movie implements Parcelable {
     @Exclude
     public Map<String, Object> toMovieAdvicesMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("id", id);
         result.put("originalTitle", originalTitle);
         result.put("posterPath", posterPath);
         result.put("karma", karma);

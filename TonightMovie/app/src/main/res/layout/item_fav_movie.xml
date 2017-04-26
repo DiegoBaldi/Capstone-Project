@@ -15,7 +15,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:viewAspectRatio="0.66"
-            app:placeholderImage="@color/colorAccent"
+            app:failureImage="@drawable/ic_no_image"
+            app:failureImageScaleType="centerInside"
+            app:placeholderImage="@color/background"
+            app:actualImageScaleType="centerCrop"
+            android:contentDescription="@{movieViewModel.title}"
             app:actualImageUrl="@{movieViewModel.posterPath}"/>
 
         <TextView
@@ -25,8 +29,8 @@
             android:padding="4dp"
             android:background="#aaffffff"
             android:gravity="center"
-            android:text="@{movieViewModel.postTitle}"
-            android:textSize="11sp"
+            android:text="@{movieViewModel.title}"
+            android:textSize="12sp"
             tools:text="Moonlight"/>
     </FrameLayout>
 </layout>

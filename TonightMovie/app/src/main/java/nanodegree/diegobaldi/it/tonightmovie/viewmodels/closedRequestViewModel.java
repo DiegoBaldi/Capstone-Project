@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.view.View;
 
 import nanodegree.diegobaldi.it.tonightmovie.models.MovieRequest;
+import nanodegree.diegobaldi.it.tonightmovie.models.User;
+import nanodegree.diegobaldi.it.tonightmovie.views.ProfileActivity;
 import nanodegree.diegobaldi.it.tonightmovie.views.RequestActivity;
 
 /**
@@ -33,6 +35,14 @@ public class ClosedRequestViewModel extends BaseObservable {
 
     public String getRequesterName(){
         return request.getAuthor().getDisplayName();
+    }
+
+    public String getAcceptedMovieName(){
+        return request.getAcceptedAdvice().getMovie().getOriginalTitle();
+    }
+
+    public String getMovieName(){
+        return request.getMovie().getOriginalTitle();
     }
 
     public Uri getAdvisorImage(){
@@ -66,7 +76,7 @@ public class ClosedRequestViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchRequestDetailsActivity();
+                launchProfileActivity(request.getAuthor());
             }
         };
     }
@@ -75,8 +85,14 @@ public class ClosedRequestViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchRequestDetailsActivity();
+                launchProfileActivity(request.getAcceptedAdvice().getAuthor());
             }
         };
+    }
+
+    private void launchProfileActivity(User profile) {
+        Intent intent = new Intent(context, ProfileActivity.class);
+        intent.putExtra("profile", profile);
+        context.startActivity(intent);
     }
 }

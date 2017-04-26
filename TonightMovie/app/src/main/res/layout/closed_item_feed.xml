@@ -23,7 +23,8 @@
             <LinearLayout
                 android:orientation="horizontal" android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:gravity="center"
+                android:baselineAligned="false">
 
                 <FrameLayout
                     android:layout_width="0dp"
@@ -35,7 +36,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:viewAspectRatio="0.66"
-                        app:placeholderImage="@color/colorAccent"
+                        app:placeholderImage="@color/background"
+                        app:failureImage="@color/colorAccent"
+                        app:failureImageScaleType="centerInside"
+                        android:contentDescription="@{movieRequestViewModel.movieName}"
                         app:actualImageUrl="@{movieRequestViewModel.posterPath}"/>
 
                     <LinearLayout
@@ -52,7 +56,10 @@
                             android:id="@+id/requester_user_photo"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            app:placeholderImage="@color/colorAccent"
+                            app:failureImage="@drawable/profile_placeholder"
+                            app:failureImageScaleType="centerCrop"
+                            app:placeholderImage="@drawable/poster_placeholder_gradient"
+                            android:contentDescription="@{movieRequestViewModel.requesterName}"
                             app:roundAsCircle="true"
                             app:actualImageUrl="@{movieRequestViewModel.requesterImage}"/>
 
@@ -81,7 +88,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:viewAspectRatio="0.66"
-                        app:placeholderImage="@color/colorAccent"
+                        app:failureImage="@drawable/ic_no_image"
+                        app:failureImageScaleType="centerInside"
+                        app:placeholderImage="@color/background"
+                        android:contentDescription="@{movieRequestViewModel.acceptedMovieName}"
                         app:actualImageUrl="@{movieRequestViewModel.acceptedPosterPath}"/>
 
                     <LinearLayout
@@ -99,8 +109,11 @@
                             android:id="@+id/advice_user_photo"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
-                            app:placeholderImage="@color/colorAccent"
+                            app:failureImage="@drawable/profile_placeholder"
+                            app:failureImageScaleType="centerCrop"
+                            app:placeholderImage="@drawable/poster_placeholder_gradient"
                             app:roundAsCircle="true"
+                            android:contentDescription="@{movieRequestViewModel.advisorName}"
                             app:actualImageUrl="@{movieRequestViewModel.advisorImage}"/>
 
                         <TextView
@@ -123,6 +136,7 @@
                 android:layout_height="30dp"
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:src="@drawable/ic_check_circle_black_24dp"
+                android:contentDescription="@string/closed_request"
                 android:layout_gravity="center"/>
 
         </FrameLayout>

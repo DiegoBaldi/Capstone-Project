@@ -4,11 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
-import android.databinding.BindingAdapter;
 import android.net.Uri;
 import android.view.View;
-
-import com.facebook.drawee.view.SimpleDraweeView;
 
 import nanodegree.diegobaldi.it.tonightmovie.models.Movie;
 import nanodegree.diegobaldi.it.tonightmovie.models.MovieRequest;
@@ -44,7 +41,7 @@ public class SearchMovieViewModel extends BaseObservable {
 
 
 
-    public String getPostTitle() {
+    public String getTitle() {
         if(isFavList)
             return movie.getOriginalTitle();
         else
@@ -53,11 +50,6 @@ public class SearchMovieViewModel extends BaseObservable {
 
     public Uri getPosterPath() {
         return Uri.parse("https://image.tmdb.org/t/p/w500"+movie.getPosterPath());
-    }
-
-    @BindingAdapter("app:actualImageUrl")
-    public static void loadImage(SimpleDraweeView imageView, Uri url) {
-        imageView.setImageURI(url);
     }
 
     public View.OnClickListener onClick() {
