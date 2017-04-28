@@ -318,7 +318,10 @@ public class SettingsActivity extends AppCompatActivity {
                             if (downloadUrl != null) {
                                 changedUser = new User(firebaseUser.getUid(), displayName, downloadUrl.toString());
                             } else {
-                                changedUser = new User(firebaseUser.getUid(), displayName, firebaseUser.getPhotoUrl().toString());
+                                if(firebaseUser.getPhotoUrl()!=null)
+                                    changedUser = new User(firebaseUser.getUid(), displayName, firebaseUser.getPhotoUrl().toString());
+                                else
+                                    changedUser = new User(firebaseUser.getUid(), displayName, firebaseUser.getEmail());
 
                             }
                             changedUser.setBio(bio);

@@ -38,9 +38,16 @@ public class UserSettingsViewModel extends BaseObservable {
     }
 
     public Uri getPhotoUrl() {
-        if (user != null)
-            return Uri.parse(user.getPhotoURL());
-        else
-            return Uri.parse(TonightMovieApp.getUser().getPhotoURL());
+        if (user != null) {
+            if (user.getPhotoURL() != null)
+                return Uri.parse(user.getPhotoURL());
+            else
+                return Uri.parse("");
+        } else {
+            if (TonightMovieApp.getUser() != null && TonightMovieApp.getUser().getPhotoURL() != null)
+                return Uri.parse(TonightMovieApp.getUser().getPhotoURL());
+            else
+                return Uri.parse("");
+        }
     }
 }

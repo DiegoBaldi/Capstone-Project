@@ -30,7 +30,10 @@ public class ClosedRequestViewModel extends BaseObservable {
     }
 
     public Uri getRequesterImage() {
-        return Uri.parse(request.getAuthor().getPhotoURL());
+        if(request.getAuthor()!= null && request.getAuthor().getPhotoURL()!=null)
+            return Uri.parse(request.getAuthor().getPhotoURL());
+        else
+            return Uri.parse("");
     }
 
     public String getRequesterName() {
@@ -46,7 +49,10 @@ public class ClosedRequestViewModel extends BaseObservable {
     }
 
     public Uri getAdvisorImage() {
-        return Uri.parse(request.getAcceptedAdvice().getAuthor().getPhotoURL());
+        if(request.getAcceptedAdvice()!=null && request.getAcceptedAdvice().getAuthor()!=null && request.getAcceptedAdvice().getAuthor().getPhotoURL()!=null)
+            return Uri.parse(request.getAcceptedAdvice().getAuthor().getPhotoURL());
+        else
+            return Uri.parse("");
     }
 
     public String getAdvisorName() {

@@ -62,7 +62,10 @@ public class PendingRequestViewModel extends BaseObservable {
     }
 
     public Uri getAuthorImage() {
-        return Uri.parse(request.getAuthor().getPhotoURL());
+        if(request.getAuthor()!=null && request.getAuthor().getPhotoURL()!=null)
+            return Uri.parse(request.getAuthor().getPhotoURL());
+        else
+            return Uri.parse("");
     }
 
     public String getAuthorName() {

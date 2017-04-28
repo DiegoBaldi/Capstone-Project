@@ -77,7 +77,7 @@ public class AdviceViewModel extends BaseObservable {
     }
 
     public Uri getAuthorImage() {
-        if (advice.getAuthor().getPhotoURL() != null && advice.getAuthor().getPhotoURL() != null)
+        if (advice.getAuthor() != null && advice.getAuthor().getPhotoURL() != null)
             return Uri.parse(advice.getAuthor().getPhotoURL());
         else {
             return Uri.parse("customProfile");

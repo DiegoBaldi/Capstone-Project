@@ -19,7 +19,10 @@ public class ProfileDetailsViewModel extends BaseObservable {
     }
 
     public Uri getImage() {
-        return Uri.parse(profile.getPhotoURL());
+        if(profile.getPhotoURL()!=null)
+            return Uri.parse(profile.getPhotoURL());
+        else
+            return Uri.parse("");
     }
 
     public String getName() {
