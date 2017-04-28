@@ -2,9 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <variable name="newAdviceViewModel" type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.NewAdviceViewModel"/>
+
+        <variable
+            name="newAdviceViewModel"
+            type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.NewAdviceViewModel" />
     </data>
+
     <FrameLayout
         android:id="@+id/content_new_advice"
         android:layout_width="match_parent"
@@ -36,13 +41,13 @@
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
                         app:lottie_loop="false"
                         app:lottie_autoPlay="true"
-                        android:layout_gravity="center_horizontal"/>
+                        android:layout_gravity="center_horizontal" />
 
                     <TextView
                         android:id="@+id/feedback"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"/>
+                        android:gravity="center" />
 
                     <Button
                         android:id="@+id/back_button"
@@ -53,7 +58,7 @@
                         android:background="@color/colorAccent"
                         android:textColor="@android:color/white"
                         android:text="@string/go_back"
-                        android:onClick="@{newAdviceViewModel.goBack()}"/>
+                        android:onClick="@{newAdviceViewModel.goBack()}" />
 
                 </LinearLayout>
 
@@ -87,7 +92,7 @@
                         app:failureImage="@drawable/ic_no_image"
                         app:failureImageScaleType="centerInside"
                         android:contentDescription="@{newAdviceViewModel.movieName}"
-                        app:actualImageUrl="@{newAdviceViewModel.posterPath}"/>
+                        app:actualImageUrl="@{newAdviceViewModel.posterPath}" />
 
                     <Button
                         android:id="@+id/send_button"
@@ -98,18 +103,13 @@
                         android:background="@color/colorAccent"
                         android:textColor="@android:color/white"
                         android:text="@string/send"
-                        android:onClick="@{newAdviceViewModel.onClick()}"/>
+                        android:onClick="@{newAdviceViewModel.onClick()}" />
 
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
         </FrameLayout>
-
-
-
-
-
 
 
     </FrameLayout>

@@ -33,7 +33,7 @@ public class NewAdviceActivityFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      * @param request Parameter 1.
-     * @param advice Parameter 2.
+     * @param advice  Parameter 2.
      * @return A new instance of fragment MovieAdvicesFragment.
      */
     public static NewAdviceActivityFragment newInstance(MovieRequest request, Advice advice) {

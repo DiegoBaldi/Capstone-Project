@@ -19,28 +19,29 @@ public class RequestDetailsViewModel extends BaseObservable {
     private Context context;
     private MovieRequest request;
 
-    public RequestDetailsViewModel(Context context, MovieRequest request) {        this.context = context;
+    public RequestDetailsViewModel(Context context, MovieRequest request) {
+        this.context = context;
         this.request = request;
     }
 
 
     public Uri getPosterPath() {
-        return Uri.parse("https://image.tmdb.org/t/p/w500"+ request.getMovie().getPosterPath());
+        return Uri.parse("https://image.tmdb.org/t/p/w500" + request.getMovie().getPosterPath());
     }
 
     public Uri getAuthorImage() {
         return Uri.parse(request.getAuthor().getPhotoURL());
     }
 
-    public String getAuthorName(){
+    public String getAuthorName() {
         return request.getAuthor().getDisplayName();
     }
 
-    public String getMovieName(){
+    public String getMovieName() {
         return request.getMovie().getOriginalTitle();
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return request.getDescription();
     }
 

@@ -38,7 +38,7 @@ public class PointService extends IntentService {
         String type = intent.getStringExtra("type");
         final String genre = intent.getStringExtra("genre");
         int tempVar = 0;
-        switch (type){
+        switch (type) {
             case "upVote":
                 tempVar++;
                 break;

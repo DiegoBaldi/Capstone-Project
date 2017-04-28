@@ -152,7 +152,6 @@ public class AdviceViewModel extends BaseObservable {
     }
 
 
-
     private void changeKarma(boolean upvote, int karma, int oldLikeStatus, int newLikeStatus, String type) {
         advice.setKarma(karma);
         notifyPropertyChanged(BR.karma);
@@ -176,7 +175,7 @@ public class AdviceViewModel extends BaseObservable {
     }
 
     private void changeRequestAdviceKarma(boolean isUpvote, final int likeStatus) {
-        if(isUpvote){
+        if (isUpvote) {
             FirebaseUtil.getRequestAdvicesRef().child(requestId).child(advice.getId()).runTransaction(new Transaction.Handler() {
                 @Override
                 public Transaction.Result doTransaction(MutableData mutableData) {
@@ -214,8 +213,7 @@ public class AdviceViewModel extends BaseObservable {
                     Log.d(LOG_TAG, "adviceTransaction:onComplete:" + databaseError);
                 }
             });
-        }
-        else {
+        } else {
             FirebaseUtil.getRequestAdvicesRef().child(requestId).child(advice.getId()).runTransaction(new Transaction.Handler() {
                 @Override
                 public Transaction.Result doTransaction(MutableData mutableData) {
@@ -255,7 +253,7 @@ public class AdviceViewModel extends BaseObservable {
     }
 
     private void changeMovieAdviceKarma(boolean isUpvote, final int likeStatus) {
-        if(isUpvote){
+        if (isUpvote) {
             FirebaseUtil.getMovieAdvicesRef(requestMovieId).child(String.valueOf(advice.getMovie().getId())).runTransaction(new Transaction.Handler() {
                 @Override
                 public Transaction.Result doTransaction(MutableData mutableData) {
@@ -291,8 +289,7 @@ public class AdviceViewModel extends BaseObservable {
                     Log.d(LOG_TAG, "adviceTransaction:onComplete:" + databaseError);
                 }
             });
-        }
-        else {
+        } else {
             FirebaseUtil.getMovieAdvicesRef(requestMovieId).child(String.valueOf(advice.getMovie().getId())).runTransaction(new Transaction.Handler() {
                 @Override
                 public Transaction.Result doTransaction(MutableData mutableData) {
@@ -390,11 +387,10 @@ public class AdviceViewModel extends BaseObservable {
         advice.setTheAnswer(isTheAnswer);
         advice.setTheAnswer(isTheAnswer);
         notifyPropertyChanged(BR.isTheAnswer);
-        if(isTheAnswer){
+        if (isTheAnswer) {
             FirebaseUtil.getUserRequestAdvicesRef().child(requestId).child(advice.getId()).child("isAccepted").setValue(true);
             updateAuthorExperience(advice.getAuthor().getId(), "accepted");
-        }
-        else {
+        } else {
             FirebaseUtil.getUserRequestAdvicesRef().child(requestId).child(advice.getId()).child("isAccepted").setValue(false);
             updateAuthorExperience(advice.getAuthor().getId(), "notAccepted");
         }

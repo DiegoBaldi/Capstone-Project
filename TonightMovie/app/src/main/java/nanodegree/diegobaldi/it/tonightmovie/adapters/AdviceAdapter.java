@@ -36,7 +36,7 @@ public class AdviceAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHold
         mRequestMovieId = requestMovieId;
     }
 
-    public void setRequestAdviceVariables(boolean isAuthor, String requestId, String genre){
+    public void setRequestAdviceVariables(boolean isAuthor, String requestId, String genre) {
         mIsAuthor = isAuthor;
         mRequestId = requestId;
         mGenre = genre;
@@ -44,7 +44,7 @@ public class AdviceAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(mIsMovieAdvices){
+        if (mIsMovieAdvices) {
             ItemMovieAdviceBinding itemMovieAdviceBinding = DataBindingUtil.inflate(
                     LayoutInflater.from(parent.getContext()),
                     R.layout.item_movie_advice,
@@ -64,13 +64,13 @@ public class AdviceAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(mIsMovieAdvices){
+        if (mIsMovieAdvices) {
             ItemMovieAdviceBinding itemMovieAdviceBinding = ((MovieAdviceBindingHolder) holder).binding;
-            itemMovieAdviceBinding.setMovieAdviceViewModel(new MovieAdviceViewModel(mContext,(Movie) mAdvices.get(position), mRequestMovieId));
+            itemMovieAdviceBinding.setMovieAdviceViewModel(new MovieAdviceViewModel(mContext, (Movie) mAdvices.get(position), mRequestMovieId));
             itemMovieAdviceBinding.executePendingBindings();
         } else {
             ItemAdviceBinding itemAdviceBinding = ((RequestAdviceBindingHolder) holder).binding;
-            itemAdviceBinding.setAdviceViewModel(new AdviceViewModel(mContext,(Advice) mAdvices.get(position), mIsAuthor, mRequestId, mRequestMovieId, mGenre));
+            itemAdviceBinding.setAdviceViewModel(new AdviceViewModel(mContext, (Advice) mAdvices.get(position), mIsAuthor, mRequestId, mRequestMovieId, mGenre));
             itemAdviceBinding.executePendingBindings();
         }
     }
@@ -93,7 +93,7 @@ public class AdviceAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if(mIsMovieAdvices){
+        if (mIsMovieAdvices) {
             return 0;
         } else
             return 1;

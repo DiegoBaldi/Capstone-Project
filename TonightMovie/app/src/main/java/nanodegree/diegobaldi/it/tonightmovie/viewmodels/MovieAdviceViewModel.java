@@ -71,23 +71,23 @@ public class MovieAdviceViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            int karma = movie.getKarma();
-            int newLikeStatus = 0;
-            int oldLikeStatus = movie.getLikeStatus();
-            switch (oldLikeStatus) {
-                case 0:
-                    karma = karma - 1;
-                    newLikeStatus = 2;
-                    break;
-                case 1:
-                    karma = karma - 2;
-                    newLikeStatus = 2;
-                    break;
-                case 2:
-                    karma = karma + 1;
-                    newLikeStatus = 0;
-            }
-            changeKarma(false, karma, oldLikeStatus, newLikeStatus);
+                int karma = movie.getKarma();
+                int newLikeStatus = 0;
+                int oldLikeStatus = movie.getLikeStatus();
+                switch (oldLikeStatus) {
+                    case 0:
+                        karma = karma - 1;
+                        newLikeStatus = 2;
+                        break;
+                    case 1:
+                        karma = karma - 2;
+                        newLikeStatus = 2;
+                        break;
+                    case 2:
+                        karma = karma + 1;
+                        newLikeStatus = 0;
+                }
+                changeKarma(false, karma, oldLikeStatus, newLikeStatus);
             }
         };
     }
@@ -96,28 +96,27 @@ public class MovieAdviceViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            int karma = movie.getKarma();
-            int newLikeStatus = 0;
-            int oldLikeStatus = movie.getLikeStatus();
-            switch (oldLikeStatus) {
-                case 0:
-                    karma = karma + 1;
-                    newLikeStatus = 1;
-                    break;
-                case 1:
-                    karma = karma - 1;
-                    newLikeStatus = 0;
-                    break;
-                case 2:
-                    karma = karma + 2;
-                    newLikeStatus = 1;
-                    break;
-            }
-            changeKarma(true, karma, oldLikeStatus, newLikeStatus);
+                int karma = movie.getKarma();
+                int newLikeStatus = 0;
+                int oldLikeStatus = movie.getLikeStatus();
+                switch (oldLikeStatus) {
+                    case 0:
+                        karma = karma + 1;
+                        newLikeStatus = 1;
+                        break;
+                    case 1:
+                        karma = karma - 1;
+                        newLikeStatus = 0;
+                        break;
+                    case 2:
+                        karma = karma + 2;
+                        newLikeStatus = 1;
+                        break;
+                }
+                changeKarma(true, karma, oldLikeStatus, newLikeStatus);
             }
         };
     }
-
 
 
     private void changeKarma(boolean upvote, int karma, int oldLikeStatus, int newLikeStatus) {
@@ -135,7 +134,7 @@ public class MovieAdviceViewModel extends BaseObservable {
 
 
     private void changeMovieAdviceKarma(boolean isUpvote, final int likeStatus) {
-        if(isUpvote){
+        if (isUpvote) {
             FirebaseUtil.getMovieAdvicesRef(requestMovieId).child(String.valueOf(movie.getId())).runTransaction(new Transaction.Handler() {
                 @Override
                 public Transaction.Result doTransaction(MutableData mutableData) {
@@ -171,8 +170,7 @@ public class MovieAdviceViewModel extends BaseObservable {
                     Log.d(LOG_TAG, "adviceTransaction:onComplete:" + databaseError);
                 }
             });
-        }
-        else {
+        } else {
             FirebaseUtil.getMovieAdvicesRef(requestMovieId).child(String.valueOf(movie.getId())).runTransaction(new Transaction.Handler() {
                 @Override
                 public Transaction.Result doTransaction(MutableData mutableData) {

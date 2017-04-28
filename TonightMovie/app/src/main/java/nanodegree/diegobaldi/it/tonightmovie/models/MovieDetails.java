@@ -312,7 +312,7 @@ public class MovieDetails implements Parcelable {
         this.reviewsResult = reviews;
     }
 
-    public List<Review> getReviews(){
+    public List<Review> getReviews() {
         return reviewsResult.getResults();
     }
 
@@ -324,7 +324,7 @@ public class MovieDetails implements Parcelable {
         this.videosResult = videos;
     }
 
-    public List<Video> getVideos(){
+    public List<Video> getVideos() {
         return videosResult.getResults();
     }
 

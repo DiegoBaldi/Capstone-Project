@@ -22,6 +22,6 @@
         android:textStyle="bold"
         android:text="@string/empty_view_text"
         android:textSize="20sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </FrameLayout>

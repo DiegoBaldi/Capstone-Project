@@ -39,7 +39,6 @@ public class RequestActivity extends BaseActivity {
     private MovieRequest mRequest;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +55,7 @@ public class RequestActivity extends BaseActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         Intent intent = getIntent();
-        if(intent.hasExtra("request")){
+        if (intent.hasExtra("request")) {
             mRequest = intent.getParcelableExtra("request");
         }
         mFab = (FloatingActionButton) findViewById(R.id.new_advice);
@@ -133,13 +132,16 @@ public class RequestActivity extends BaseActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             boolean isAuthor = false;
-            if(mRequest.getAuthor().getId().equalsIgnoreCase(TonightMovieApp.getUser().getId()))
+            if (mRequest.getAuthor().getId().equalsIgnoreCase(TonightMovieApp.getUser().getId()))
                 isAuthor = true;
 
-            switch(position){
-                case 0: return RequestDetailsFragment.newInstance(mRequest);
-                case 1: return RequestAdvicesFragment.newInstance(mRequest.getId(), isAuthor, mRequest.getMovie().getId(), mRequest.getGenre());
-                default: return RequestDetailsFragment.newInstance(mRequest);
+            switch (position) {
+                case 0:
+                    return RequestDetailsFragment.newInstance(mRequest);
+                case 1:
+                    return RequestAdvicesFragment.newInstance(mRequest.getId(), isAuthor, mRequest.getMovie().getId(), mRequest.getGenre());
+                default:
+                    return RequestDetailsFragment.newInstance(mRequest);
             }
         }
 

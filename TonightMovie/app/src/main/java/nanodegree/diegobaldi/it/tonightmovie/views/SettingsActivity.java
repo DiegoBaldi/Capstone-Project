@@ -78,9 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
     private boolean notifications;
 
 
-
     private ProgressDialog updateDialog;
-
 
 
     @Override
@@ -89,12 +87,12 @@ public class SettingsActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_settings);
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         notifications = settings.getBoolean("notifications", true);
-        if(savedInstanceState==null)
+        if (savedInstanceState == null)
             binding.setUser(new UserSettingsViewModel(TonightMovieApp.getUser(), this, notifications));
         else {
             User user = TonightMovieApp.getUser();
             user.setDisplayName(savedInstanceState.getString(BUNDLE_DISPLAY_NAME));
-            if(savedInstanceState.containsKey(BUNDLE_BIO))
+            if (savedInstanceState.containsKey(BUNDLE_BIO))
                 user.setBio(savedInstanceState.getString(BUNDLE_BIO));
             binding.setUser(new UserSettingsViewModel(user, this, savedInstanceState.getBoolean(BUNDLE_NOTIFICATION)));
         }
@@ -111,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity {
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validate()){
+                if (validate()) {
                     updateProfile();
                 }
             }
@@ -121,7 +119,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(BUNDLE_DISPLAY_NAME, binding.nameInput.getText().toString());
-        if(binding.bioInput.getText()!=null)
+        if (binding.bioInput.getText() != null)
             outState.putString(BUNDLE_BIO, binding.bioInput.getText().toString());
         outState.putBoolean(BUNDLE_NOTIFICATION, binding.notificationSwitch.isChecked());
         super.onSaveInstanceState(outState);
@@ -158,14 +156,14 @@ public class SettingsActivity extends AppCompatActivity {
             public void onPermissionRationaleShouldBeShown(com.karumi.dexter.listener.PermissionRequest permission, PermissionToken token) {
                 super.onPermissionRationaleShouldBeShown(permission, token);
             }
-        },snackbarPermissionListener)).check();
+        }, snackbarPermissionListener)).check();
     }
 
     private void openImageIntent() {
         // Determine Uri of camera image to save.
         final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "Fixapp" + File.separator);
         root.mkdirs();
-        final String fname = "img_"+ System.currentTimeMillis() + ".jpg";
+        final String fname = "img_" + System.currentTimeMillis() + ".jpg";
         final File sdImageMainDirectory = new File(root, fname);
         outputFileUri = Uri.fromFile(sdImageMainDirectory);
 
@@ -174,7 +172,7 @@ public class SettingsActivity extends AppCompatActivity {
         final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         final PackageManager packageManager = getPackageManager();
         final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for(ResolveInfo res : listCam) {
+        for (ResolveInfo res : listCam) {
             final String packageName = res.activityInfo.packageName;
             final Intent intent = new Intent(captureIntent);
             intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
@@ -223,7 +221,7 @@ public class SettingsActivity extends AppCompatActivity {
                 Uri selectedImageUri;
                 final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "TonightMovie" + File.separator);
                 root.mkdirs();
-                final String fname = "img_"+ System.currentTimeMillis() + ".jpg";
+                final String fname = "img_" + System.currentTimeMillis() + ".jpg";
                 final File sdImageMainDirectory = new File(root, fname);
                 final Uri finalOutputFileUri = Uri.fromFile(sdImageMainDirectory);
                 if (isCamera) {
@@ -259,7 +257,7 @@ public class SettingsActivity extends AppCompatActivity {
         return valid;
     }
 
-    private void updateProfile(){
+    private void updateProfile() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("notifications", binding.notificationSwitch.isChecked());
@@ -273,11 +271,11 @@ public class SettingsActivity extends AppCompatActivity {
         // set title and message
         updateDialog.setMessage(getString(R.string.profile_updating));
         updateDialog.show();
-        if(resultUri!=null){
+        if (resultUri != null) {
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReferenceFromUrl("gs://tonightmovie-84e20.appspot.com").child("uploads/users");
             Uri file = resultUri;
-            StorageReference riversRef = storageRef.child(TonightMovieApp.getUser().getId()+"_"+file.getLastPathSegment());
+            StorageReference riversRef = storageRef.child(TonightMovieApp.getUser().getId() + "_" + file.getLastPathSegment());
             UploadTask uploadTask = riversRef.putFile(file);
             // Register observers to listen for when the download is done or if it fails
             uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -300,15 +298,15 @@ public class SettingsActivity extends AppCompatActivity {
                     updateUserObject();
                 }
             });
-        }
-        else{
+        } else {
             profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(binding.nameInput.getText().toString())
                     .build();
             updateUserObject();
         }
     }
-    private void updateUserObject(){
+
+    private void updateUserObject() {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseUser.updateProfile(profileUpdates)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -317,10 +315,9 @@ public class SettingsActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             String displayName = binding.nameInput.getText().toString();
                             String bio = binding.bioInput.getText().toString();
-                            if(downloadUrl!=null){
+                            if (downloadUrl != null) {
                                 changedUser = new User(firebaseUser.getUid(), displayName, downloadUrl.toString());
-                            }
-                            else{
+                            } else {
                                 changedUser = new User(firebaseUser.getUid(), displayName, firebaseUser.getPhotoUrl().toString());
 
                             }
@@ -328,7 +325,7 @@ public class SettingsActivity extends AppCompatActivity {
                             Map<String, Object> userValues = changedUser.toMap();
                             Map<String, Object> childUpdates = new HashMap<>();
                             childUpdates.put("/users/" + firebaseUser.getUid(), userValues);
-                            FirebaseDatabase.getInstance().getReference().updateChildren(childUpdates,new DatabaseReference.CompletionListener() {
+                            FirebaseDatabase.getInstance().getReference().updateChildren(childUpdates, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                                     if (databaseError != null) {
@@ -344,8 +341,7 @@ public class SettingsActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                        }
-                        else{
+                        } else {
                             updateDialog.dismiss();
                             Toast.makeText(SettingsActivity.this, R.string.profile_update_error, Toast.LENGTH_SHORT).show();
                         }

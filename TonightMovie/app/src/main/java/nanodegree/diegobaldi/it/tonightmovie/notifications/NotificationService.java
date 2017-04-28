@@ -32,11 +32,11 @@ public class NotificationService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        if(remoteMessage.getData()!=null && remoteMessage.getData().containsKey("title") && remoteMessage.getData().containsKey("message")
-                && remoteMessage.getData().containsKey("requestId")){
+        if (remoteMessage.getData() != null && remoteMessage.getData().containsKey("title") && remoteMessage.getData().containsKey("message")
+                && remoteMessage.getData().containsKey("requestId")) {
             SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
             boolean notifications = settings.getBoolean("notifications", true);
-            if(notifications)
+            if (notifications)
                 getRequestDetails(remoteMessage.getData().get("title"), remoteMessage.getData().get("message"), remoteMessage.getData().get("requestId"), this);
         }
     }
@@ -45,7 +45,7 @@ public class NotificationService extends FirebaseMessagingService {
         FirebaseUtil.getRequestRef().child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     MovieRequest request = dataSnapshot.getValue(MovieRequest.class);
                     request.setId(dataSnapshot.getKey());
                     NotificationCompat.Builder mBuilder =

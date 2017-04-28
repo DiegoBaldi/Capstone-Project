@@ -42,9 +42,9 @@ public class TonightMovieApp extends Application {
 
         Fresco.initialize(this);
 
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null && TonightMovieApp.getUser()==null){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null && TonightMovieApp.getUser() == null) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if(user.getPhotoUrl()!=null)
+            if (user.getPhotoUrl() != null)
                 setUser(new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString()));
             else
                 setUser(new User(user.getUid(), user.getDisplayName(), user.getEmail()));
@@ -60,7 +60,8 @@ public class TonightMovieApp extends Application {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
-    public static User getUser(){
+
+    public static User getUser() {
         return mUser;
     }
 
@@ -68,12 +69,12 @@ public class TonightMovieApp extends Application {
         mUser = null;
     }
 
-    public static void setUser(User user){
+    public static void setUser(User user) {
         mUser = user;
         getUserFromDB();
     }
 
-    public static Retrofit getRetrofit(){
+    public static Retrofit getRetrofit() {
         return mTheMovieDBRetrofit;
     }
 
@@ -81,10 +82,11 @@ public class TonightMovieApp extends Application {
         FirebaseUtil.getCurrentUserRef().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists()){
+                if (!dataSnapshot.exists()) {
                     saveUserToDb(TonightMovieApp.getUser());
                 } else {
                     mUser = dataSnapshot.getValue(User.class);
+                    mUser.setId(dataSnapshot.getKey());
                 }
             }
 
@@ -107,8 +109,6 @@ public class TonightMovieApp extends Application {
             }
         });
     }
-
-
 
 
 }

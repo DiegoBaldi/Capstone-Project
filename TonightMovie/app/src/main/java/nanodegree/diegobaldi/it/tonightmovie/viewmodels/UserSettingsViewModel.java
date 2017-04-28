@@ -33,14 +33,14 @@ public class UserSettingsViewModel extends BaseObservable {
         return user.getBio();
     }
 
-    public Boolean getNotifications(){
+    public Boolean getNotifications() {
         return notifications;
     }
 
-    public Uri getPhotoUrl(){
-        if(user!=null)
+    public Uri getPhotoUrl() {
+        if (user != null)
             return Uri.parse(user.getPhotoURL());
         else
-            return  Uri.parse(TonightMovieApp.getUser().getPhotoURL());
+            return Uri.parse(TonightMovieApp.getUser().getPhotoURL());
     }
 }

@@ -2,9 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="movieAdviceViewModel" type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.MovieAdviceViewModel"/>
+
+        <variable
+            name="movieAdviceViewModel"
+            type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.MovieAdviceViewModel" />
     </data>
+
     <LinearLayout
         android:id="@+id/advice_frame"
         android:orientation="vertical"
@@ -26,7 +31,7 @@
                 app:placeholderImage="@color/background"
                 app:actualImageScaleType="centerCrop"
                 android:contentDescription="@{movieAdviceViewModel.movieName}"
-                app:actualImageUrl="@{movieAdviceViewModel.posterPath}"/>
+                app:actualImageUrl="@{movieAdviceViewModel.posterPath}" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -35,7 +40,7 @@
                 android:padding="@dimen/short_padding"
                 tools:text="Advice's Karma: +100"
                 android:background="#aaffffff"
-                android:text="@{movieAdviceViewModel.karma}"/>
+                android:text="@{movieAdviceViewModel.karma}" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -47,7 +52,7 @@
                 android:layout_gravity="bottom"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="@{movieAdviceViewModel.movieName}"/>
+                android:text="@{movieAdviceViewModel.movieName}" />
 
         </FrameLayout>
 
@@ -66,7 +71,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_thumb_up_neutral"
                 android:contentDescription="@string/upvote_advice"
-                android:onClick="@{movieAdviceViewModel.onUpVote()}"/>
+                android:onClick="@{movieAdviceViewModel.onUpVote()}" />
 
             <ImageView
                 android:id="@+id/downvote"
@@ -75,7 +80,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_thumb_down_neutral"
                 android:contentDescription="@string/downvote_advice"
-                android:onClick="@{movieAdviceViewModel.onDownVote()}"/>
+                android:onClick="@{movieAdviceViewModel.onDownVote()}" />
 
         </LinearLayout>
 

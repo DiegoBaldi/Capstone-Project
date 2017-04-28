@@ -14,7 +14,7 @@ import nanodegree.diegobaldi.it.tonightmovie.util.FirebaseUtil;
  */
 
 public class NotificationInstanceIDService extends FirebaseInstanceIdService {
-    private static final String LOG_TAG = NotificationInstanceIDService.class.getSimpleName() ;
+    private static final String LOG_TAG = NotificationInstanceIDService.class.getSimpleName();
 
     @Override
     public void onTokenRefresh() {
@@ -25,7 +25,7 @@ public class NotificationInstanceIDService extends FirebaseInstanceIdService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-        if(TonightMovieApp.getUser()!=null){
+        if (TonightMovieApp.getUser() != null) {
             User user = TonightMovieApp.getUser();
             sendRegistrationToServer(refreshedToken, user.getId());
         }

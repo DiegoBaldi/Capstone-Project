@@ -32,7 +32,7 @@ import retrofit2.Response;
 public class SearchActivity extends Activity {
 
     private static final int POSTER_WIDTH = 160;
-    private static final String LOG_TAG = SearchActivity.class.getSimpleName() ;
+    private static final String LOG_TAG = SearchActivity.class.getSimpleName();
     private static final String BUNDLE_HERE_FOR_ADVICE = "isHereForAnAdvice";
     private static final String BUNDLE_MOVIES = "movies";
 
@@ -52,7 +52,7 @@ public class SearchActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        if(getIntent().hasExtra(BUNDLE_HERE_FOR_ADVICE)){
+        if (getIntent().hasExtra(BUNDLE_HERE_FOR_ADVICE)) {
             mIsHereForARequest = true;
         }
 
@@ -62,13 +62,12 @@ public class SearchActivity extends Activity {
         mSearchProgress = (ProgressBar) findViewById(R.id.search_progress);
         mEmptyResults = (TextView) findViewById(R.id.empty_search);
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             mIsHereForARequest = savedInstanceState.getBoolean(BUNDLE_HERE_FOR_ADVICE);
             mMovies = savedInstanceState.getParcelableArrayList(BUNDLE_MOVIES);
             mAdapter.setItems(mMovies);
             mIsFromSavedIstance = true;
-        }
-        else{
+        } else {
             mIsFromSavedIstance = false;
         }
 
@@ -83,13 +82,13 @@ public class SearchActivity extends Activity {
 
             public void afterTextChanged(Editable s) {
                 if (!s.toString().equals("")) {
-                    if(!mIsFromSavedIstance){
+                    if (!mIsFromSavedIstance) {
                         mHandler.removeCallbacks(mRunnable);
                         mHandler.postDelayed(mRunnable = createRunnable(s.toString()), 500);
                     }
-                } else if(s.toString().equals("")){
+                } else if (s.toString().equals("")) {
                     mHandler.removeCallbacks(mRunnable);
-                    if(mAdapter!=null){
+                    if (mAdapter != null) {
                         mMovies.clear();
                         mAdapter.notifyDataSetChanged();
                     }
@@ -100,10 +99,10 @@ public class SearchActivity extends Activity {
 
     }
 
-    private Runnable createRunnable(final String paramStr){
+    private Runnable createRunnable(final String paramStr) {
 
-        return new Runnable(){
-            public void run(){
+        return new Runnable() {
+            public void run() {
                 getMovies(paramStr);
             }
         };
@@ -111,7 +110,7 @@ public class SearchActivity extends Activity {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(BUNDLE_MOVIES, new ArrayList<>(mMovies));
         outState.putBoolean(BUNDLE_HERE_FOR_ADVICE, mIsHereForARequest);
         super.onSaveInstanceState(outState);
@@ -120,19 +119,19 @@ public class SearchActivity extends Activity {
     private void getMovies(String query) {
         TheMovieDBApiEndpointInterface theMovieDBService = TonightMovieApp.getRetrofit().create(TheMovieDBApiEndpointInterface.class);
         Locale defaultLocale = Locale.getDefault();
-        if(mSearchProgress.getVisibility()!= View.VISIBLE)
+        if (mSearchProgress.getVisibility() != View.VISIBLE)
             mSearchProgress.setVisibility(View.VISIBLE);
-        if(mEmptyResults.getVisibility()==View.VISIBLE)
+        if (mEmptyResults.getVisibility() == View.VISIBLE)
             mEmptyResults.setVisibility(View.GONE);
-        Call<ApiResult<Movie>> call= theMovieDBService.searchMovie(getString(R.string.the_movie_db_api_key), String.format(getString(R.string.iso_language), defaultLocale.getLanguage(), defaultLocale.getCountry()), query, 1);
+        Call<ApiResult<Movie>> call = theMovieDBService.searchMovie(getString(R.string.the_movie_db_api_key), String.format(getString(R.string.iso_language), defaultLocale.getLanguage(), defaultLocale.getCountry()), query, 1);
         call.enqueue(new Callback<ApiResult<Movie>>() {
             @Override
             public void onResponse(Call<ApiResult<Movie>> call, Response<ApiResult<Movie>> response) {
                 mSearchProgress.setVisibility(View.GONE);
-                if(response.code()==200) {
+                if (response.code() == 200) {
                     ApiResult<Movie> movieResult = response.body();
                     mMovies.clear();
-                    if(movieResult.getTotalResults()!=0) {
+                    if (movieResult.getTotalResults() != 0) {
                         mMovies = movieResult.getResults();
                         mAdapter.setItems(mMovies);
                     } else {
@@ -177,7 +176,7 @@ public class SearchActivity extends Activity {
 //        } else{
 //            maxElements = (int) Math.floor((metrics.widthPixels/metrics.density)/POSTER_WIDTH);
 //        }
-        maxElements = (int) Math.floor((metrics.widthPixels/metrics.density)/POSTER_WIDTH);
+        maxElements = (int) Math.floor((metrics.widthPixels / metrics.density) / POSTER_WIDTH);
         return maxElements;
     }
 }

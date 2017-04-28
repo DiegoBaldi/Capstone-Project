@@ -1,8 +1,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <variable name="profileDetailsViewModel" type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.ProfileDetailsViewModel"/>
+
+        <variable
+            name="profileDetailsViewModel"
+            type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.ProfileDetailsViewModel" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -59,7 +63,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/activity_vertical_margin"
                             android:gravity="center"
-                            android:text="@{profileDetailsViewModel.name}"/>
+                            android:text="@{profileDetailsViewModel.name}" />
 
                     </LinearLayout>
 
@@ -78,13 +82,13 @@
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:layout_marginTop="@dimen/activity_vertical_margin"
-                            android:text="@string/bio"/>
+                            android:text="@string/bio" />
 
                         <View
                             android:layout_width="@dimen/accent_divider_width"
                             android:layout_height="1dp"
                             android:background="@color/colorAccent"
-                            android:layout_marginTop="@dimen/activity_vertical_margin"/>
+                            android:layout_marginTop="@dimen/activity_vertical_margin" />
 
                         <TextView
                             android:id="@+id/bio"
@@ -95,8 +99,7 @@
                             android:layout_marginLeft="@dimen/activity_horizontal_margin"
                             android:layout_marginRight="@dimen/activity_horizontal_margin"
                             android:gravity="center_horizontal"
-                            android:text="@{profileDetailsViewModel.bio}">
-                        </TextView>
+                            android:text="@{profileDetailsViewModel.bio}"></TextView>
 
                     </LinearLayout>
 
@@ -123,13 +126,13 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:text="@string/levels"/>
+                        android:text="@string/levels" />
 
                     <View
                         android:layout_width="@dimen/accent_divider_width"
                         android:layout_height="1dp"
                         android:background="@color/colorAccent"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+                        android:layout_marginTop="@dimen/activity_vertical_margin" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -142,14 +145,15 @@
                             android:layout_weight="3"
                             android:textStyle="bold"
                             android:padding="@dimen/activity_vertical_margin"
-                            android:text="@string/movie_master"/>
+                            android:text="@string/movie_master" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{profileDetailsViewModel.previousMovieMasterLvl}"/>
+                            android:text="@{profileDetailsViewModel.previousMovieMasterLvl}" />
 
-                        <ProgressBar android:id="@+id/movie_master_progressBar"
+                        <ProgressBar
+                            android:id="@+id/movie_master_progressBar"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
@@ -159,13 +163,13 @@
                             android:progress="@{profileDetailsViewModel.movieMasterLvl}"
                             android:paddingLeft="@dimen/activity_vertical_margin"
                             android:paddingRight="@dimen/activity_vertical_margin"
-                            style="?android:attr/progressBarStyleHorizontal"/>
+                            style="?android:attr/progressBarStyleHorizontal" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/activity_vertical_margin"
-                            android:text="@{profileDetailsViewModel.nextMovieMasterLvl}"/>
+                            android:text="@{profileDetailsViewModel.nextMovieMasterLvl}" />
 
                     </LinearLayout>
 
@@ -179,14 +183,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:padding="@dimen/activity_vertical_margin"
-                            android:text="@string/reckless"/>
+                            android:text="@string/reckless" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{profileDetailsViewModel.previousRecklessLvl}"/>
+                            android:text="@{profileDetailsViewModel.previousRecklessLvl}" />
 
-                        <ProgressBar android:id="@+id/reckless_progressBar"
+                        <ProgressBar
+                            android:id="@+id/reckless_progressBar"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
@@ -196,13 +201,13 @@
                             android:progress="@{profileDetailsViewModel.recklessLvl}"
                             android:paddingLeft="@dimen/activity_vertical_margin"
                             android:paddingRight="@dimen/activity_vertical_margin"
-                            style="?android:attr/progressBarStyleHorizontal"/>
+                            style="?android:attr/progressBarStyleHorizontal" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/activity_vertical_margin"
-                            android:text="@{profileDetailsViewModel.nextRecklessLvl}"/>
+                            android:text="@{profileDetailsViewModel.nextRecklessLvl}" />
 
                     </LinearLayout>
 
@@ -216,14 +221,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:padding="@dimen/activity_vertical_margin"
-                            android:text="@string/empathic"/>
+                            android:text="@string/empathic" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{profileDetailsViewModel.previousEmpathicLvl}"/>
+                            android:text="@{profileDetailsViewModel.previousEmpathicLvl}" />
 
-                        <ProgressBar android:id="@+id/empathic_progressBar"
+                        <ProgressBar
+                            android:id="@+id/empathic_progressBar"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
@@ -233,13 +239,13 @@
                             android:progress="@{profileDetailsViewModel.empathicLvl}"
                             android:paddingLeft="@dimen/activity_vertical_margin"
                             android:paddingRight="@dimen/activity_vertical_margin"
-                            style="?android:attr/progressBarStyleHorizontal"/>
+                            style="?android:attr/progressBarStyleHorizontal" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/activity_vertical_margin"
-                            android:text="@{profileDetailsViewModel.nextEmpathicLvl}"/>
+                            android:text="@{profileDetailsViewModel.nextEmpathicLvl}" />
 
                     </LinearLayout>
 
@@ -253,14 +259,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:padding="@dimen/activity_vertical_margin"
-                            android:text="@string/hilarious"/>
+                            android:text="@string/hilarious" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{profileDetailsViewModel.previousHilariousLvl}"/>
+                            android:text="@{profileDetailsViewModel.previousHilariousLvl}" />
 
-                        <ProgressBar android:id="@+id/hilarious_progressBar"
+                        <ProgressBar
+                            android:id="@+id/hilarious_progressBar"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
@@ -270,13 +277,13 @@
                             android:progress="@{profileDetailsViewModel.hilariousLvl}"
                             android:paddingLeft="@dimen/activity_vertical_margin"
                             android:paddingRight="@dimen/activity_vertical_margin"
-                            style="?android:attr/progressBarStyleHorizontal"/>
+                            style="?android:attr/progressBarStyleHorizontal" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/activity_vertical_margin"
-                            android:text="@{profileDetailsViewModel.nextHilariousLvl}"/>
+                            android:text="@{profileDetailsViewModel.nextHilariousLvl}" />
 
                     </LinearLayout>
 
@@ -290,14 +297,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:padding="@dimen/activity_vertical_margin"
-                            android:text="@string/fearless"/>
+                            android:text="@string/fearless" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{profileDetailsViewModel.previousFearlessLvl}"/>
+                            android:text="@{profileDetailsViewModel.previousFearlessLvl}" />
 
-                        <ProgressBar android:id="@+id/fearless_progressBar"
+                        <ProgressBar
+                            android:id="@+id/fearless_progressBar"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:scaleY="2"
@@ -307,13 +315,13 @@
                             android:progress="@{profileDetailsViewModel.fearlessLvl}"
                             android:paddingLeft="@dimen/activity_vertical_margin"
                             android:paddingRight="@dimen/activity_vertical_margin"
-                            style="?android:attr/progressBarStyleHorizontal"/>
+                            style="?android:attr/progressBarStyleHorizontal" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/activity_vertical_margin"
-                            android:text="@{profileDetailsViewModel.nextFearlessLvl}"/>
+                            android:text="@{profileDetailsViewModel.nextFearlessLvl}" />
 
                     </LinearLayout>
 
@@ -327,14 +335,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:padding="@dimen/activity_vertical_margin"
-                            android:text="@string/nerd"/>
+                            android:text="@string/nerd" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{profileDetailsViewModel.previousNerdLvl}"/>
+                            android:text="@{profileDetailsViewModel.previousNerdLvl}" />
 
-                        <ProgressBar android:id="@+id/nerd_progressBar"
+                        <ProgressBar
+                            android:id="@+id/nerd_progressBar"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:scaleY="2"
@@ -344,13 +353,13 @@
                             android:progress="@{profileDetailsViewModel.nerdLvl}"
                             android:paddingLeft="@dimen/activity_vertical_margin"
                             android:paddingRight="@dimen/activity_vertical_margin"
-                            style="?android:attr/progressBarStyleHorizontal"/>
+                            style="?android:attr/progressBarStyleHorizontal" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/activity_vertical_margin"
-                            android:text="@{profileDetailsViewModel.nextNerdLvl}"/>
+                            android:text="@{profileDetailsViewModel.nextNerdLvl}" />
 
                     </LinearLayout>
 
@@ -364,14 +373,15 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:padding="@dimen/activity_vertical_margin"
-                            android:text="@string/overprotective"/>
+                            android:text="@string/overprotective" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{profileDetailsViewModel.previousOverprotectiveLvl}"/>
+                            android:text="@{profileDetailsViewModel.previousOverprotectiveLvl}" />
 
-                        <ProgressBar android:id="@+id/overprotective_progressBar"
+                        <ProgressBar
+                            android:id="@+id/overprotective_progressBar"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:scaleY="2"
@@ -381,13 +391,13 @@
                             android:progress="@{profileDetailsViewModel.overprotectiveLvl}"
                             android:paddingLeft="@dimen/activity_vertical_margin"
                             android:paddingRight="@dimen/activity_vertical_margin"
-                            style="?android:attr/progressBarStyleHorizontal"/>
+                            style="?android:attr/progressBarStyleHorizontal" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/activity_vertical_margin"
-                            android:text="@{profileDetailsViewModel.nextOverprotectiveLvl}"/>
+                            android:text="@{profileDetailsViewModel.nextOverprotectiveLvl}" />
 
                     </LinearLayout>
 

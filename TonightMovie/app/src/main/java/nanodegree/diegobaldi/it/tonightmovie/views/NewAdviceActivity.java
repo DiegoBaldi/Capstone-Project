@@ -21,7 +21,7 @@ public class NewAdviceActivity extends BaseActivity {
             // Create a new Fragment to be placed in the activity layout
             // Add the fragment to the 'fragment_container' FrameLayout
             Intent intent = getIntent();
-            if(intent.hasExtra("request") && intent.hasExtra("movie")){
+            if (intent.hasExtra("request") && intent.hasExtra("movie")) {
                 MovieRequest request = intent.getParcelableExtra("request");
                 Advice advice = new Advice();
                 advice.setMovie((Movie) intent.getParcelableExtra("movie"));

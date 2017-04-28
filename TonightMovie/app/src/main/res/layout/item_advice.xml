@@ -2,9 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="adviceViewModel" type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.AdviceViewModel"/>
+
+        <variable
+            name="adviceViewModel"
+            type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.AdviceViewModel" />
     </data>
+
     <LinearLayout
         android:id="@+id/advice_frame"
         android:orientation="vertical"
@@ -27,7 +32,7 @@
                 app:failureImageScaleType="centerInside"
                 app:placeholderImage="@color/background"
                 android:contentDescription="@{adviceViewModel.movieName}"
-                app:actualImageUrl="@{adviceViewModel.posterPath}"/>
+                app:actualImageUrl="@{adviceViewModel.posterPath}" />
 
             <LinearLayout
                 android:id="@+id/user_info"
@@ -48,7 +53,7 @@
                     app:placeholderImage="@drawable/poster_placeholder_gradient"
                     app:roundAsCircle="true"
                     android:contentDescription="@{adviceViewModel.authorName}"
-                    app:actualImageUrl="@{adviceViewModel.authorImage}"/>
+                    app:actualImageUrl="@{adviceViewModel.authorImage}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -63,7 +68,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         tools:text="Maria Rossi"
-                        android:text="@{adviceViewModel.authorName}"/>
+                        android:text="@{adviceViewModel.authorName}" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -71,7 +76,7 @@
                         android:layout_weight="1"
                         android:textSize="12sp"
                         tools:text="Advice's Karma: +100"
-                        android:text="@{adviceViewModel.karma}"/>
+                        android:text="@{adviceViewModel.karma}" />
 
                 </LinearLayout>
 
@@ -87,7 +92,7 @@
                 android:layout_gravity="bottom"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="@{adviceViewModel.movieName}"/>
+                android:text="@{adviceViewModel.movieName}" />
 
         </FrameLayout>
 
@@ -106,7 +111,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_thumb_up_neutral"
                 android:onClick="@{adviceViewModel.onUpVote()}"
-                android:contentDescription="@string/upvote_advice"/>
+                android:contentDescription="@string/upvote_advice" />
 
             <ImageView
                 android:id="@+id/downvote"
@@ -115,7 +120,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_thumb_down_neutral"
                 android:onClick="@{adviceViewModel.onDownVote()}"
-                android:contentDescription="@string/downvote_advice"/>
+                android:contentDescription="@string/downvote_advice" />
 
             <ImageView
                 android:layout_width="24dp"
@@ -125,7 +130,7 @@
                 android:onClick="@{adviceViewModel.onAcceptAdvice()}"
                 app:acceptedAdviceIcon="@{adviceViewModel.isTheAnswer}"
                 app:visibilityDependsOn="@{adviceViewModel.isRequester}"
-                android:contentDescription="@string/accept_advice"/>
+                android:contentDescription="@string/accept_advice" />
 
         </LinearLayout>
 

@@ -24,7 +24,6 @@ public class ProfileMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //    private ProfileMovieBindingHolder.AddToFavoritesOrWatchListClickInterface mClickListener;
 
 
-
     public ProfileMovieAdapter(Context context) {
         mContext = context;
         mMovies = new ArrayList<>();

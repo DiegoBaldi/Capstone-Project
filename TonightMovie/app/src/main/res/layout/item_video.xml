@@ -2,9 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="videoViewModel" type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.VideoViewModel"/>
+
+        <variable
+            name="videoViewModel"
+            type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.VideoViewModel" />
     </data>
+
     <LinearLayout
         android:id="@+id/video_frame"
         android:layout_width="wrap_content"
@@ -23,15 +28,14 @@
             app:failureImageScaleType="centerInside"
             app:placeholderImage="@color/background"
             android:contentDescription="@{videoViewModel.name}"
-            app:actualImageUrl="@{videoViewModel.thumb}"/>
+            app:actualImageUrl="@{videoViewModel.thumb}" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             tools:text="Mario Rossi"
-            android:text="@{videoViewModel.name}"
-            />
+            android:text="@{videoViewModel.name}" />
 
     </LinearLayout>
 

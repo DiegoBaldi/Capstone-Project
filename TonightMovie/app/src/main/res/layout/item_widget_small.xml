@@ -12,6 +12,6 @@
         android:id="@+id/movie_poster"
         android:layout_width="66dp"
         android:layout_height="100dp"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true" />
 
 </FrameLayout>

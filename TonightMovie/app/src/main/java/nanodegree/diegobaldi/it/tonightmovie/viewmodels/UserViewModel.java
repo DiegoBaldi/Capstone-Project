@@ -26,10 +26,17 @@ public class UserViewModel extends BaseObservable {
         return user.getEmail();
     }
 
-    public Uri getPhotoUrl(){
-        if(user!=null)
-            return Uri.parse(user.getPhotoURL());
-        else
-            return  Uri.parse(TonightMovieApp.getUser().getPhotoURL());
+    public Uri getPhotoUrl() {
+        if (user != null) {
+            if (user.getPhotoURL() != null)
+                return Uri.parse(user.getPhotoURL());
+            else
+                return Uri.parse("");
+        } else {
+            if (TonightMovieApp.getUser() != null && TonightMovieApp.getUser().getPhotoURL() != null)
+                return Uri.parse(TonightMovieApp.getUser().getPhotoURL());
+            else
+                return Uri.parse("");
+        }
     }
 }

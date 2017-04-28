@@ -26,14 +26,14 @@ public class FeedActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_feed);
         setToolbarTitle("Movie Master");
-        if(savedInstanceState==null){
+        if (savedInstanceState == null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             FeedActivityFragment fragment = FeedActivityFragment.newInstance("", getResources().getBoolean(R.bool.tablet));
             fragmentTransaction.replace(R.id.feed_fragment_container, fragment);
             fragmentTransaction.commit();
         }
-        if(FirebaseInstanceId.getInstance().getToken()!= null && TonightMovieApp.getUser() != null){
+        if (FirebaseInstanceId.getInstance().getToken() != null && TonightMovieApp.getUser() != null) {
             sendRegistrationToServer(FirebaseInstanceId.getInstance().getToken(), TonightMovieApp.getUser().getId());
         }
     }

@@ -72,8 +72,8 @@ public class RequestAdvicesFragment extends Fragment implements SwipeRefreshLayo
      * this fragment using the provided parameters.
      *
      * @param requestId Parameter 1.
-     * @param isAuthor Parameter 2.
-     * @param movieId Parameter 3.
+     * @param isAuthor  Parameter 2.
+     * @param movieId   Parameter 3.
      * @return A new instance of fragment MovieAdvicesFragment.
      */
     public static RequestAdvicesFragment newInstance(String requestId, boolean isAuthor, int movieId, String genre) {
@@ -116,22 +116,21 @@ public class RequestAdvicesFragment extends Fragment implements SwipeRefreshLayo
         recyclerView.setAdapter(mAdapter);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), getSpanSize());
         recyclerView.setLayoutManager(mLayoutManager);
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             mAdvices = savedInstanceState.getParcelableArrayList(BUNDLE_ADVICES);
             mMovieId = savedInstanceState.getInt(BUNDLE_MOVIE_ID);
             mCount = savedInstanceState.getLong(BUNDLE_ADVICES_COUNT);
             mRequestAdviceTaken = savedInstanceState.getLong(BUNDLE_ADVICES_TAKEN);
             mRequestId = savedInstanceState.getString(BUNDLE_REQUEST_ID);
             mAdapter.setItems(mAdvices);
-        }
-        else{
+        } else {
             getAdvices(mRequestId);
         }
         return rootView;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(BUNDLE_ADVICES, new ArrayList<>(mAdvices));
         outState.putLong(BUNDLE_ADVICES_COUNT, mCount);
         outState.putLong(BUNDLE_ADVICES_TAKEN, mRequestAdviceTaken);
@@ -149,9 +148,9 @@ public class RequestAdvicesFragment extends Fragment implements SwipeRefreshLayo
         FirebaseUtil.getRequestAdvicesRef().child(requestId).orderByChild("karma").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChildren()){
+                if (dataSnapshot.hasChildren()) {
                     mCount = dataSnapshot.getChildrenCount();
-                    for(DataSnapshot adviceSnapshot: dataSnapshot.getChildren()){
+                    for (DataSnapshot adviceSnapshot : dataSnapshot.getChildren()) {
                         Advice advice = adviceSnapshot.getValue(Advice.class);
                         advice.setId(adviceSnapshot.getKey());
                         getAdviceLikeStatus(advice);
@@ -177,12 +176,12 @@ public class RequestAdvicesFragment extends Fragment implements SwipeRefreshLayo
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mRequestAdviceTaken++;
-                if(dataSnapshot.hasChildren()){
+                if (dataSnapshot.hasChildren()) {
                     LikeStatus likeStatus = dataSnapshot.getValue(LikeStatus.class);
                     advice.setLikeStatus(likeStatus.getLiked());
                     advice.setTheAnswer(likeStatus.getIsAccepted());
                 }
-                if(mRequestAdviceTaken==mCount){
+                if (mRequestAdviceTaken == mCount) {
                     sortByKarma(mAdvices);
                     mAdviceProgress.setVisibility(View.GONE);
                     mAdapter.setItems(mAdvices);
@@ -197,9 +196,9 @@ public class RequestAdvicesFragment extends Fragment implements SwipeRefreshLayo
     }
 
     private void sortByKarma(List<Advice> advices) {
-        Collections.sort(advices, new Comparator<Advice>(){
+        Collections.sort(advices, new Comparator<Advice>() {
             public int compare(Advice advice1, Advice advice2) {
-                 return Integer.valueOf(advice2.getKarma()).compareTo(advice1.getKarma()); // To compare integer values
+                return Integer.valueOf(advice2.getKarma()).compareTo(advice1.getKarma()); // To compare integer values
             }
         });
     }
@@ -208,7 +207,7 @@ public class RequestAdvicesFragment extends Fragment implements SwipeRefreshLayo
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int maxElements = 1;
-        maxElements = (int) Math.floor((metrics.widthPixels/metrics.density)/POSTER_WIDTH);
+        maxElements = (int) Math.floor((metrics.widthPixels / metrics.density) / POSTER_WIDTH);
         return maxElements;
     }
 

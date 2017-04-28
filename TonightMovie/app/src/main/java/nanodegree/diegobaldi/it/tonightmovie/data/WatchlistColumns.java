@@ -16,20 +16,25 @@ import static net.simonvt.schematic.annotation.DataType.Type.TEXT;
  */
 
 public interface WatchlistColumns {
-    @DataType(INTEGER) @PrimaryKey
+    @DataType(INTEGER)
+    @PrimaryKey
     @AutoIncrement
     String _ID = "_id";
 
-    @DataType(TEXT) @NotNull
+    @DataType(TEXT)
+    @NotNull
     @Unique(onConflict = ConflictResolutionType.REPLACE)
     String THE_MOVIE_DB_ID = "the_movie_db_id";
-    @DataType(TEXT) @NotNull
+    @DataType(TEXT)
+    @NotNull
     String ORIGINAL_TITLE = "original_title";
 
-    @DataType(TEXT) @NotNull
+    @DataType(TEXT)
+    @NotNull
     String POSTER_PATH = "poster_path";
 
-    @DataType(REAL) @NotNull
+    @DataType(REAL)
+    @NotNull
     String TIMESTAMP = "timestamp";
 
 

@@ -40,23 +40,22 @@ public class SearchMovieViewModel extends BaseObservable {
     }
 
 
-
     public String getTitle() {
-        if(isFavList)
+        if (isFavList)
             return movie.getOriginalTitle();
         else
             return movie.getTitle();
     }
 
     public Uri getPosterPath() {
-        return Uri.parse("https://image.tmdb.org/t/p/w500"+movie.getPosterPath());
+        return Uri.parse("https://image.tmdb.org/t/p/w500" + movie.getPosterPath());
     }
 
     public View.OnClickListener onClick() {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!sendToNewAdvice)
+                if (!sendToNewAdvice)
                     launchDetailsActivity();
                 else
                     returnResultMovie();

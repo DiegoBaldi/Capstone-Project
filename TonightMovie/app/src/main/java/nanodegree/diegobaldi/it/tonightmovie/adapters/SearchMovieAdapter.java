@@ -34,7 +34,7 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(mIsFavList){
+        if (mIsFavList) {
             ItemFavMovieBinding itemFavMovieBinding = DataBindingUtil.inflate(
                     LayoutInflater.from(parent.getContext()),
                     R.layout.item_fav_movie,
@@ -54,7 +54,7 @@ public class SearchMovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(mIsFavList){
+        if (mIsFavList) {
             ItemFavMovieBinding itemFavMovieBinding = ((SearchMovieAdapter.FavBindingHolder) holder).binding;
             itemFavMovieBinding.setMovieViewModel(new SearchMovieViewModel(mContext, mMovies.get(position), mIsFavList, mIsHereForARequest));
         } else {

@@ -82,7 +82,7 @@ public class FeedActivityFragment extends Fragment implements SwipeRefreshLayout
         if (getArguments() != null) {
             mProfileId = getArguments().getString(ARG_MODE);
             mIsTablet = getArguments().getBoolean(ARG_DEVICE, false);
-            if(mProfileId==null || mProfileId.equalsIgnoreCase(""))
+            if (mProfileId == null || mProfileId.equalsIgnoreCase(""))
                 setHasOptionsMenu(true);
         } else {
             setHasOptionsMenu(true);
@@ -100,7 +100,7 @@ public class FeedActivityFragment extends Fragment implements SwipeRefreshLayout
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         // use a linear layout manager
-        if(!mIsTablet){
+        if (!mIsTablet) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(layoutManager);
             mEndlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
@@ -127,15 +127,14 @@ public class FeedActivityFragment extends Fragment implements SwipeRefreshLayout
         mAdapter = new RequestAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             mSelectedGenre = savedInstanceState.getInt(BUNDLE_GENRE_INDEX);
             mSelectedGenreString = savedInstanceState.getString(BUNDLE_GENRE);
             requests = savedInstanceState.getParcelableArrayList(BUNDLE_REQUESTS);
             mProfileId = savedInstanceState.getString(ARG_MODE);
             lastRequestId = savedInstanceState.getString(BUNDLE_LAST_REQUEST);
             mAdapter.setItems(requests);
-        }
-        else{
+        } else {
             getRequests(0);
         }
 
@@ -143,12 +142,12 @@ public class FeedActivityFragment extends Fragment implements SwipeRefreshLayout
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList("requests", new ArrayList<>(requests));
         outState.putInt("selectedGenreIndex", mSelectedGenre);
         outState.putString("selectedGenre", mSelectedGenreString);
         outState.putString(ARG_MODE, mProfileId);
-        if(lastRequestId!=null)
+        if (lastRequestId != null)
             outState.putString(BUNDLE_LAST_REQUEST, lastRequestId);
         super.onSaveInstanceState(outState);
     }
@@ -194,12 +193,12 @@ public class FeedActivityFragment extends Fragment implements SwipeRefreshLayout
             mAdapter.setItems(requests);
             mProgressBar.setVisibility(View.VISIBLE);
         }
-        if(mProfileId !=null && !mProfileId.equalsIgnoreCase("")){
+        if (mProfileId != null && !mProfileId.equalsIgnoreCase("")) {
             if (page == 0)
                 FirebaseUtil.getUserRequestRef(mProfileId).orderByKey().limitToLast(MAX_REQUESTS_PER_PAGE).addListenerForSingleValueEvent(getProfileRequestEventListener(page));
             else
                 FirebaseUtil.getUserRequestRef(mProfileId).orderByKey().limitToLast(MAX_REQUESTS_PER_PAGE + 1).endAt(lastRequestId).addListenerForSingleValueEvent(getProfileRequestEventListener(page));
-        } else{
+        } else {
             if (mSelectedGenre == 0) {
                 if (page == 0)
                     FirebaseUtil.getRequestRef().orderByKey().limitToLast(MAX_REQUESTS_PER_PAGE).addListenerForSingleValueEvent(getNewEventListener(page));
@@ -214,22 +213,22 @@ public class FeedActivityFragment extends Fragment implements SwipeRefreshLayout
         }
     }
 
-    public ValueEventListener getProfileRequestEventListener(final int page){
+    public ValueEventListener getProfileRequestEventListener(final int page) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(page==0){
-                    if(mProgressBar!=null && mProgressBar.getVisibility()==View.VISIBLE)
+                if (page == 0) {
+                    if (mProgressBar != null && mProgressBar.getVisibility() == View.VISIBLE)
                         mProgressBar.setVisibility(View.GONE);
                 }
-                if(dataSnapshot.hasChildren()){
+                if (dataSnapshot.hasChildren()) {
                     String requestToDelete = lastRequestId;
                     count = 0;
                     requestsTaken = 0;
                     mEmptyRequestsView.setVisibility(View.GONE);
                     requestsCount = dataSnapshot.getChildrenCount();
-                    if(requestsCount !=1 || page==0 ) {
-                        for (DataSnapshot requestSnapshot: dataSnapshot.getChildren()) {
+                    if (requestsCount != 1 || page == 0) {
+                        for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
                             count++;
                             if (count == 1)
                                 lastRequestId = requestSnapshot.getKey();
@@ -240,7 +239,7 @@ public class FeedActivityFragment extends Fragment implements SwipeRefreshLayout
                     }
 
                 } else {
-                    if(mProgressBar!=null && mProgressBar.getVisibility()==View.VISIBLE)
+                    if (mProgressBar != null && mProgressBar.getVisibility() == View.VISIBLE)
                         mProgressBar.setVisibility(View.GONE);
                     mEmptyRequestsView.setVisibility(View.VISIBLE);
                 }
@@ -259,20 +258,20 @@ public class FeedActivityFragment extends Fragment implements SwipeRefreshLayout
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 requestsTaken++;
-                if(dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     MovieRequest request = dataSnapshot.getValue(MovieRequest.class);
                     request.setId(dataSnapshot.getKey());
                     request.setInterested(true);
                     requests.add(request);
                 }
-                if(requestsTaken==requestsCount){
+                if (requestsTaken == requestsCount) {
                     Collections.sort(requests, new Comparator<MovieRequest>() {
                         @Override
                         public int compare(MovieRequest t1, MovieRequest t2) {
                             return Long.valueOf(t2.getCreated()).compareTo(t1.getCreated());
                         }
                     });
-                    if(mProgressBar!=null && mProgressBar.getVisibility()==View.VISIBLE)
+                    if (mProgressBar != null && mProgressBar.getVisibility() == View.VISIBLE)
                         mProgressBar.setVisibility(View.GONE);
                     mAdapter.setItems(requests);
                 }
@@ -285,34 +284,33 @@ public class FeedActivityFragment extends Fragment implements SwipeRefreshLayout
         });
     }
 
-    public ValueEventListener getNewEventListener(final int page){
+    public ValueEventListener getNewEventListener(final int page) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Post object and use the values to update the UI
-                if(page==0){
-                    if(mProgressBar!=null && mProgressBar.getVisibility()==View.VISIBLE)
+                if (page == 0) {
+                    if (mProgressBar != null && mProgressBar.getVisibility() == View.VISIBLE)
                         mProgressBar.setVisibility(View.GONE);
                 }
-                if(dataSnapshot.hasChildren()) {
+                if (dataSnapshot.hasChildren()) {
                     String requestToDelete = lastRequestId;
 //                    List<MovieRequest> requestsToAdd = new ArrayList<>();
                     requestsCount = dataSnapshot.getChildrenCount();
                     count = 0;
                     requestsTaken = 0;
                     mEmptyRequestsView.setVisibility(View.GONE);
-                    if(requestsCount !=1 || page==0 ){
+                    if (requestsCount != 1 || page == 0) {
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             count++;
-                            if(count==1)
+                            if (count == 1)
                                 lastRequestId = child.getKey();
-                            if(requestToDelete==null || !requestToDelete.equals(child.getKey())){
+                            if (requestToDelete == null || !requestToDelete.equals(child.getKey())) {
                                 MovieRequest movieRequest = child.getValue(MovieRequest.class);
                                 movieRequest.setId(child.getKey());
                                 findIfInterested(movieRequest);
                                 requests.add(movieRequest);
-                            }
-                            else {
+                            } else {
                                 requestsTaken++;
                             }
                         }
@@ -324,9 +322,8 @@ public class FeedActivityFragment extends Fragment implements SwipeRefreshLayout
                         });
                         mAdapter.setItems(requests);
                     }
-                }
-                else{
-                    if(page==0)
+                } else {
+                    if (page == 0)
                         mEmptyRequestsView.setVisibility(View.VISIBLE);
                 }
             }
@@ -343,9 +340,9 @@ public class FeedActivityFragment extends Fragment implements SwipeRefreshLayout
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 requestsTaken++;
-                if(dataSnapshot.getValue()!=null)
+                if (dataSnapshot.getValue() != null)
                     request.setInterested(true);
-                if(requestsTaken == requestsCount){
+                if (requestsTaken == requestsCount) {
                     mAdapter.notifyItemChanged(0, requestsCount);
                 }
             }

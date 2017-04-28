@@ -8,7 +8,7 @@ public class LikeStatus {
     private int liked;
     private boolean isAccepted;
 
-    public LikeStatus(){
+    public LikeStatus() {
 
     }
 

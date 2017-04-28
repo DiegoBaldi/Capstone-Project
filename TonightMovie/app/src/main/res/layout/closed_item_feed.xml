@@ -2,9 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="movieRequestViewModel" type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.ClosedRequestViewModel"/>
+
+        <variable
+            name="movieRequestViewModel"
+            type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.ClosedRequestViewModel" />
     </data>
+
     <android.support.v7.widget.CardView
         android:id="@+id/closed_frame"
         android:layout_width="match_parent"
@@ -21,7 +26,8 @@
             android:onClick="@{movieRequestViewModel.onClickRequest()}">
 
             <LinearLayout
-                android:orientation="horizontal" android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:baselineAligned="false">
@@ -40,7 +46,7 @@
                         app:failureImage="@color/colorAccent"
                         app:failureImageScaleType="centerInside"
                         android:contentDescription="@{movieRequestViewModel.movieName}"
-                        app:actualImageUrl="@{movieRequestViewModel.posterPath}"/>
+                        app:actualImageUrl="@{movieRequestViewModel.posterPath}" />
 
                     <LinearLayout
                         android:id="@+id/requester_user_info"
@@ -61,7 +67,7 @@
                             app:placeholderImage="@drawable/poster_placeholder_gradient"
                             android:contentDescription="@{movieRequestViewModel.requesterName}"
                             app:roundAsCircle="true"
-                            app:actualImageUrl="@{movieRequestViewModel.requesterImage}"/>
+                            app:actualImageUrl="@{movieRequestViewModel.requesterImage}" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -70,7 +76,7 @@
                             android:gravity="center"
                             android:textSize="12sp"
                             tools:text="Maria Rossi"
-                            android:text="@{movieRequestViewModel.requesterName}"/>
+                            android:text="@{movieRequestViewModel.requesterName}" />
 
                     </LinearLayout>
 
@@ -92,7 +98,7 @@
                         app:failureImageScaleType="centerInside"
                         app:placeholderImage="@color/background"
                         android:contentDescription="@{movieRequestViewModel.acceptedMovieName}"
-                        app:actualImageUrl="@{movieRequestViewModel.acceptedPosterPath}"/>
+                        app:actualImageUrl="@{movieRequestViewModel.acceptedPosterPath}" />
 
                     <LinearLayout
                         android:id="@+id/advice_user_info"
@@ -114,7 +120,7 @@
                             app:placeholderImage="@drawable/poster_placeholder_gradient"
                             app:roundAsCircle="true"
                             android:contentDescription="@{movieRequestViewModel.advisorName}"
-                            app:actualImageUrl="@{movieRequestViewModel.advisorImage}"/>
+                            app:actualImageUrl="@{movieRequestViewModel.advisorImage}" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -123,7 +129,7 @@
                             android:gravity="center"
                             android:textSize="12sp"
                             tools:text="Maria Rossi"
-                            android:text="@{movieRequestViewModel.advisorName}"/>
+                            android:text="@{movieRequestViewModel.advisorName}" />
 
                     </LinearLayout>
 
@@ -137,7 +143,7 @@
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:src="@drawable/ic_check_circle_black_24dp"
                 android:contentDescription="@string/closed_request"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
 
         </FrameLayout>
 

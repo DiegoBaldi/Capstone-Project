@@ -14,7 +14,7 @@ import java.util.Map;
  */
 
 @IgnoreExtraProperties
-public class Advice implements Parcelable{
+public class Advice implements Parcelable {
     private String id;
     private Movie movie;
     private User author;
@@ -23,7 +23,8 @@ public class Advice implements Parcelable{
     private int karma;
     private int likeStatus;
 
-    public Advice(){}
+    public Advice() {
+    }
 
     protected Advice(Parcel in) {
         id = in.readString();
@@ -104,7 +105,7 @@ public class Advice implements Parcelable{
     }
 
     @Exclude
-    public Map<String,Object> toMap() {
+    public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("author", author.toMap());
         result.put("movie", movie.toMap());

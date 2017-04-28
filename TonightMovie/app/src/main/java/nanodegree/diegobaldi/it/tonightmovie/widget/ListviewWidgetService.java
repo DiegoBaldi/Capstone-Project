@@ -93,15 +93,15 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         // Bind data to UI, etc
         mWidgetItems.clear();
         mCursor = data;
-        try{
+        try {
             mCursor.moveToPosition(-1);
-            while(mCursor.moveToNext()){
+            while (mCursor.moveToNext()) {
                 Movie movie = new Movie(mCursor.getInt(COL_MOVIE_ID), mCursor.getString(COL_TITLE), mCursor.getString(COL_POSTER_PATH));
                 mWidgetItems.add(movie);
             }
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mContext);
             appWidgetManager.notifyAppWidgetViewDataChanged(mAppWidgetId, R.id.widget_listview);
-        } catch (Exception exception){
+        } catch (Exception exception) {
             Log.d(LOG_TAG, "Something went wrong!");
         }
     }
@@ -138,19 +138,17 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
             layoutId = R.layout.item_widget_small;
         }
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), layoutId);
-        if(thereIsSpaceForTitle)
+        if (thereIsSpaceForTitle)
             rv.setTextViewText(R.id.movie_name, movie.getOriginalTitle());
         Uri uri = Uri.parse("https://image.tmdb.org/t/p/w342" + movie.getPosterPath());
         FutureTarget<Bitmap> futureTarget = Glide.with(mContext)
                 .load(uri)
                 .asBitmap()
                 .into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
-        try
-        {
+        try {
             rv.setImageViewBitmap(R.id.movie_poster, futureTarget.get());
             rv.setContentDescription(R.id.movie_poster, movie.getOriginalTitle());
-        } catch (InterruptedException | ExecutionException e)
-        {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         Glide.clear(futureTarget);
@@ -185,7 +183,7 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
             return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, minWidthDp,
                     displayMetrics);
         }
-        return  mContext.getResources().getDimensionPixelSize(R.dimen.widget_watchlist_default_width);
+        return mContext.getResources().getDimensionPixelSize(R.dimen.widget_watchlist_default_width);
     }
 
 

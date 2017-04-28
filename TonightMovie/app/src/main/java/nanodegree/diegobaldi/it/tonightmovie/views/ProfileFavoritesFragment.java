@@ -39,10 +39,10 @@ public class ProfileFavoritesFragment extends Fragment {
     private static final String BUNDLE_PROFILE = "profile";
 
     String[] mProjection =
-        {
-                WatchlistColumns._ID,    // Product class constant for the _ID column name
-                WatchlistColumns.THE_MOVIE_DB_ID,   // Product class constant for the product id column name
-        };
+            {
+                    WatchlistColumns._ID,    // Product class constant for the _ID column name
+                    WatchlistColumns.THE_MOVIE_DB_ID,   // Product class constant for the product id column name
+            };
 
 
     private User mProfile;
@@ -90,19 +90,18 @@ public class ProfileFavoritesFragment extends Fragment {
         mFavsRecyclerView.setLayoutManager(mLayoutManager);
         mFavsAdapter = new ProfileMovieAdapter(getActivity());
         mFavsRecyclerView.setAdapter(mFavsAdapter);
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             mFavMovies = savedInstanceState.getParcelableArrayList(BUNDLE_MOVIES);
             mProfile = savedInstanceState.getParcelable(BUNDLE_PROFILE);
             mFavsAdapter.setItems(mFavMovies);
-        }
-        else{
+        } else {
             getProfileFavMovies(mProfile.getId());
         }
         return rootView;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(BUNDLE_MOVIES, new ArrayList<>(mFavMovies));
         outState.putParcelable(BUNDLE_PROFILE, mProfile);
         super.onSaveInstanceState(outState);
@@ -114,7 +113,7 @@ public class ProfileFavoritesFragment extends Fragment {
         FirebaseUtil.getFavoritesRef(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot movieSnapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot movieSnapshot : dataSnapshot.getChildren()) {
                     Movie movie = movieSnapshot.getValue(Movie.class);
                     movie.setFavorite(true);
                     findIfInWatchlist(movie);
@@ -132,7 +131,7 @@ public class ProfileFavoritesFragment extends Fragment {
 
     private void findIfInWatchlist(Movie movie) {
         String[] selectionArgs = {""};
-        selectionArgs[0] = ""+movie.getId();
+        selectionArgs[0] = "" + movie.getId();
         Cursor cursor = getActivity().getContentResolver().query(WatchlistProvider.Watchlist.withId(movie.getId()), mProjection, "the_movie_db_id = ?", selectionArgs, null);
         if (null == cursor) {
             movie.setInWatchlist(false);
@@ -149,7 +148,7 @@ public class ProfileFavoritesFragment extends Fragment {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int maxElements = 1;
-        maxElements = (int) Math.floor((metrics.widthPixels/metrics.density)/POSTER_WIDTH);
+        maxElements = (int) Math.floor((metrics.widthPixels / metrics.density) / POSTER_WIDTH);
         return maxElements;
     }
 }

@@ -38,17 +38,17 @@ public class NewAdviceViewModel extends BaseObservable {
     public boolean tryToSubmit = false;
     public int adviceSubmitted = 0;
 
-    public NewAdviceViewModel(Context context, MovieRequest request, Advice advice){
+    public NewAdviceViewModel(Context context, MovieRequest request, Advice advice) {
         this.request = request;
         this.context = context;
         this.advice = advice;
     }
 
-    public Uri getPosterPath(){
-        return  Uri.parse("https://image.tmdb.org/t/p/w500"+advice.getMovie().getPosterPath());
+    public Uri getPosterPath() {
+        return Uri.parse("https://image.tmdb.org/t/p/w500" + advice.getMovie().getPosterPath());
     }
 
-    public String getMovieName(){
+    public String getMovieName() {
         return advice.getMovie().getOriginalTitle();
     }
 
@@ -115,7 +115,7 @@ public class NewAdviceViewModel extends BaseObservable {
 
             @Override
             public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
-                if(committed){
+                if (committed) {
                     adviceSubmitted = 1;
                     setMessage(context.getString(R.string.advice_sent_success));
                     notifyPropertyChanged(BR.adviceSubmitted);

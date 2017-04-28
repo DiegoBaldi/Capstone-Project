@@ -44,8 +44,8 @@ public class MovieDetailsViewModel extends BaseObservable {
         this.movie = movie;
     }
 
-    public int getIsFavorite(){
-        if(movie.isFavorite()){
+    public int getIsFavorite() {
+        if (movie.isFavorite()) {
             return R.drawable.ic_favorite_pressed;
         } else {
             return R.drawable.ic_favorite_neutral;
@@ -53,47 +53,44 @@ public class MovieDetailsViewModel extends BaseObservable {
     }
 
     @Bindable
-    public String getFavoriteState(){
-        if(movie.isFavorite()){
+    public String getFavoriteState() {
+        if (movie.isFavorite()) {
             return "Remove from favorites";
-        }
-        else
+        } else
             return "Add to favorites";
     }
 
     @Bindable
-    public String getWatchlistState(){
-        if(movie.isInWatchlist()){
+    public String getWatchlistState() {
+        if (movie.isInWatchlist()) {
             return "Remove from watchlist";
-        }
-        else
+        } else
             return "Add to watchlist";
     }
 
-    public int getIsInWatchlist(){
-        if(movie.isInWatchlist()){
+    public int getIsInWatchlist() {
+        if (movie.isInWatchlist()) {
             return R.drawable.ic_watchlist_pressed;
-        }
-        else
+        } else
             return R.drawable.ic_watchlist_neutral;
     }
-    
+
     public String getMovieTitle() {
         return movie.getTitle();
     }
 
     public String getYear() {
-        return String.format(Locale.getDefault(), context.getString(R.string.year), movie.getReleaseDate().substring(0,4));
+        return String.format(Locale.getDefault(), context.getString(R.string.year), movie.getReleaseDate().substring(0, 4));
     }
 
     public String getGenre() {
         String genres = "";
         int i = 1;
-        for(Genre genre: movie.getGenres()){
-            if(i==movie.getGenres().size())
+        for (Genre genre : movie.getGenres()) {
+            if (i == movie.getGenres().size())
                 genres += genre.getName();
             else
-                genres += genre.getName()+", ";
+                genres += genre.getName() + ", ";
             i++;
         }
         return String.format(Locale.getDefault(), context.getString(R.string.genre), genres);
@@ -104,7 +101,7 @@ public class MovieDetailsViewModel extends BaseObservable {
     }
 
     public String getSynopsis() {
-        if(movie.getOverview()!= null && !movie.getOverview().equalsIgnoreCase(""))
+        if (movie.getOverview() != null && !movie.getOverview().equalsIgnoreCase(""))
             return movie.getOverview();
         else {
             return context.getString(R.string.no_synopsis);
@@ -112,38 +109,38 @@ public class MovieDetailsViewModel extends BaseObservable {
     }
 
     public Uri getPosterPath() {
-        return Uri.parse("https://image.tmdb.org/t/p/w500"+movie.getPosterPath());
+        return Uri.parse("https://image.tmdb.org/t/p/w500" + movie.getPosterPath());
     }
 
     public Uri getPosterBackdropPath() {
-        return Uri.parse("https://image.tmdb.org/t/p/w500"+movie.getBackdropPath());
+        return Uri.parse("https://image.tmdb.org/t/p/w500" + movie.getBackdropPath());
     }
 
     public View.OnClickListener onClickFavorite() {
         return new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-            movie.setFavorite(!movie.isFavorite());
-            if(movie.isFavorite()){
-                Map<String, Object> movieValues = movie.toMap();
-                Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put(movie.getId()+"", movieValues);
-                FirebaseUtil.getFavoritesRef(TonightMovieApp.getUser().getId()).updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_pressed));
-                    }
-                });
-            } else{
-                FirebaseUtil.getFavoritesRef(TonightMovieApp.getUser().getId()).child(String.valueOf(movie.getId())).setValue(null)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                       @Override
-                       public void onComplete(@NonNull Task<Void> task) {
-                           ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_neutral));
-                       }
-                    }
-                );
-            }
+                movie.setFavorite(!movie.isFavorite());
+                if (movie.isFavorite()) {
+                    Map<String, Object> movieValues = movie.toMap();
+                    Map<String, Object> childUpdates = new HashMap<>();
+                    childUpdates.put(movie.getId() + "", movieValues);
+                    FirebaseUtil.getFavoritesRef(TonightMovieApp.getUser().getId()).updateChildren(childUpdates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_pressed));
+                        }
+                    });
+                } else {
+                    FirebaseUtil.getFavoritesRef(TonightMovieApp.getUser().getId()).child(String.valueOf(movie.getId())).setValue(null)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                       @Override
+                                                       public void onComplete(@NonNull Task<Void> task) {
+                                                           ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_neutral));
+                                                       }
+                                                   }
+                            );
+                }
             }
         };
     }
@@ -153,14 +150,14 @@ public class MovieDetailsViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            movie.setInWatchlist(!movie.isInWatchlist());
-            if(movie.isInWatchlist()){
-                addMovieToDatabase();
-                ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_watchlist_pressed));
-            } else{
-                deleteMovieFromDatabase();
-                ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_watchlist_neutral));
-            }
+                movie.setInWatchlist(!movie.isInWatchlist());
+                if (movie.isInWatchlist()) {
+                    addMovieToDatabase();
+                    ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_watchlist_pressed));
+                } else {
+                    deleteMovieFromDatabase();
+                    ((ImageView) v).setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_watchlist_neutral));
+                }
             }
         };
     }
@@ -176,16 +173,17 @@ public class MovieDetailsViewModel extends BaseObservable {
 
     private void addMovieToDatabase() {
         new Thread(new Runnable() {
-            @Override public void run() {
-            ContentValues cv = new ContentValues();
-            cv.put(WatchlistColumns.THE_MOVIE_DB_ID, movie.getId());
-            cv.put(WatchlistColumns.ORIGINAL_TITLE, movie.getOriginalTitle());
-            cv.put(WatchlistColumns.POSTER_PATH, movie.getPosterPath());
-            cv.put(WatchlistColumns.TIMESTAMP, System.currentTimeMillis());
-            getApplicationContext().getContentResolver().insert(WatchlistProvider.Watchlist.CONTENT_URI, cv);
-            Intent intent = new Intent();
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            context.sendBroadcast(intent);
+            @Override
+            public void run() {
+                ContentValues cv = new ContentValues();
+                cv.put(WatchlistColumns.THE_MOVIE_DB_ID, movie.getId());
+                cv.put(WatchlistColumns.ORIGINAL_TITLE, movie.getOriginalTitle());
+                cv.put(WatchlistColumns.POSTER_PATH, movie.getPosterPath());
+                cv.put(WatchlistColumns.TIMESTAMP, System.currentTimeMillis());
+                getApplicationContext().getContentResolver().insert(WatchlistProvider.Watchlist.CONTENT_URI, cv);
+                Intent intent = new Intent();
+                intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                context.sendBroadcast(intent);
             }
         }).start();
     }
@@ -202,7 +200,7 @@ public class MovieDetailsViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         };
     }
@@ -213,7 +211,7 @@ public class MovieDetailsViewModel extends BaseObservable {
             public void onClick(View v) {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "Watch out this movie: "+ movie.getOriginalTitle());
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Watch out this movie: " + movie.getOriginalTitle());
                 sendIntent.setType("text/plain");
                 context.startActivity(sendIntent);
             }

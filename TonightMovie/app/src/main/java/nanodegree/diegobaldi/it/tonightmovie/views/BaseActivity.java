@@ -63,24 +63,18 @@ public abstract class BaseActivity extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        if (useToolbar())
-        {
+        if (useToolbar()) {
             setSupportActionBar(toolbar);
-        }
-        else
-        {
+        } else {
             toolbar.setVisibility(View.GONE);
         }
 
-        if (useTabLayout())
-        {
+        if (useTabLayout()) {
             findViewById(R.id.tabs).setVisibility(View.VISIBLE);
-        }
-        else
-        {
+        } else {
             findViewById(R.id.tabs).setVisibility(View.GONE);
         }
-        if(getSupportActionBar()!=null) getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 //        setUpGoogleApiClient();
 
@@ -93,14 +87,14 @@ public abstract class BaseActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if(navItemToCheck()!=-1)
+        if (navItemToCheck() != -1)
             navigationView.setCheckedItem(navItemToCheck());
 
         setUpNavView(navigationView);
 
     }
 
-    protected int navItemToCheck(){
+    protected int navItemToCheck() {
         return R.id.nav_feed;
     }
 
@@ -117,8 +111,8 @@ public abstract class BaseActivity extends AppCompatActivity
     }
 
 
-    public void setToolbarTitle(String title){
-        if(useToolbar()){
+    public void setToolbarTitle(String title) {
+        if (useToolbar()) {
             toolbar.setTitle(title);
         }
     }
@@ -159,7 +153,7 @@ public abstract class BaseActivity extends AppCompatActivity
                 sAux = sAux + "https://play.google.com/store/apps/details?id=nanodegree.diegobaldi.it.tonightmovie \n\n";
                 i.putExtra(Intent.EXTRA_TEXT, sAux);
                 startActivity(Intent.createChooser(i, "Share the awesomeness"));
-            } catch(Exception e) {
+            } catch (Exception e) {
                 //e.toString();
             }
 
@@ -182,7 +176,7 @@ public abstract class BaseActivity extends AppCompatActivity
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
             }
-        } else if (id == R.id.nav_logout){
+        } else if (id == R.id.nav_logout) {
             AuthUI.getInstance()
                     .signOut(this)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -199,7 +193,7 @@ public abstract class BaseActivity extends AppCompatActivity
         return true;
     }
 
-    protected boolean useTabLayout(){
+    protected boolean useTabLayout() {
         return false;
     }
 }

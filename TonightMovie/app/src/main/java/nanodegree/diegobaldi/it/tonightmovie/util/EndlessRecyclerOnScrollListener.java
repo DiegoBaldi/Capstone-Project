@@ -27,7 +27,7 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
 
-        if(dy>0){
+        if (dy > 0) {
             visibleItemCount = recyclerView.getChildCount();
             totalItemCount = mLinearLayoutManager.getItemCount();
             firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
@@ -52,7 +52,7 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
         }
     }
 
-    public void refreshListener(){
+    public void refreshListener() {
         currentPage = 0;
         previousTotal = 0;
     }

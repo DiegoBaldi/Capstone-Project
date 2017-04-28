@@ -31,7 +31,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType==1){
+        if (viewType == 1) {
             PendingItemFeedBinding pendingItemFeedBinding = DataBindingUtil.inflate(
                     LayoutInflater.from(parent.getContext()),
                     R.layout.pending_item_feed,
@@ -52,7 +52,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
-        if(viewType==1){
+        if (viewType == 1) {
             PendingItemFeedBinding pendingItemFeedBinding = ((PendingBindingHolder) holder).binding;
             pendingItemFeedBinding.setMovieRequestViewModel(new PendingRequestViewModel(mContext, mRequests.get(position)));
         } else {
@@ -82,7 +82,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(int position) {
         MovieRequest movieRequest = mRequests.get(position);
-        if(movieRequest.getAcceptedAdvice()!=null){
+        if (movieRequest.getAcceptedAdvice() != null) {
             return 0;
         } else
             return 1;

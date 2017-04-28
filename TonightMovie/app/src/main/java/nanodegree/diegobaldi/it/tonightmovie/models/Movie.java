@@ -36,9 +36,10 @@ public class Movie implements Parcelable {
     private boolean isFavorited;
     private boolean isInWatchlist;
 
-    public Movie(){}
+    public Movie() {
+    }
 
-    public Movie(int id, String posterPath){
+    public Movie(int id, String posterPath) {
         this.id = id;
         this.posterPath = posterPath;
     }
@@ -81,7 +82,7 @@ public class Movie implements Parcelable {
         return posterPath;
     }
 
-    public String getPosterKey(){
+    public String getPosterKey() {
         return posterPath;
     }
 

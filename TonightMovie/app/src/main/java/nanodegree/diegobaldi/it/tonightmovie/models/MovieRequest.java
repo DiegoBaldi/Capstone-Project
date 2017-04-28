@@ -28,23 +28,23 @@ public class MovieRequest implements Parcelable {
     private boolean isInterested;
     private long created;
 
-    public MovieRequest(User author, String description, Movie movie, String genre){
+    public MovieRequest(User author, String description, Movie movie, String genre) {
         this.author = author;
         this.description = description;
         this.movie = movie;
         this.genre = genre;
     }
 
-    public MovieRequest(){
+    public MovieRequest() {
     }
 
-    public MovieRequest(User author, String shortDescription, String description, String genre){
+    public MovieRequest(User author, String shortDescription, String description, String genre) {
         this.author = author;
         this.description = description;
         this.genre = genre;
     }
 
-    public MovieRequest(Movie movie){
+    public MovieRequest(Movie movie) {
         this.author = TonightMovieApp.getUser();
         this.description = "";
         this.movie = new Movie(movie.getId(), movie.getOriginalTitle(), movie.getPosterKey());

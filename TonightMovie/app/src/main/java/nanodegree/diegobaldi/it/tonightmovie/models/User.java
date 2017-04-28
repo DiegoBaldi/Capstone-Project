@@ -22,7 +22,8 @@ public class User implements Parcelable {
     private String bio;
     private int reckless, hilarious, fearless, nerd, empathic, overprotective, movieMaster;
 
-    public User(){}
+    public User() {
+    }
 
     public User(String id, String displayName, String email, String photoURL) {
         this.id = id;
@@ -76,6 +77,7 @@ public class User implements Parcelable {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -169,6 +171,6 @@ public class User implements Parcelable {
     }
 
     public int getMovieMaster() {
-        return getEmpathic()+getFearless()+getHilarious()+getNerd()+getOverprotective()+getReckless();
+        return getEmpathic() + getFearless() + getHilarious() + getNerd() + getOverprotective() + getReckless();
     }
 }

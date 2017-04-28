@@ -97,21 +97,20 @@ public class MovieAdvicesFragment extends Fragment implements SwipeRefreshLayout
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), getSpanSize());
         recyclerView.setLayoutManager(mLayoutManager);
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             mAdvices = savedInstanceState.getParcelableArrayList(BUNDLE_ADVICES);
             mMovieId = savedInstanceState.getInt(BUNDLE_MOVIE_ID);
             mCount = savedInstanceState.getLong(BUNDLE_ADVICES_COUNT);
             mMovieAdviceTaken = savedInstanceState.getLong(BUNDLE_ADVICES_TAKEN);
             mAdapter.setItems(mAdvices);
-        }
-        else{
+        } else {
             getAdvices(mMovieId);
         }
         return rootView;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(BUNDLE_ADVICES, new ArrayList<>(mAdvices));
         outState.putLong(BUNDLE_ADVICES_COUNT, mCount);
         outState.putLong(BUNDLE_ADVICES_TAKEN, mMovieAdviceTaken);
@@ -127,9 +126,9 @@ public class MovieAdvicesFragment extends Fragment implements SwipeRefreshLayout
         FirebaseUtil.getMovieAdvicesRef(movieId).orderByChild("karma").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChildren()){
+                if (dataSnapshot.hasChildren()) {
                     mCount = dataSnapshot.getChildrenCount();
-                    for(DataSnapshot movieSnapshot: dataSnapshot.getChildren()){
+                    for (DataSnapshot movieSnapshot : dataSnapshot.getChildren()) {
                         Movie movie = movieSnapshot.getValue(Movie.class);
                         movie.setId(Integer.valueOf(movieSnapshot.getKey()));
                         getAdviceLikeStatus(movie);
@@ -154,11 +153,11 @@ public class MovieAdvicesFragment extends Fragment implements SwipeRefreshLayout
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mMovieAdviceTaken++;
-                if(dataSnapshot.hasChildren()){
+                if (dataSnapshot.hasChildren()) {
                     LikeStatus likeStatus = dataSnapshot.getValue(LikeStatus.class);
                     movie.setLikeStatus(likeStatus.getLiked());
                 }
-                if(mMovieAdviceTaken==mCount){
+                if (mMovieAdviceTaken == mCount) {
                     sortByKarma(mAdvices);
                     mAdviceProgress.setVisibility(View.GONE);
                     mAdapter.setItems(mAdvices);
@@ -173,7 +172,7 @@ public class MovieAdvicesFragment extends Fragment implements SwipeRefreshLayout
     }
 
     private void sortByKarma(List<Movie> advices) {
-        Collections.sort(advices, new Comparator<Movie>(){
+        Collections.sort(advices, new Comparator<Movie>() {
             public int compare(Movie movie1, Movie movie2) {
                 return Integer.valueOf(movie1.getKarma()).compareTo(movie2.getKarma()); // To compare integer values
             }
@@ -190,7 +189,7 @@ public class MovieAdvicesFragment extends Fragment implements SwipeRefreshLayout
 //        } else{
 //            maxElements = (int) Math.floor((metrics.widthPixels/metrics.density)/POSTER_WIDTH);
 //        }
-        maxElements = (int) Math.floor((metrics.widthPixels/metrics.density)/POSTER_WIDTH);
+        maxElements = (int) Math.floor((metrics.widthPixels / metrics.density) / POSTER_WIDTH);
         return maxElements;
     }
 

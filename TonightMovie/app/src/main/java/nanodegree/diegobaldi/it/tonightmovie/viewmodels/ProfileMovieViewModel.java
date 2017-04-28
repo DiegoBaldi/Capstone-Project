@@ -23,12 +23,12 @@ public class ProfileMovieViewModel extends BaseObservable {
         this.movie = movie;
     }
 
-    public String getName(){
+    public String getName() {
         return movie.getOriginalTitle();
     }
 
     public Uri getPosterPath() {
-        return Uri.parse("https://image.tmdb.org/t/p/w500"+movie.getPosterPath());
+        return Uri.parse("https://image.tmdb.org/t/p/w500" + movie.getPosterPath());
     }
 
     public View.OnClickListener onClickPoster() {

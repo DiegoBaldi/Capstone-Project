@@ -52,10 +52,10 @@ public class MovieDetailsFragment extends Fragment {
     private ReviewAdapter mReviewAdapter;
 
     String[] mProjection =
-        {
-                WatchlistColumns._ID,    // Product class constant for the _ID column name
-                WatchlistColumns.THE_MOVIE_DB_ID,   // Product class constant for the product id column name
-        };
+            {
+                    WatchlistColumns._ID,    // Product class constant for the _ID column name
+                    WatchlistColumns.THE_MOVIE_DB_ID,   // Product class constant for the product id column name
+            };
 
     private OnRebindCallback<FragmentMovieBinding> delayRebindCallback =
             new OnRebindCallback<FragmentMovieBinding>() {
@@ -95,7 +95,7 @@ public class MovieDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.fragment_movie, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
         mFragmentMovieBinding = DataBindingUtil.bind(rootView);
         mFragmentMovieBinding.addOnRebindCallback(delayRebindCallback);
 
@@ -112,7 +112,7 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(BUNDLE_MOVIE_DETAILS, mMovieDetails);
         outState.putInt(BUNDLE_MOVIE_ID, mMovieId);
         super.onSaveInstanceState(outState);
@@ -121,15 +121,15 @@ public class MovieDetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(savedInstanceState!=null && getActivity()!=null){
+        if (savedInstanceState != null && getActivity() != null) {
             mMovieDetails = savedInstanceState.getParcelable(BUNDLE_MOVIE_DETAILS);
             mMovieId = savedInstanceState.getInt(BUNDLE_MOVIE_ID);
-            if(mMovieDetails.getReviews()!=null && mMovieDetails.getReviews().size()>0)
+            if (mMovieDetails.getReviews() != null && mMovieDetails.getReviews().size() > 0)
                 mReviewAdapter.setItems(mMovieDetails.getReviews());
-            else{
+            else {
                 mFragmentMovieBinding.emptyReviews.setVisibility(View.VISIBLE);
             }
-            if(mMovieDetails.getVideos()!=null && mMovieDetails.getVideos().size()>0)
+            if (mMovieDetails.getVideos() != null && mMovieDetails.getVideos().size() > 0)
                 mVideoAdapter.setItems(mMovieDetails.getVideos());
             else {
                 mFragmentMovieBinding.emptyTrailer.setVisibility(View.VISIBLE);
@@ -137,8 +137,7 @@ public class MovieDetailsFragment extends Fragment {
             mFragmentMovieBinding.removeOnRebindCallback(delayRebindCallback);
             mFragmentMovieBinding.setMovieDetailsViewModel(new MovieDetailsViewModel(getActivity(), mMovieDetails));
             mFragmentMovieBinding.executePendingBindings();
-        }
-        else{
+        } else {
             getMovieDetails(mMovieId);
         }
     }
@@ -150,24 +149,24 @@ public class MovieDetailsFragment extends Fragment {
         mFragmentMovieBinding.trailerProgress.setVisibility(View.VISIBLE);
         TheMovieDBApiEndpointInterface theMovieDBService = TonightMovieApp.getRetrofit().create(TheMovieDBApiEndpointInterface.class);
         Locale defaultLocale = Locale.getDefault();
-        Call<MovieDetails> call= theMovieDBService.getMovieDetails(movieId, "f9e991dc40d898e632bfaeee97371573", String.format(getString(R.string.iso_language), defaultLocale.getLanguage(), defaultLocale.getCountry()));
+        Call<MovieDetails> call = theMovieDBService.getMovieDetails(movieId, "f9e991dc40d898e632bfaeee97371573", String.format(getString(R.string.iso_language), defaultLocale.getLanguage(), defaultLocale.getCountry()));
         call.enqueue(new Callback<MovieDetails>() {
             @Override
             public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
-                if(response.code()==200) {
+                if (response.code() == 200) {
                     mMovieDetails = response.body();
                     findIfInWatchlist(mMovieDetails);
                     findIfFavorite(mMovieDetails);
                     mFragmentMovieBinding.reviewsProgress.setVisibility(View.GONE);
                     mFragmentMovieBinding.trailerProgress.setVisibility(View.GONE);
-                    if(mMovieDetails.getVideos()!=null && mMovieDetails.getVideos().size()>0)
+                    if (mMovieDetails.getVideos() != null && mMovieDetails.getVideos().size() > 0)
                         mVideoAdapter.setItems(mMovieDetails.getVideos());
                     else {
                         mFragmentMovieBinding.emptyTrailer.setVisibility(View.VISIBLE);
                     }
-                    if(mMovieDetails.getReviews()!=null && mMovieDetails.getReviews().size()>0)
+                    if (mMovieDetails.getReviews() != null && mMovieDetails.getReviews().size() > 0)
                         mReviewAdapter.setItems(mMovieDetails.getReviews());
-                    else{
+                    else {
                         mFragmentMovieBinding.emptyReviews.setVisibility(View.VISIBLE);
                     }
                 }
@@ -182,10 +181,10 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void findIfFavorite(final MovieDetails movie) {
-        FirebaseUtil.getFavoritesRef(TonightMovieApp.getUser().getId()).child(""+movie.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseUtil.getFavoritesRef(TonightMovieApp.getUser().getId()).child("" + movie.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue()!=null)
+                if (dataSnapshot.getValue() != null)
                     movie.setFavorite(true);
                 mFragmentMovieBinding.removeOnRebindCallback(delayRebindCallback);
                 mFragmentMovieBinding.setMovieDetailsViewModel(new MovieDetailsViewModel(getActivity(), movie));
@@ -201,11 +200,10 @@ public class MovieDetailsFragment extends Fragment {
     }
 
 
-
     private void findIfInWatchlist(MovieDetails movie) {
         String[] selectionArgs = {""};
-        selectionArgs[0] = ""+movie.getId();
-        if(getActivity()!=null){
+        selectionArgs[0] = "" + movie.getId();
+        if (getActivity() != null) {
             Cursor cursor = getActivity().getContentResolver().query(WatchlistProvider.Watchlist.withId(movie.getId()), mProjection, "the_movie_db_id = ?", selectionArgs, null);
             if (null == cursor) {
                 movie.setInWatchlist(false);

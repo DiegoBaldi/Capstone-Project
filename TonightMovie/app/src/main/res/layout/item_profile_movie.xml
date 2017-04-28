@@ -2,9 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="movieViewModel" type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.ProfileMovieViewModel"/>
+
+        <variable
+            name="movieViewModel"
+            type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.ProfileMovieViewModel" />
     </data>
+
     <FrameLayout
         android:id="@+id/movie_frame"
         android:layout_width="match_parent"
@@ -21,7 +26,7 @@
             app:placeholderImage="@color/background"
             app:actualImageScaleType="centerCrop"
             android:contentDescription="@{movieViewModel.name}"
-            app:actualImageUrl="@{movieViewModel.posterPath}"/>
+            app:actualImageUrl="@{movieViewModel.posterPath}" />
 
         <TextView
             android:layout_width="match_parent"
@@ -31,7 +36,7 @@
             tools:text="Moonlight"
             android:gravity="center"
             android:layout_gravity="bottom"
-            android:text="@{movieViewModel.name}"/>
+            android:text="@{movieViewModel.name}" />
 
     </FrameLayout>
 </layout>

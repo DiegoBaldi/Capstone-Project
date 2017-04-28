@@ -23,7 +23,7 @@ import nanodegree.diegobaldi.it.tonightmovie.R;
 public class BindingAdapters {
     @BindingAdapter("app:animatedInterest")
     public static void changeStyle(final Button button, final boolean interested) {
-        if(interested){
+        if (interested) {
             button.setText(button.getContext().getString(R.string.following));
             button.setTextColor(ContextCompat.getColor(button.getContext(), R.color.colorAccent));
         } else {
@@ -40,7 +40,7 @@ public class BindingAdapters {
     @BindingAdapter({"app:animatedCompletion", "app:message"})
     public static void flip(final View view, final int completed, String message) {
         // Now create an animator
-        if(completed>0){
+        if (completed > 0) {
             final LottieAnimationView lottie = (LottieAnimationView) view.findViewById(R.id.animation_view);
             TextView feedbackTV = (TextView) view.findViewById(R.id.feedback);
             feedbackTV.setText(message);
@@ -71,9 +71,9 @@ public class BindingAdapters {
 
                 }
             });
-            if(completed==1)
+            if (completed == 1)
                 lottie.setAnimation("check_pop.json");
-            else if(completed==2)
+            else if (completed == 2)
                 lottie.setAnimation("x_pop.json");
             setOut.start();
             setIn.start();
@@ -108,7 +108,7 @@ public class BindingAdapters {
     @BindingAdapter("app:acceptedAdviceIcon")
     public static void changeAcceptIcon(final ImageView view, final boolean acceptedStatus) {
         // Now create an animator
-        if(acceptedStatus){
+        if (acceptedStatus) {
             view.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_check_circle_accent));
         } else {
             view.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_check_circle_neutral));
@@ -122,7 +122,7 @@ public class BindingAdapters {
 
     @BindingAdapter("app:visibilityDependsOn")
     public static void loadImage(ImageView imageButton, boolean isRequester) {
-        if(isRequester)
+        if (isRequester)
             imageButton.setVisibility(View.VISIBLE);
         else
             imageButton.setVisibility(View.GONE);

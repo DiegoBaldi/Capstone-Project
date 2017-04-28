@@ -2,9 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="movieRequestViewModel" type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.PendingRequestViewModel"/>
+
+        <variable
+            name="movieRequestViewModel"
+            type="nanodegree.diegobaldi.it.tonightmovie.viewmodels.PendingRequestViewModel" />
     </data>
+
     <android.support.v7.widget.CardView
         android:id="@+id/pending_frame"
         android:layout_width="match_parent"
@@ -16,7 +21,8 @@
         app:cardCornerRadius="3dp">
 
         <LinearLayout
-            android:orientation="horizontal" android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:onClick="@{movieRequestViewModel.onClick()}">
@@ -31,7 +37,7 @@
                 app:failureImageScaleType="centerInside"
                 app:placeholderImage="@color/background"
                 android:contentDescription="@{movieRequestViewModel.authorName}"
-                app:actualImageUrl="@{movieRequestViewModel.posterPath}"/>
+                app:actualImageUrl="@{movieRequestViewModel.posterPath}" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -51,7 +57,7 @@
                     app:placeholderImage="@drawable/poster_placeholder_gradient"
                     app:actualImageUrl="@{movieRequestViewModel.authorImage}"
                     android:contentDescription="@{movieRequestViewModel.movieName}"
-                    android:onClick="@{movieRequestViewModel.onClickAuthor()}"/>
+                    android:onClick="@{movieRequestViewModel.onClickAuthor()}" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -60,14 +66,14 @@
                     android:layout_marginTop="@dimen/feed_item_vertical_margin_small"
                     tools:text="CIAOOO"
                     android:text="@{movieRequestViewModel.authorName}"
-                    android:onClick="@{movieRequestViewModel.onClickAuthor()}"/>
+                    android:onClick="@{movieRequestViewModel.onClickAuthor()}" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:layout_marginTop="@dimen/feed_item_vertical_margin"
-                    android:text="@{movieRequestViewModel.shortDescription}"/>
+                    android:text="@{movieRequestViewModel.shortDescription}" />
 
                 <Button
                     style="@style/FeedButton.Show"
@@ -76,7 +82,7 @@
                     android:layout_marginTop="@dimen/feed_item_vertical_margin_small"
                     android:gravity="center"
                     android:text="@string/show"
-                    android:onClick="@{movieRequestViewModel.onClick}"/>
+                    android:onClick="@{movieRequestViewModel.onClick}" />
 
                 <Button
                     style="@style/FeedButton.Interested"
@@ -87,7 +93,7 @@
                     app:animatedInterest="@{movieRequestViewModel.requestInterested}"
                     android:textColor="@color/colorAccent"
                     android:visibility="@{movieRequestViewModel.isFromUser}"
-                    android:onClick="@{movieRequestViewModel.onClickInterested}"/>
+                    android:onClick="@{movieRequestViewModel.onClickInterested}" />
 
             </LinearLayout>
 

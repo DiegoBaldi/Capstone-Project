@@ -13,7 +13,7 @@ import nanodegree.diegobaldi.it.tonightmovie.models.Video;
  * Created by diego on 25/02/2017.
  */
 
-public class VideoViewModel  extends BaseObservable {
+public class VideoViewModel extends BaseObservable {
 
     private Context context;
     private Video video;
@@ -23,11 +23,11 @@ public class VideoViewModel  extends BaseObservable {
         this.video = video;
     }
 
-    public Uri getThumb(){
+    public Uri getThumb() {
         return Uri.parse(String.format(context.getString(R.string.trailer_thumb_url), video.getKey()));
     }
 
-    public String getName(){
+    public String getName() {
         return video.getName();
     }
 

@@ -27,110 +27,110 @@ public class ProfileDetailsViewModel extends BaseObservable {
     }
 
     public String getBio() {
-        if(profile.getBio()!=null && !profile.getBio().equalsIgnoreCase(""))
+        if (profile.getBio() != null && !profile.getBio().equalsIgnoreCase(""))
             return profile.getBio();
         else {
             return "n/a";
         }
     }
 
-    public int getMovieMasterLvl(){
+    public int getMovieMasterLvl() {
         return findDistanceFromLevel(profile.getMovieMaster());
     }
 
-    public int getRecklessLvl(){
+    public int getRecklessLvl() {
         return findDistanceFromLevel(profile.getReckless());
     }
 
-    public int getEmpathicLvl(){
+    public int getEmpathicLvl() {
         return findDistanceFromLevel(profile.getEmpathic());
     }
 
-    public int getNerdLvl(){
+    public int getNerdLvl() {
         return findDistanceFromLevel(profile.getNerd());
     }
 
-    public int getHilariousLvl(){
+    public int getHilariousLvl() {
         return findDistanceFromLevel(profile.getHilarious());
     }
 
-    public int getFearlessLvl(){
+    public int getFearlessLvl() {
         return findDistanceFromLevel(profile.getFearless());
     }
 
-    public int getOverprotectiveLvl(){
+    public int getOverprotectiveLvl() {
         return findDistanceFromLevel(profile.getOverprotective());
     }
 
-    public String getNextMovieMasterLvl(){
+    public String getNextMovieMasterLvl() {
         return getNextLevel(profile.getMovieMaster());
     }
 
-    public String getPreviousMovieMasterLvl(){
+    public String getPreviousMovieMasterLvl() {
         return getPreviousLevel(profile.getMovieMaster());
     }
 
-    public String getNextHilariousLvl(){
+    public String getNextHilariousLvl() {
         return getNextLevel(profile.getHilarious());
     }
 
-    public String getPreviousHilariousLvl(){
+    public String getPreviousHilariousLvl() {
         return getPreviousLevel(profile.getHilarious());
     }
 
-    public String getNextRecklessLvl(){
+    public String getNextRecklessLvl() {
         return getNextLevel(profile.getReckless());
     }
 
-    public String getPreviousRecklessLvl(){
+    public String getPreviousRecklessLvl() {
         return getPreviousLevel(profile.getReckless());
     }
 
-    public String getNextNerdLvl(){
+    public String getNextNerdLvl() {
         return getNextLevel(profile.getNerd());
     }
 
-    public String getPreviousNerdLvl(){
+    public String getPreviousNerdLvl() {
         return getPreviousLevel(profile.getNerd());
     }
 
-    public String getNextEmpathicLvl(){
+    public String getNextEmpathicLvl() {
         return getNextLevel(profile.getEmpathic());
     }
 
-    public String getPreviousEmpathicLvl(){
+    public String getPreviousEmpathicLvl() {
         return getPreviousLevel(profile.getEmpathic());
     }
 
-    public String getNextFearlessLvl(){
+    public String getNextFearlessLvl() {
         return getNextLevel(profile.getFearless());
     }
 
-    public String getPreviousFearlessLvl(){
+    public String getPreviousFearlessLvl() {
         return getPreviousLevel(profile.getFearless());
     }
 
-    public String getNextOverprotectiveLvl(){
+    public String getNextOverprotectiveLvl() {
         return getNextLevel(profile.getOverprotective());
     }
 
-    public String getPreviousOverprotectiveLvl(){
+    public String getPreviousOverprotectiveLvl() {
         return getPreviousLevel(profile.getOverprotective());
     }
 
-    public String getPreviousLevel(int value){
-        return ""+(int) getLevel(value);
+    public String getPreviousLevel(int value) {
+        return "" + (int) getLevel(value);
     }
 
-    public String getNextLevel(int value){
-        return ""+ (int) (getLevel(value)+1);
+    public String getNextLevel(int value) {
+        return "" + (int) (getLevel(value) + 1);
     }
 
-    public double getLevel(int value){
+    public double getLevel(int value) {
         return TonightMovieApp.KONSTANT_LEVEL * Math.sqrt(value);
     }
 
-    public int findDistanceFromLevel(int value){
+    public int findDistanceFromLevel(int value) {
         double difference = getLevel(value) - (int) getLevel(value);
         return (int) (difference * 100);
     }

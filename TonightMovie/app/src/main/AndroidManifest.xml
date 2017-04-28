@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="nanodegree.diegobaldi.it.tonightmovie">
+    package="nanodegree.diegobaldi.it.tonightmovie">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -14,7 +14,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_application_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_application_id" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_notification_icon" />
@@ -23,6 +25,7 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
+
         <activity
             android:name=".views.FeedActivity"
             android:label="@string/title_activity_feed"
@@ -31,8 +34,11 @@
             android:name=".views.MovieActivity"
             android:label="@string/title_activity_movie"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".views.SearchActivity" android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name=".util.CheckUserLoginStatus"
+        <activity
+            android:name=".views.SearchActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".util.CheckUserLoginStatus"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -71,26 +77,29 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <receiver android:name=".widget.WatchlistAppWidgetProvider" >
+        <receiver android:name=".widget.WatchlistAppWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/watchlist_appwidget_info" />
         </receiver>
-        <service android:name="nanodegree.diegobaldi.it.tonightmovie.widget.ListviewWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"
-            android:exported="false"/>
+
         <service
-            android:name=".notifications.NotificationService" android:exported="true">
+            android:name="nanodegree.diegobaldi.it.tonightmovie.widget.ListviewWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
+        <service
+            android:name=".notifications.NotificationService"
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name=".notifications.NotificationInstanceIDService">
+        <service android:name=".notifications.NotificationInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <service android:name=".util.PointService" />

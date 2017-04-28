@@ -41,20 +41,18 @@ public class ProfileActivity extends BaseActivity {
     private boolean mIsLoggedUserProfile;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
 
         Intent intent = getIntent();
-        if(intent.hasExtra("profile")){
+        if (intent.hasExtra("profile")) {
             mProfile = intent.getParcelableExtra("profile");
-            if(mProfile.getId().equalsIgnoreCase(TonightMovieApp.getUser().getId())){
+            if (mProfile.getId().equalsIgnoreCase(TonightMovieApp.getUser().getId())) {
                 setToolbarTitle("My Profile");
                 mIsLoggedUserProfile = true;
-            }
-            else{
+            } else {
                 setToolbarTitle(mProfile.getDisplayName());
                 mIsLoggedUserProfile = false;
             }
@@ -87,7 +85,7 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(mIsLoggedUserProfile)
+        if (mIsLoggedUserProfile)
             // Inflate the menu; this adds items to the action bar if it is present.
             getMenuInflater().inflate(R.menu.menu_my_profile, menu);
         return true;
@@ -127,19 +125,24 @@ public class ProfileActivity extends BaseActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            switch(position){
-                case 0: return ProfileDetailsFragment.newInstance(mProfile);
-                case 1: return FeedActivityFragment.newInstance(mProfile.getId(), mIsTablet);
-                case 2: return ProfileFavoritesFragment.newInstance(mProfile);
-                case 3: return ProfileWatchlistFragment.newInstance();
-                default: return ProfileDetailsFragment.newInstance(mProfile);
+            switch (position) {
+                case 0:
+                    return ProfileDetailsFragment.newInstance(mProfile);
+                case 1:
+                    return FeedActivityFragment.newInstance(mProfile.getId(), mIsTablet);
+                case 2:
+                    return ProfileFavoritesFragment.newInstance(mProfile);
+                case 3:
+                    return ProfileWatchlistFragment.newInstance();
+                default:
+                    return ProfileDetailsFragment.newInstance(mProfile);
             }
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            if(mIsLoggedUserProfile)
+            if (mIsLoggedUserProfile)
                 return 4;
             else
                 return 3;
@@ -147,7 +150,7 @@ public class ProfileActivity extends BaseActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if(mIsLoggedUserProfile){
+            if (mIsLoggedUserProfile) {
                 switch (position) {
                     case 0:
                         return "Profile";

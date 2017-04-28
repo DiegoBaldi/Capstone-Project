@@ -115,34 +115,34 @@ public class ProfileWatchlistFragment extends Fragment implements LoaderManager.
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             mWatchlistCount = savedInstanceState.getInt(BUNDLE_MOVIE_COUNT);
             mWatchMovies = savedInstanceState.getParcelableArrayList(BUNDLE_MOVIES);
             mWatchAdapter.setItems(mWatchMovies);
-        } else if(mWatchMovies.size()>0)
+        } else if (mWatchMovies.size() > 0)
             mWatchAdapter.setItems(mWatchMovies);
-        else{
+        else {
             getLoaderManager().initLoader(1, null, this);
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         outState.putParcelableArrayList(BUNDLE_MOVIES, new ArrayList<>(mWatchMovies));
         outState.putInt(BUNDLE_MOVIE_COUNT, mWatchlistCount);
         super.onSaveInstanceState(outState);
     }
 
     private void findIfFavorite(final Movie movie) {
-        FirebaseUtil.getFavoritesRef(TonightMovieApp.getUser().getId()).child(""+movie.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseUtil.getFavoritesRef(TonightMovieApp.getUser().getId()).child("" + movie.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mFavoriteInfoTaken++;
-                if(dataSnapshot.getValue()!=null){
+                if (dataSnapshot.getValue() != null) {
                     movie.setFavorite(true);
                 }
                 mWatchMovies.add(movie);
-                if(mFavoriteInfoTaken==mWatchlistCount)
+                if (mFavoriteInfoTaken == mWatchlistCount)
                     mWatchAdapter.setItems(mWatchMovies);
             }
 
@@ -157,7 +157,7 @@ public class ProfileWatchlistFragment extends Fragment implements LoaderManager.
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int maxElements = 1;
-        maxElements = (int) Math.floor((metrics.widthPixels/metrics.density)/POSTER_WIDTH);
+        maxElements = (int) Math.floor((metrics.widthPixels / metrics.density) / POSTER_WIDTH);
         return maxElements;
     }
 
@@ -172,15 +172,15 @@ public class ProfileWatchlistFragment extends Fragment implements LoaderManager.
         mWatchMovies.clear();
         mWatchAdapter.setItems(mWatchMovies);
         mCursor = data;
-        try{
+        try {
             mCursor.moveToPosition(-1);
             mWatchlistCount = mCursor.getCount();
-            while(mCursor.moveToNext()){
+            while (mCursor.moveToNext()) {
                 Movie movie = new Movie(mCursor.getInt(COL_PRODUCT_ID), mCursor.getString(COL_TITLE), mCursor.getString(COL_POSTER_PATH));
                 movie.setInWatchlist(true);
                 findIfFavorite(movie);
             }
-        } catch (Exception exception){
+        } catch (Exception exception) {
             Log.d(LOG_TAG, "Something went wrong!");
         }
     }
@@ -195,7 +195,7 @@ public class ProfileWatchlistFragment extends Fragment implements LoaderManager.
         protected Integer doInBackground(Integer... params) {
             int position = params[0];
             Movie movie = mWatchMovies.get(position);
-            if(!movie.isInWatchlist()){
+            if (!movie.isInWatchlist()) {
                 ContentValues cv = new ContentValues();
                 cv.put(WatchlistColumns.THE_MOVIE_DB_ID, movie.getId());
                 cv.put(WatchlistColumns.ORIGINAL_TITLE, movie.getOriginalTitle());
@@ -205,7 +205,7 @@ public class ProfileWatchlistFragment extends Fragment implements LoaderManager.
                 movie.setInWatchlist(true);
             } else {
                 String[] selectionArgs = {""};
-                selectionArgs[0] = ""+movie.getId();
+                selectionArgs[0] = "" + movie.getId();
                 getActivity().getContentResolver().delete(WatchlistProvider.Watchlist.withId(movie.getId()), "the_movie_db_id = ?", selectionArgs);
                 movie.setInWatchlist(false);
                 mWatchMovies.remove(position);

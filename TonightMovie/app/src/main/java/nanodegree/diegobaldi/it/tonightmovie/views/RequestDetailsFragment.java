@@ -77,9 +77,9 @@ public class RequestDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.fragment_request, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_request, container, false);
         FragmentRequestBinding fragmentRequestBinding = DataBindingUtil.bind(rootView);
-        fragmentRequestBinding.setRequestDetailsViewModel(new RequestDetailsViewModel(getActivity(),mRequest));
+        fragmentRequestBinding.setRequestDetailsViewModel(new RequestDetailsViewModel(getActivity(), mRequest));
 
         mEmptyFavs = (TextView) rootView.findViewById(R.id.empty_favs);
         mFavsProgress = (ProgressBar) rootView.findViewById(R.id.favs_progress);
@@ -99,8 +99,8 @@ public class RequestDetailsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mFavsProgress.setVisibility(View.GONE);
-                if(dataSnapshot.hasChildren()){
-                    for(DataSnapshot movieSnapshot : dataSnapshot.getChildren()){
+                if (dataSnapshot.hasChildren()) {
+                    for (DataSnapshot movieSnapshot : dataSnapshot.getChildren()) {
                         Movie movie = movieSnapshot.getValue(Movie.class);
                         mFavMovies.add(movie);
                     }

@@ -37,19 +37,16 @@ public class CheckUserLoginStatus extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    if(TonightMovieApp.getUser()==null){
-                        if(user.getPhotoUrl()!=null)
-                            TonightMovieApp.setUser(new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString()));
-                        else
-                            TonightMovieApp.setUser(new User(user.getUid(), user.getDisplayName(), user.getEmail()));
-
-                    }
-                    if(getIntent().hasExtra(WatchlistAppWidgetProvider.MOVIE_ID) && getIntent().hasExtra(WatchlistAppWidgetProvider.MOVIE_ORIGINAL_TITLE) && getIntent().hasExtra(WatchlistAppWidgetProvider.MOVIE_POSTER_PATH)){
+                    if (user.getPhotoUrl() != null)
+                        TonightMovieApp.setUser(new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString()));
+                    else
+                        TonightMovieApp.setUser(new User(user.getUid(), user.getDisplayName(), user.getEmail()));
+                    if (getIntent().hasExtra(WatchlistAppWidgetProvider.MOVIE_ID) && getIntent().hasExtra(WatchlistAppWidgetProvider.MOVIE_ORIGINAL_TITLE) && getIntent().hasExtra(WatchlistAppWidgetProvider.MOVIE_POSTER_PATH)) {
                         Intent intent = new Intent(getApplicationContext(), MovieActivity.class);
                         int movieId = getIntent().getIntExtra(WatchlistAppWidgetProvider.MOVIE_ID, 0);
                         String moviePosterPath = getIntent().getStringExtra(WatchlistAppWidgetProvider.MOVIE_POSTER_PATH);
                         String movieOriginalTitle = getIntent().getStringExtra(WatchlistAppWidgetProvider.MOVIE_ORIGINAL_TITLE);
-                        Movie movie = new Movie(movieId, movieOriginalTitle, moviePosterPath );
+                        Movie movie = new Movie(movieId, movieOriginalTitle, moviePosterPath);
                         intent.putExtra("movie", movie);
                         startActivity(intent);
                         finish();

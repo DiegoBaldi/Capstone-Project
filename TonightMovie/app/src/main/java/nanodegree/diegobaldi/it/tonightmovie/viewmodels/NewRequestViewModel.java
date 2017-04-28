@@ -44,7 +44,7 @@ public class NewRequestViewModel extends BaseObservable {
     public boolean tryToSubmit = false;
     public int requestSubmitted = 0;
 
-    public NewRequestViewModel(Context context, Movie movie){
+    public NewRequestViewModel(Context context, Movie movie) {
         this.request = new MovieRequest(movie);
         this.context = context;
         this.genres = context.getResources().getStringArray(R.array.genres);
@@ -69,7 +69,7 @@ public class NewRequestViewModel extends BaseObservable {
     }
 
     public Uri getPosterPath() {
-        return Uri.parse("https://image.tmdb.org/t/p/w500"+request.getMovie().getPosterPath());
+        return Uri.parse("https://image.tmdb.org/t/p/w500" + request.getMovie().getPosterPath());
     }
 
     public String getMovieName() {
@@ -85,7 +85,7 @@ public class NewRequestViewModel extends BaseObservable {
         return request.getGenre();
     }
 
-    public void setGenre(String genre){
+    public void setGenre(String genre) {
         request.setGenre(genre);
         notifyPropertyChanged(BR.genre);
     }
@@ -130,9 +130,9 @@ public class NewRequestViewModel extends BaseObservable {
         return new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-            if(!hasFocus){
-                notifyPropertyChanged(BR.descriptionError);
-            }
+                if (!hasFocus) {
+                    notifyPropertyChanged(BR.descriptionError);
+                }
             }
         };
     }
@@ -141,9 +141,9 @@ public class NewRequestViewModel extends BaseObservable {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            tryToSubmit = true;
-            notifyPropertyChanged(BR.descriptionError);
-            sendRequest();
+                tryToSubmit = true;
+                notifyPropertyChanged(BR.descriptionError);
+                sendRequest();
             }
         };
     }

@@ -26,35 +26,35 @@ public class ClosedRequestViewModel extends BaseObservable {
     }
 
     public Uri getPosterPath() {
-        return Uri.parse("https://image.tmdb.org/t/p/w500"+request.getMovie().getPosterPath());
+        return Uri.parse("https://image.tmdb.org/t/p/w500" + request.getMovie().getPosterPath());
     }
 
-    public Uri getRequesterImage(){
+    public Uri getRequesterImage() {
         return Uri.parse(request.getAuthor().getPhotoURL());
     }
 
-    public String getRequesterName(){
+    public String getRequesterName() {
         return request.getAuthor().getDisplayName();
     }
 
-    public String getAcceptedMovieName(){
+    public String getAcceptedMovieName() {
         return request.getAcceptedAdvice().getMovie().getOriginalTitle();
     }
 
-    public String getMovieName(){
+    public String getMovieName() {
         return request.getMovie().getOriginalTitle();
     }
 
-    public Uri getAdvisorImage(){
+    public Uri getAdvisorImage() {
         return Uri.parse(request.getAcceptedAdvice().getAuthor().getPhotoURL());
     }
 
-    public String getAdvisorName(){
+    public String getAdvisorName() {
         return request.getAcceptedAdvice().getAuthor().getDisplayName();
     }
 
     public Uri getAcceptedPosterPath() {
-        return Uri.parse("https://image.tmdb.org/t/p/w500"+request.getAcceptedAdvice().getMovie().getPosterPath());
+        return Uri.parse("https://image.tmdb.org/t/p/w500" + request.getAcceptedAdvice().getMovie().getPosterPath());
     }
 
     public View.OnClickListener onClickRequest() {

@@ -63,7 +63,7 @@ public class ProfileDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_profile_details, container, false);
         mFragmentProfileDetailBinding = DataBindingUtil.bind(rootView);
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             mProfile = savedInstanceState.getParcelable(BUNDLE_PROFILE);
             mUserDetails = savedInstanceState.getParcelable(BUNDLE_PROFILE_DETAILS);
             mFragmentProfileDetailBinding.setProfileDetailsViewModel(new ProfileDetailsViewModel(mUserDetails));
@@ -74,7 +74,7 @@ public class ProfileDetailsFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(BUNDLE_PROFILE_DETAILS, mUserDetails);
         outState.putParcelable(BUNDLE_PROFILE, mProfile);
         super.onSaveInstanceState(outState);
@@ -84,7 +84,7 @@ public class ProfileDetailsFragment extends Fragment {
         FirebaseUtil.getUsersRef().child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChildren()){
+                if (dataSnapshot.hasChildren()) {
                     mUserDetails = dataSnapshot.getValue(User.class);
                     mFragmentProfileDetailBinding.setProfileDetailsViewModel(new ProfileDetailsViewModel(mUserDetails));
                 }

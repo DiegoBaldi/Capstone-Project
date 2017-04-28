@@ -37,45 +37,44 @@ public class PendingRequestViewModel extends BaseObservable {
     }
 
     @Bindable
-    public boolean getRequestInterested(){
+    public boolean getRequestInterested() {
         return request.isInterested();
     }
 
-    public void setRequestInterested(boolean interest){
+    public void setRequestInterested(boolean interest) {
         request.setInterested(interest);
     }
 
-    public int isFromUser(){
-        if(TonightMovieApp.getUser().getId().equalsIgnoreCase(request.getAuthor().getId()))
+    public int isFromUser() {
+        if (TonightMovieApp.getUser().getId().equalsIgnoreCase(request.getAuthor().getId()))
             return View.GONE;
         else return View.VISIBLE;
     }
 
-    public String isFollowed(){
-        if(request.isInterested()){
+    public String isFollowed() {
+        if (request.isInterested()) {
             return "Following";
-        }
-        else return "Follow";
+        } else return "Follow";
     }
 
     public Uri getPosterPath() {
-        return Uri.parse("https://image.tmdb.org/t/p/w500"+request.getMovie().getPosterPath());
+        return Uri.parse("https://image.tmdb.org/t/p/w500" + request.getMovie().getPosterPath());
     }
 
-    public Uri getAuthorImage(){
+    public Uri getAuthorImage() {
         return Uri.parse(request.getAuthor().getPhotoURL());
     }
 
-    public String getAuthorName(){
+    public String getAuthorName() {
         return request.getAuthor().getDisplayName();
     }
 
-    public String getMovieName(){
+    public String getMovieName() {
         return request.getMovie().getOriginalTitle();
     }
 
 
-    public String getShortDescription(){
+    public String getShortDescription() {
         return String.format(Locale.getDefault(), context.getString(R.string.request_short_description), request.getGenre(), request.getMovie().getOriginalTitle());
     }
 
@@ -120,11 +119,10 @@ public class PendingRequestViewModel extends BaseObservable {
 
     private void addToUserRequests() {
         Map<String, Object> childUpdates = new HashMap<>();
-        if(!getRequestInterested()){
+        if (!getRequestInterested()) {
             childUpdates.put(FirebaseUtil.getUserRequestPath(TonightMovieApp.getUser().getId(), request.getId()), ServerValue.TIMESTAMP);
             childUpdates.put(FirebaseUtil.getRequestUserPath(TonightMovieApp.getUser().getId(), request.getId()), ServerValue.TIMESTAMP);
-        }
-        else{
+        } else {
             childUpdates.put(FirebaseUtil.getUserRequestPath(TonightMovieApp.getUser().getId(), request.getId()), null);
             childUpdates.put(FirebaseUtil.getRequestUserPath(TonightMovieApp.getUser().getId(), request.getId()), null);
         }

@@ -18,7 +18,7 @@ public class NewRequestActivity extends BaseActivity {
             // Create a new Fragment to be placed in the activity layout
             // Add the fragment to the 'fragment_container' FrameLayout
             Intent intent = getIntent();
-            if(intent.hasExtra("movie")){
+            if (intent.hasExtra("movie")) {
                 Movie movie = intent.getParcelableExtra("movie");
                 getFragmentManager().beginTransaction().add(R.id.fragment_container_new_request, NewRequestActivityFragment.newInstance(movie)).commit();
             }

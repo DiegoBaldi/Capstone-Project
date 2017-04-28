@@ -37,7 +37,6 @@ public class MovieActivity extends BaseActivity {
     private Movie mMovie;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +50,12 @@ public class MovieActivity extends BaseActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
 
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         Intent intent = getIntent();
-        if(intent.hasExtra("movie")){
+        if (intent.hasExtra("movie")) {
             mMovie = intent.getParcelableExtra("movie");
-            if(mMovie.getTitle()!=null && !mMovie.getTitle().equalsIgnoreCase(""))
+            if (mMovie.getTitle() != null && !mMovie.getTitle().equalsIgnoreCase(""))
                 setToolbarTitle(mMovie.getTitle());
             else
                 setToolbarTitle(mMovie.getOriginalTitle());
@@ -122,10 +120,13 @@ public class MovieActivity extends BaseActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            switch(position){
-                case 0: return MovieDetailsFragment.newInstance(mMovie.getId());
-                case 1: return MovieAdvicesFragment.newInstance(mMovie.getId());
-                default: return MovieDetailsFragment.newInstance(mMovie.getId());
+            switch (position) {
+                case 0:
+                    return MovieDetailsFragment.newInstance(mMovie.getId());
+                case 1:
+                    return MovieAdvicesFragment.newInstance(mMovie.getId());
+                default:
+                    return MovieDetailsFragment.newInstance(mMovie.getId());
             }
         }
 

@@ -12,6 +12,7 @@ public final class WatchlistDatabase {
 
     public static final int VERSION = 1;
 
-    @Table(WatchlistColumns.class) public static final String WATCHLIST = "watchlist";
+    @Table(WatchlistColumns.class)
+    public static final String WATCHLIST = "watchlist";
 
 }
