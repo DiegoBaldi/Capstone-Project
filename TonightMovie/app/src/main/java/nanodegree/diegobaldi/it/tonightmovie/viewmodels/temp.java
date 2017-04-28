@@ -15,12 +15,12 @@ import nanodegree.diegobaldi.it.tonightmovie.views.RequestActivity;
  * Created by diego on 28/02/2017.
  */
 
-public class ClosedRequestViewModel extends BaseObservable {
+public class temp extends BaseObservable {
 
     private Context context;
     private MovieRequest request;
 
-    public ClosedRequestViewModel(Context context, MovieRequest request) {
+    public temp(Context context, MovieRequest request) {
         this.context = context;
         this.request = request;
     }
